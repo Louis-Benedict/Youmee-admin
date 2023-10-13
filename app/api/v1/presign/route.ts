@@ -4,7 +4,7 @@ import { getServerSession } from 'next-auth'
 import { ApiError } from 'next/dist/server/api-utils'
 import { HttpStatusCode } from 'axios'
 
-export async function generatePresignedUrl(request: Request) {
+async function generatePresignedUrl(request: Request) {
     const session = await getServerSession()
     if (!session) {
         throw new ApiError(
