@@ -3,7 +3,7 @@ import prisma from '@/app/libs/prismadb'
 import { NextRequest, NextResponse } from 'next/server'
 import { ApiRouteParameter } from '@/app/types'
 
-export async function getAllEnrollees(
+async function getAllEnrollees(
     req: NextRequest,
     urlParameter: ApiRouteParameter
 ) {
