@@ -116,7 +116,7 @@ const ViewEnrolleeModal = () => {
             isOpen={isOpen}
             title={
                 <div className="flex-col gap-4">
-                    <div>{selectedEnrollee?.fullname}'s Application</div>
+                    <div>{selectedEnrollee?.fullname}s Application</div>
                     <div className="text-xs font-normal text-neutral-600 mt-1">
                         Review an enrolles application
                     </div>

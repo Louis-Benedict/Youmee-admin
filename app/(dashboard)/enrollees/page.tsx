@@ -27,10 +27,10 @@ export default function Page() {
 
     const { fetching, enrollees } = useFetchEnrollees()
 
-    const handleViewEnrolleeClick = useCallback((user: Enrollee) => {
+    const handleViewEnrolleeClick = (user: Enrollee) => {
         viewEnrolleeModal.selectEnrollee(user)
         viewEnrolleeModal.onOpen()
-    }, [])
+    }
 
     useEffect(() => {
         if (!session.data?.user) return
@@ -67,10 +67,11 @@ export default function Page() {
                 title="Enrollees"
                 actions={[
                     <DashboardButton
+                        key="x1"
                         Icon={UserPlus}
                         openModalFunction={addEnrolleeModal.onOpen}
                     />,
-                    <TextField.Root>
+                    <TextField.Root key="x2">
                         <TextField.Slot>
                             <Search height="16" width="16" />
                         </TextField.Slot>

@@ -12,11 +12,13 @@ import { UserRole } from '@prisma/client'
 import { ArrowUpRight, Edit, Loader2, UserPlus } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import { TeamMember, useDeleteTeamMember, useFetchTeamMembers } from './queries'
-import { useCallback } from 'react'
+import { FC, useCallback } from 'react'
 import { Button } from '@radix-ui/themes'
 import { useRouter } from 'next/navigation'
 
-export default function page() {
+interface pageProps {}
+
+const Page: FC<pageProps> = ({}) => {
     const { data: session } = useSession()
     const router = useRouter()
     const addTeamMemberModal = useAddTeamMemberModal()
@@ -105,3 +107,5 @@ export default function page() {
         </div>
     )
 }
+
+export default Page

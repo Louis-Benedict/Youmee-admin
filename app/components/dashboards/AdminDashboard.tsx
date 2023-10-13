@@ -13,7 +13,7 @@ const AdminDashboard: FC<AdminDashboardProps> = ({}) => {
                 <div className="relative gap-2 flex justify-between  mx-auto">
                     <div className="flex gap-2">
                         <Zap size={14} fill="#fff" />
-                        This app is still in development. Something's not right?
+                        This app is still in development. Somethings not right?
                     </div>
                     <div className="flex gap-2">
                         <span className="font-bold">

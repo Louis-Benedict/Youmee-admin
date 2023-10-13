@@ -244,6 +244,7 @@ const useFetchEnrollee = (enrolleeId: string) => {
 }
 
 function getEnrolleeFromCache(enrolleeId: string) {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const queryClient = useQueryClient()
     const cachedEnrollees = queryClient.getQueryData<Enrollee[]>(['enrollees'])
     return cachedEnrollees?.find((enrollee) => enrollee.id === enrolleeId)

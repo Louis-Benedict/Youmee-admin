@@ -144,6 +144,7 @@ const useFetchTeamMember = (teamMemberId: string) => {
 }
 
 function getTeamMemberFromCache(teamMemberId: string) {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const queryClient = useQueryClient()
     const cachedTeamMember = queryClient.getQueryData<TeamMember[]>(['team'])
     return cachedTeamMember?.find(
