@@ -1,5 +1,4 @@
 import { Mail } from './email'
-import sendGrid from '@sendgrid/mail'
 
 const html_template = `
 <!DOCTYPE html>
@@ -40,17 +39,4 @@ export function enrollMail(recipient: string): Mail {
         text: 'test',
         html: html_template,
     }
-}
-
-export default async function sendEnrollMail(enrolleeEmail: string) {
-    let mail = enrollMail(enrolleeEmail)
-    sendGrid.setApiKey(process.env.SENDGRID_API as string)
-    sendGrid
-        .send(mail)
-        .then((data) => {
-            console.log(data)
-        })
-        .catch((error) => {
-            console.log(error)
-        })
 }
