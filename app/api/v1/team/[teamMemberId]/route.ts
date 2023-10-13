@@ -88,11 +88,7 @@ async function getTeamMember(
     )
 }
 
-export const DELETE = withMiddleware([withAuthGuard([UserRole.ADMIN])])(
-    withExceptionFilter(deleteTeamMember)
-)
-export const PUT = withMiddleware([withAuthGuard([UserRole.ADMIN])])(
-    withExceptionFilter(editTeamMember)
-)
+export const DELETE = withExceptionFilter(deleteTeamMember)
+export const PUT = withExceptionFilter(editTeamMember)
 
 export const GET = withExceptionFilter(getTeamMember)

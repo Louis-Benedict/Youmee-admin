@@ -100,9 +100,7 @@ async function editEnrollee(req: NextRequest, urlParameter: ApiRouteParameter) {
     )
 }
 
-export const DELETE = withMiddleware([withAuthGuard([UserRole.ADMIN])])(
-    withExceptionFilter(deleteEnrollee)
-)
+export const DELETE = withExceptionFilter(deleteEnrollee)
 
 export const GET = withExceptionFilter(getEnrollee)
 export const PUT = withExceptionFilter(editEnrollee)

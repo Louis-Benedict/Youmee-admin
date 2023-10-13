@@ -59,6 +59,4 @@ async function createTeamMember(req: NextRequest) {
 
 export const GET = withExceptionFilter(getTeamMembers)
 
-export const POST = withMiddleware([withAuthGuard([UserRole.ADMIN])])(
-    withExceptionFilter(createTeamMember)
-)
+export const POST = withExceptionFilter(createTeamMember)
