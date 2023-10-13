@@ -2,7 +2,7 @@ import { useSearchParams } from 'next/navigation'
 import { useMemo } from 'react'
 import { EndpointFilter } from '../types'
 
-type filterProps<T> = [EndpointFilter<T>, (filter: EndpointFilter<T>) => void]
+type filterProps<T> = [EndpointFilter, (filter: EndpointFilter) => void]
 
 /**
  * React Hook that converts a URL Search Parameter to
@@ -15,7 +15,7 @@ export const useFilter = <T>(): filterProps<T> => {
         const params = searchParams.toString()
 
         // Parse the query parameters into an object
-        const parsedParams: EndpointFilter<T> = {} // Assuming EndpointFilter is an interface or type you've defined
+        const parsedParams: EndpointFilter = {} // Assuming EndpointFilter is an interface or type you've defined
         const paramsArray = params.split('&')
 
         paramsArray.forEach((param) => {
@@ -28,7 +28,7 @@ export const useFilter = <T>(): filterProps<T> => {
         return parsedParams
     }, [searchParams])
 
-    const setFilter = <T>(newFilter: EndpointFilter<T>) => {
+    const setFilter = <T>(newFilter: EndpointFilter) => {
         // Convert the filter object back into query parameters
         const queryString = Object.entries(newFilter)
             .map(
