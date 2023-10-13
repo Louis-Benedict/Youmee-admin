@@ -19,6 +19,7 @@ const AddTeamMemberModal = () => {
     const addTeamMember = useAddTeamMember()
 
     const {
+        control,
         watch,
         register,
         handleSubmit,
@@ -65,6 +66,7 @@ const AddTeamMemberModal = () => {
             />
 
             <DropdownInput
+                control={control}
                 register={register}
                 errors={errors}
                 isLoading={false}
