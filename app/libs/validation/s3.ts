@@ -1,14 +1,13 @@
-import { ALLOWED_FILE_TYPES_VIDEO } from '@/app/static/config';
-import { z } from 'zod';
+import { z } from 'zod'
 
 export const fileTypeSchema = z.string().refine(
-	(value) => {
-		return ALLOWED_FILE_TYPES_VIDEO.includes(value);
-	},
-	{
-		message: 'Invalid file type',
-	}
-);
+    (value) => {
+        return 'x'.includes(value)
+    },
+    {
+        message: 'Invalid file type',
+    }
+)
 
 /**
  * fields: provided by AWS to authenticate request
@@ -18,16 +17,16 @@ export const fileTypeSchema = z.string().refine(
  */
 
 export const s3ResponseSchema = z.object({
-	getUrl: z.string(),
-	postUrl: z.string(),
-	key: z.string(),
-	fields: z.object({
-		Policy: z.string(),
-		'X-Amz-Algorithm': z.string(),
-		'X-Amz-Credential': z.string(),
-		'X-Amz-Date': z.string(),
-		'X-Amz-Signature': z.string(),
-		bucket: z.string(),
-		key: z.string(),
-	}),
-});
+    getUrl: z.string(),
+    postUrl: z.string(),
+    key: z.string(),
+    fields: z.object({
+        Policy: z.string(),
+        'X-Amz-Algorithm': z.string(),
+        'X-Amz-Credential': z.string(),
+        'X-Amz-Date': z.string(),
+        'X-Amz-Signature': z.string(),
+        bucket: z.string(),
+        key: z.string(),
+    }),
+})
