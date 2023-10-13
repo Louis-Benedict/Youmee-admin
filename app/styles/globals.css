@@ -1,0 +1,121 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import './custom/DatePicker.css';
+@import '../../node_modules/@radix-ui/themes/styles.css';
+@import '../../node_modules/@smastrom/react-rating/style.css';
+
+
+html,
+body,
+:root{
+  height: 100%;
+}
+
+@layer base{
+  .clip-card-grid-layout{
+    grid-area: 1 / 1 / span 3 / span 3;
+  }
+  .grid-area-1{
+    grid-area: 1 ;
+  }
+  .clip-card-user-avatar {
+    grid-area: 3 / 1 / auto / span 3
+  }
+
+  .grid-overflow-columns{
+    display: grid;
+    grid-template-columns: repeat(6, calc(20% - 40px));
+  }
+  .grid-auto-cols{
+    grid-template-columns: repeat( 6, minmax(250px, 1fr) );
+  }
+
+  .grid-first-row{
+    grid-row: 1;
+  }
+  .grid-second-row{
+    grid-row: 2;
+  }
+
+  .grid-last-col{
+    grid-column: -2/-1;
+  }
+  .grid-second-last-col{
+    grid-column: -3/-2;
+  }
+
+  .grid-area-nav-desktop{
+    display:grid;
+    grid-template-columns: 50% auto 180px;
+  }
+
+  .grid-area-nav-mobile{
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .grid-col-fullspan{
+    grid-column: 1/-1;
+  }
+  .navbar-secondary-grid{
+    grid-row: 2;
+    grid-column: span 3;
+   
+    @screen md{
+      grid-row: 1;
+      grid-column: 2;
+      grid-column: span 1;
+    }
+  }
+
+}
+
+.circle {
+
+  border-radius: 50%;
+  background: rgb(255, 0, 179);
+  position: relative;
+}
+
+.circle::after {
+  content: '';
+  position: absolute;
+  box-sizing: border-box;
+  border: 3px solid #eb1f88;
+  border-radius: 50%;
+  width: calc(100% + 16px);
+  height: calc(100% + 16px);
+  left: -8px;
+  top: -8px;
+}
+
+
+
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+    transition: background-color 600000s 0s, color 600000s 0s;
+}
+input[data-autocompleted] {
+    background-color: transparent !important;
+}
+
+select:-webkit-autofill,
+select:-webkit-autofill:focus {
+    transition: background-color 600000s 0s, color 600000s 0s;
+}
+select[data-autocompleted] {
+    background-color: transparent !important;
+}
+
+
+
+
+.radial-bg{
+background: rgb(29,29,29);
+background: -moz-radial-gradient(circle, rgba(29,29,29,1) 0%, rgba(17,17,17,1) 76%);
+background: -webkit-radial-gradient(circle, rgba(29,29,29,1) 0%, rgba(17,17,17,1) 76%);
+background: radial-gradient(circle, rgba(29,29,29,1) 0%, rgba(17,17,17,1) 76%);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#1d1d1d",endColorstr="#111111",GradientType=1);
+}
+

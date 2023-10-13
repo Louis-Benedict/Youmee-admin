@@ -1,0 +1,234 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  email           String?  @unique
+  name            String? //TODO remove
+  firstname       String?
+  lastname        String?
+  accountVerified Boolean? @default(false)
+  hashedPassword  String?
+  updatedAt       DateTime @updatedAt
+  createdAt       DateTime @default(now())
+  image           String?  @default("placeholder.jpg")
+  favoriteIds     String[] @db.ObjectId
+  phoneNumber     String?
+  lineId          String?
+  role            UserRole @default(USER)
+
+  notifications Notification[]
+  accounts      Account[]
+  clips         Clip[]
+
+  // All @role == User specific fields
+  sent         Order[]  @relation("sender")
+  reviewSender Review[] @relation("reviewSender")
+
+  // All @role == Creator specific fields
+  gender            String?
+  affiliateLink     String?
+  bio               String?
+  rating            Float?
+  knownFor          String?
+  category          Category?
+  alias             String?
+  country           String?
+  referralCode      String?
+  socialMediaHandle String?
+
+  balance Float @default(0)
+  rate    Int?
+
+  tag             Tag[]
+  recieved        Order[]  @relation("recipient")
+  reviewRecipient Review[] @relation("reviewRecipient")
+
+  //All @role == Recruiter specific fields
+  commissionPercentage Int?       @default(0)
+  recruitees           Enrollee[] @relation("recruiter")
+}
+
+model Tag {
+  id     String  @id @default(auto()) @map("_id") @db.ObjectId
+  type   TagType
+  userId String  @db.ObjectId
+  user   User    @relation(fields: [userId], references: [id])
+}
+
+enum TagType {
+  POPULAR
+}
+
+enum Category {
+  SINGER
+  TV
+  MUSICIAN
+  ATHLETE
+  COMEDIAN
+  SOCIAL_MEDIA
+  ACTOR
+}
+
+enum UserRole {
+  ADMIN
+  TEAM
+  RECRUITER
+  USER
+  CREATOR
+}
+
+model Account {
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String  @db.ObjectId
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.String
+  access_token      String? @db.String
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.String
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Clip {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  clipUrl   String
+  duration  String?
+  isPublic  Boolean? @default(false)
+
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  Order Order[]
+}
+
+model Order {
+  id           String      @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  expiryDate   DateTime?
+  status       OrderStatus @default(PENDING)
+  deliveryType String?
+  isPaid       Boolean     @default(false)
+
+  //Payment specific
+  amount        Int?
+  paymentMethod String?
+
+  //Message specific
+  directions String  @db.String
+  occasion   String
+  forPerson  String?
+  forName    String?
+  forGender  String?
+  fromName   String?
+  fromGender String?
+
+  clipId          String? @db.ObjectId
+  reviewId        String? @db.ObjectId
+  senderUserId    String  @db.ObjectId
+  recipientUserId String  @db.ObjectId
+
+  clip      Clip?   @relation(fields: [clipId], references: [id])
+  sender    User    @relation("sender", fields: [senderUserId], references: [id])
+  recipient User    @relation("recipient", fields: [recipientUserId], references: [id])
+  review    Review? @relation(fields: [reviewId], references: [id])
+}
+
+model OrderMessage {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+}
+
+enum OrderStatus {
+  FULFILLED
+  PENDING
+  CANCELLED
+  EXPIRED
+}
+
+model Review {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  message  String
+  rating   Int
+  isPublic Boolean? @default(false)
+
+  recipientUserId String  @db.ObjectId
+  senderUserId    String  @db.ObjectId
+  order           Order[]
+  // orderId         String? @db.ObjectId
+
+  recipient User @relation("reviewRecipient", fields: [recipientUserId], references: [id])
+  sender    User @relation("reviewSender", fields: [senderUserId], references: [id])
+  // order     Order? @relation(fields: [orderId], references: [id])
+}
+
+//NOTIFICATIONS
+
+model Notification {
+  id        String           @id @default(auto()) @map("_id") @db.ObjectId
+  type      NotificationType
+  targetId  String?          @db.ObjectId
+  active    Boolean          @default(true)
+  userId    String           @db.ObjectId
+  createdAt DateTime         @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum NotificationType {
+  REQUEST
+  REVIEW
+  ORDERCANCELLED
+  ORDERFULFILLED
+  ORDEREXPIRED
+}
+
+//ENROLLMENT
+
+model Enrollee {
+  id                    String           @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt             DateTime         @default(now())
+  status                EnrollmentStatus @default(REQUESTED)
+  fullname              String
+  phoneNumber           String
+  birthday              DateTime?
+  lineId                String?
+  country               String
+  alias                 String
+  email                 String
+  referralCode          String?
+  following             String?
+  socialMediaHandle     String?
+  additionalInformation String?
+  note                  String?
+  isContacted           Boolean          @default(false)
+  profileLink           String?          @db.ObjectId
+
+  recruiterUserId String? @db.ObjectId
+  recruiter       User?   @relation("recruiter", fields: [recruiterUserId], references: [id])
+}
+
+enum EnrollmentStatus {
+  REQUESTED
+  REJECTED
+  APPROVED
+}

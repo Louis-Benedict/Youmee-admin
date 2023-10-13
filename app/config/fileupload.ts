@@ -1,0 +1,2 @@
+export const MAX_FILE_SIZE_VIDEO = 50000000
+export const MAX_FILE_SIZE_IMAGE = 5000000
