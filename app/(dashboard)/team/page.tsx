@@ -49,7 +49,6 @@ const Page: FC<pageProps> = ({}) => {
                         userRole={session?.user.role}
                     >
                         <DashboardButton
-                            Icon={UserPlus}
                             openModalFunction={addTeamMemberModal.onOpen}
                         />
                     </RoleAccessHandler>,

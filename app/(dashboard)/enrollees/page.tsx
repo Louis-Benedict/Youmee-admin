@@ -68,7 +68,6 @@ export default function Page() {
                 actions={[
                     <DashboardButton
                         key="x1"
-                        Icon={UserPlus}
                         openModalFunction={addEnrolleeModal.onOpen}
                     />,
                     <TextField.Root key="x2">
