@@ -2,8 +2,6 @@
 
 import { ReactNode, useCallback, useEffect, useRef, useState } from 'react'
 import { X } from 'lucide-react'
-
-import Button from '../ui/Button/BaseButton'
 import useDocumentsUtils from '@/app/utils/hooks/useDocumentUtils'
 import useClickOutside from '@/app/hooks/useOutsideClick'
 import ModalButton from '../ui/Button/ModalButton'

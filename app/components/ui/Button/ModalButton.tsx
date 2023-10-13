@@ -1,7 +1,7 @@
 'use client'
 
 import { FC } from 'react'
-import { Icon, Loader2 } from 'lucide-react'
+import { Loader2 } from 'lucide-react'
 import { cn } from '../../../libs/util'
 import { VariantProps, cva } from 'class-variance-authority'
 
@@ -11,7 +11,6 @@ export interface ModalButtonProps
     label: string
     onClick: (e: React.MouseEvent<HTMLButtonElement>) => void
     disabled?: boolean
-    icon?: Icon
     isLoading?: boolean
 }
 
@@ -47,7 +46,6 @@ const ModalButton: FC<ModalButtonProps> = ({
     variant,
     disabled,
     isLoading,
-    icon: Icon,
 }) => {
     return (
         <button
@@ -55,7 +53,6 @@ const ModalButton: FC<ModalButtonProps> = ({
             onClick={onClick}
             className={cn(buttonVariants({ variant, size, className }))}
         >
-            {Icon && <Icon size={18} className="inline" />}
             {isLoading ? (
                 <Loader2 size={24} className="inline animate-spin" />
             ) : (
