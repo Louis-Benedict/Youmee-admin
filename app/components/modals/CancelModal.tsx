@@ -1,14 +1,14 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
 import { toast } from '@/app/components/ui/toast'
 import { toastMessages } from '@/app/static/toastMessages'
-import Modal from './Modal'
 import useCancelModal from '@/app/hooks/useCancelModal'
 import TextArea from '../inputs/TextArea'
 import axios from 'axios'
+import RModal from './RModal'
 
 const LoginModal = () => {
     const router = useRouter()
@@ -64,16 +64,19 @@ const LoginModal = () => {
     )
 
     return (
-        <Modal
+        <RModal
             disabled={isLoading}
             isOpen={cancelModal.isOpen}
-            actionLabel="Cancel"
+            primaryActionLabel="Cancel"
             title="Are you sure you want to cancel?"
             secondaryAction={cancelModal.onClose}
             secondaryActionLabel="Go Back"
-            onClose={cancelModal.onClose}
-            onSubmit={handleSubmit(onSubmit)}
+            primaryAction={handleSubmit(onSubmit)}
             body={bodyContent}
+            onOpenChange={() => {}}
+            triggerElement={undefined}
+            isLoading={false}
+            subtitle={''}
         />
     )
 }
