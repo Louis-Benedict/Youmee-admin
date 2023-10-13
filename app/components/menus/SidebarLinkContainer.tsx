@@ -5,7 +5,6 @@ import { FC } from 'react'
 import { signOut } from 'next-auth/react'
 import Link from 'next/link'
 import { NavbarLink } from '@/app/types'
-import { LogoutButton } from '../ui/Button'
 import { cn } from '@/app/libs/util'
 import { Button } from '@radix-ui/themes'
 
