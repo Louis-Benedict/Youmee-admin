@@ -28,10 +28,13 @@ export type ClientCreator = Omit<
 }
 
 import { NextMiddleware } from 'next/server'
-import { DataWithId } from '../components/lists/BaseCardListing'
 import { ReactNode } from 'react'
 import { EnrolleeEndpointFilter } from '../(dashboard)/enrollees/queries'
 export type MiddlewareFactory = (middleware: NextMiddleware) => NextMiddleware
+
+type DataWithId = {
+    id: string
+}
 
 export type TempCreator = DataWithId & {
     image: string | null
