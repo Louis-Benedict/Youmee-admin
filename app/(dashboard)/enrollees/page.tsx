@@ -1,7 +1,7 @@
 'use client'
 
 import dynamic from 'next/dynamic'
-import { useCallback, useEffect, useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { Enrollee, EnrollmentStatus } from '@prisma/client'
 import useAddEnrolleeModal from '@/app/components/modals/AddEnrolleeModal/useEnrolleeModal'
 import { Loader2, Search, UserPlus } from 'lucide-react'

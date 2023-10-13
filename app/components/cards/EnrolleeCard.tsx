@@ -20,7 +20,7 @@ import { TeamMember } from '@/app/(dashboard)/team/queries'
 
 interface EnrolleeCardProps {
     enrollee: Enrollee & {
-        recruiter: TeamMember
+        recruiter?: TeamMember
     }
     onDetailsOpen: VoidFunction
 }
