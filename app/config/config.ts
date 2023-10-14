@@ -9,7 +9,6 @@ function globalVariable(varName: any, defaultValue: any) {
 
 const NODE_ENV = globalVariable('NODE_ENV', 'development')
 const HOST = globalVariable('HOST', 'localhost')
-const APIHOST = globalVariable('APIHOST', 'localhost')
 const PORT = globalVariable('PORT', 3000)
 const APIPORT = globalVariable('APIPORT', 3000)
 const APIVERSION = globalVariable('APIVERSION', 'v1')
@@ -51,11 +50,10 @@ export function getConfig(environment = NODE_ENV) {
             company: 'Youmee',
             host: HOST,
             port: PORT,
-            apiHost: APIHOST,
             apiPort: APIPORT,
             apiVersion: APIVERSION,
             baseUrl: `http://${HOST}:${PORT}`,
-            apiBaseUrl: `http://${APIHOST}:${APIPORT}/api/${APIVERSION}`,
+            apiBaseUrl: `http://${HOST}:${APIPORT}/api/${APIVERSION}`,
         },
         configurations[environment]
     )

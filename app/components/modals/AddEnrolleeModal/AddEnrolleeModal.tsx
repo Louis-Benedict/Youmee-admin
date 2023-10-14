@@ -82,16 +82,6 @@ const AddEnrolleeModal = () => {
                 register={register}
                 errors={errors}
             />
-            {/* <BirthdayInput id="birthday" register={register} errors={errors} /> */}
-            {/* <DropdownInput
-                data={['Instagram', 'Facebook', 'TikTok', 'You']}
-                defaultValue="Thailand"
-                label="Country"
-                id="country"
-                register={register}
-                errors={errors}
-                isLoading={adding}
-            /> */}
             <FormInput
                 id="lineId"
                 label="Line ID"
@@ -125,7 +115,7 @@ const AddEnrolleeModal = () => {
             subtitle=" New enrollees will be sent an email that activates their account"
             body={bodyContent}
             secondaryActionLabel="Cancel"
-            secondaryAction={() => {}}
+            secondaryAction={addEnrolleeModal.onClose}
             primaryActionLabel="Submit"
             primaryAction={handleSubmit(onSubmit)}
         />
