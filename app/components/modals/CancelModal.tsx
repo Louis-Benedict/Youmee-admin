@@ -74,7 +74,6 @@ const LoginModal = () => {
             primaryAction={handleSubmit(onSubmit)}
             body={bodyContent}
             onOpenChange={() => {}}
-            triggerElement={undefined}
             isLoading={false}
             subtitle={''}
         />

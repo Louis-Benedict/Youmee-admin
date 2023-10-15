@@ -89,7 +89,6 @@ const EditTeamMemberModal = () => {
 
             <DropdownInput
                 control={control}
-                register={register}
                 defaultValue={UserRole.RECRUITER}
                 errors={errors}
                 isLoading={editTeamMember.isLoading}
@@ -110,7 +109,6 @@ const EditTeamMemberModal = () => {
         <RModal
             isOpen={isOpen}
             onOpenChange={() => {}}
-            triggerElement={trigger}
             isLoading={editTeamMember.isLoading}
             disabled={editTeamMember.isLoading}
             title="Adjust your user settings"
