@@ -1,13 +1,14 @@
 'use client'
 
-import PageInput from '@/app/components/inputs/PageInput'
+import FormInput from '@/app/components/inputs/FormInput'
+import { useRouter } from 'next/navigation'
 import {
     UserLoginSchema,
     userLoginSchema,
 } from '@/app/libs/validation/authValidation'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Button } from '@radix-ui/themes'
-import { LogIn } from 'lucide-react'
+import { Button, Text } from '@radix-ui/themes'
+import { Loader2, LogIn } from 'lucide-react'
 import { signIn } from 'next-auth/react'
 import Image from 'next/image'
 import { useState } from 'react'
@@ -15,6 +16,8 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 
 const LoginPage = () => {
     const [isLoading, setIsLoading] = useState(false)
+    const [error, setError] = useState('')
+    const router = useRouter()
 
     const {
         register,
@@ -28,16 +31,20 @@ const LoginPage = () => {
         setIsLoading(true)
         signIn('credentials', {
             ...data,
-            callbackUrl: '/enrollees',
+            redirect: false,
         }).then((callback) => {
-            setIsLoading(false)
+            if (callback?.error) {
+                setError(callback.error)
+            }
+            router.refresh()
         })
+        setIsLoading(false)
     }
 
     return (
         <div className="relative w-full h-full bg-gradient-to-r from-indigo-100  to-pink-100 bg-opacity-20">
             <div className="transition-all duration-300 ease-in-out justify-center items-center flex overflow-x-hidden translate-x-0 opacity-100 overflow-y-auto fixed inset-0 z-[30] outline-none focus:outline-none dark:text-white h-full text-primary-dark">
-                <div className="flex flex-col gap-8 min-w-[300px] p-4 rounded-md bg-white">
+                <div className="flex flex-col gap-2 min-w-[300px] p-4 rounded-md bg-white">
                     <div className="mb-4 w-fit mx-auto">
                         <Image
                             width={100}
@@ -46,7 +53,7 @@ const LoginPage = () => {
                             src="/images/Youmee_Admin.png"
                         />
                     </div>
-                    <PageInput
+                    <FormInput
                         id="email"
                         label="Email"
                         disabled={isLoading}
@@ -54,20 +61,26 @@ const LoginPage = () => {
                         errors={errors}
                         required
                     />
-                    <PageInput
+                    <FormInput
                         id="password"
                         label="Password"
-                        type="password"
                         disabled={isLoading}
                         register={register}
                         errors={errors}
                         required
                     />
+                    <Text color="red" size="1">
+                        {error}
+                    </Text>
                     <Button
                         onClick={handleSubmit(onSubmit)}
-                        className="w-full h-10"
+                        className="w-full h-10 mt-4"
                     >
-                        <LogIn size={20} />
+                        {isLoading ? (
+                            <Loader2 className="animate-spin" />
+                        ) : (
+                            <LogIn size={20} />
+                        )}
                         Login
                     </Button>
                 </div>

@@ -1,26 +1,26 @@
 'use client'
 
-import { SubmitHandler, useForm, useFormState } from 'react-hook-form'
-import Modal from '@/app/components/modals/Modal'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import PageInput from '@/app/components/inputs/PageInput'
 import DropdownInput from '../../inputs/CountryInput'
 import { UserRole } from '@prisma/client'
 import useAddTeamMemberModal from './useTeamMemberModal'
-import { UserPlus } from 'lucide-react'
 import {
     TeamMemberAddSchema,
     teamMemberAddSchema,
 } from '@/app/(dashboard)/team/validation'
 import { useAddTeamMember } from '@/app/(dashboard)/team/queries'
+import RModal from '../RModal'
+import FormInput from '../../inputs/FormInput'
 
 const AddTeamMemberModal = () => {
     const addTeamMemberModal = useAddTeamMemberModal()
     const addTeamMember = useAddTeamMember()
 
     const {
-        control,
         watch,
+        control,
         register,
         handleSubmit,
         formState: { errors },
@@ -39,26 +39,26 @@ const AddTeamMemberModal = () => {
     const role = watch('role')
 
     const bodyContent = (
-        <div className="flex flex-col mt-8 gap-8">
-            <PageInput
+        <div className="flex flex-col mt-8 gap-2">
+            <FormInput
                 id="name"
                 label="Name"
                 register={register}
                 errors={errors}
             />
-            <PageInput
+            <FormInput
                 id="phoneNumber"
                 label="Phone number"
                 register={register}
                 errors={errors}
             />
-            <PageInput
+            <FormInput
                 id="email"
                 label="Email"
                 register={register}
                 errors={errors}
             />
-            <PageInput
+            <FormInput
                 id="lineId"
                 label="Line ID"
                 register={register}
@@ -67,7 +67,6 @@ const AddTeamMemberModal = () => {
 
             <DropdownInput
                 control={control}
-                register={register}
                 errors={errors}
                 isLoading={false}
                 id="role"
@@ -79,16 +78,16 @@ const AddTeamMemberModal = () => {
                     { name: UserRole.RECRUITER },
                 ]}
             />
-            {/* {role === UserRole.RECRUITER && (
-                <PageInput
-                    type="number"
+            {role === UserRole.RECRUITER && (
+                <FormInput
                     id="commissionPercentage"
                     label="Commission (%)"
                     register={register}
                     errors={errors}
+                    asNumber
                 />
-            )} */}
-            <PageInput
+            )}
+            <FormInput
                 id="password"
                 label="Password (auto generated)"
                 register={register}
@@ -97,31 +96,19 @@ const AddTeamMemberModal = () => {
         </div>
     )
 
-    const footerContent = <div></div>
-
     return (
-        <Modal
-            isLoading={addTeamMember.isLoading}
-            disabled={addTeamMember.isLoading}
+        <RModal
             isOpen={addTeamMemberModal.isOpen}
-            actionLabel="Submit"
-            title={
-                <div className="flex gap-4">
-                    <div className="flex items-center">
-                        <UserPlus size={45} />
-                    </div>
-                    <div>
-                        <div>Add team member</div>
-                        <div className="text-xs font-normal text-neutral-600 mt-1">
-                            Add a new Team member
-                        </div>
-                    </div>
-                </div>
-            }
+            primaryActionLabel="Submit"
             body={bodyContent}
-            footer={footerContent}
-            onClose={addTeamMemberModal.onClose}
-            onSubmit={handleSubmit(onSubmit as any)}
+            secondaryAction={addTeamMemberModal.onClose}
+            secondaryActionLabel="Cancel"
+            primaryAction={handleSubmit(onSubmit as any)}
+            onOpenChange={() => {}}
+            isLoading={true}
+            title="Add Teammember"
+            subtitle="Create a new teammember"
+            maxWidth={500}
         />
     )
 }

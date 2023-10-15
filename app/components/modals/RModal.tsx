@@ -1,25 +1,24 @@
-import { Button, Dialog, Flex, TextField, Text } from '@radix-ui/themes'
-import { FC, ReactNode } from 'react'
+import { Button, Dialog, Flex } from '@radix-ui/themes'
+import { FC } from 'react'
 
 interface RModalProps {
     isOpen: boolean
     onOpenChange: VoidFunction
-    triggerElement: ReactNode
     isLoading: boolean
     title: string
     subtitle: string
     body: React.ReactElement
     disabled?: boolean
     primaryAction?: VoidFunction
-    primaryActionLabel: string
+    primaryActionLabel?: string
     secondaryAction?: VoidFunction
     secondaryActionLabel?: string
+    maxWidth?: number
 }
 
 const RModal: FC<RModalProps> = ({
     isOpen,
     onOpenChange,
-    triggerElement,
     isLoading,
     title,
     subtitle,
@@ -29,12 +28,11 @@ const RModal: FC<RModalProps> = ({
     primaryActionLabel,
     secondaryAction,
     secondaryActionLabel,
+    maxWidth = 850,
 }) => {
     return (
         <Dialog.Root open={isOpen} onOpenChange={onOpenChange}>
-            {/* <Dialog.Trigger>{triggerElement}</Dialog.Trigger> */}
-
-            <Dialog.Content style={{ maxWidth: 450 }}>
+            <Dialog.Content style={{ maxWidth }}>
                 <Dialog.Title>{title}</Dialog.Title>
                 <Dialog.Description size="1" mb="4">
                     {subtitle}
@@ -45,16 +43,24 @@ const RModal: FC<RModalProps> = ({
                 </Flex>
 
                 <Flex gap="3" mt="4" justify="end">
-                    <Dialog.Close onClick={secondaryAction}>
-                        <Button variant="soft" color="gray" disabled={disabled}>
-                            {secondaryActionLabel}
-                        </Button>
-                    </Dialog.Close>
-                    <Dialog.Close onClick={primaryAction}>
-                        <Button disabled={disabled}>
-                            {primaryActionLabel}
-                        </Button>
-                    </Dialog.Close>
+                    {secondaryAction && (
+                        <Dialog.Close onClick={secondaryAction}>
+                            <Button
+                                variant="soft"
+                                color="gray"
+                                disabled={disabled}
+                            >
+                                {secondaryActionLabel}
+                            </Button>
+                        </Dialog.Close>
+                    )}
+                    {primaryAction && (
+                        <Dialog.Close onClick={primaryAction}>
+                            <Button disabled={disabled}>
+                                {primaryActionLabel}
+                            </Button>
+                        </Dialog.Close>
+                    )}
                 </Flex>
             </Dialog.Content>
         </Dialog.Root>

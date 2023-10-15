@@ -58,12 +58,18 @@ async function newEnrollee(req: NextRequest) {
         country,
         alias,
         email,
-        referralCode,
         following,
-        socialMediaHandle,
         additionalInformation,
         note,
         recruiterUserId,
+        instagramHandle,
+        instagramFollowers,
+        facebookHandle,
+        facebookFollowers,
+        tiktokHandle,
+        tiktokFollowers,
+        youtubeHandle,
+        youtubeFollowers,
     } = body
 
     const newEnrollee = await createEnrollee({
@@ -74,12 +80,18 @@ async function newEnrollee(req: NextRequest) {
         country,
         alias,
         email,
-        referralCode,
         following,
-        socialMediaHandle,
         additionalInformation,
         note,
         recruiterUserId,
+        instagramHandle,
+        instagramFollowers,
+        facebookHandle,
+        facebookFollowers,
+        tiktokHandle,
+        tiktokFollowers,
+        youtubeHandle,
+        youtubeFollowers,
     })
 
     if (!newEnrollee) {

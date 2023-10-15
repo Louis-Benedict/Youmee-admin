@@ -1,45 +1,11 @@
 'use client'
 
-import Modal from '@/app/components/modals/Modal'
 import useViewEnrolleeModal from './useViewEnrolleeModal'
 import { Calendar, Globe, MessageCircle, Phone } from 'lucide-react'
-import Checkbox from '../../ui/Checkbox'
-import { useCallback } from 'react'
-import ModalButton from '../../ui/Button/ModalButton'
-import { EnrollmentStatus, UserRole } from '@prisma/client'
-import RoleAccessHandler from '../../hoc/RoleAccess'
-import { useSession } from 'next-auth/react'
-import {
-    useDeleteEnrollee,
-    usePromoteEnrollee,
-    useRejectEnrollee,
-} from '@/app/(dashboard)/enrollees/queries'
+import RModal from '../RModal'
 
 const ViewEnrolleeModal = () => {
-    const session = useSession()
-
-    const { selectedEnrollee, onClose, isOpen } = useViewEnrolleeModal()
-    const promoteEnrollee = usePromoteEnrollee()
-    const rejectEnrollee = useRejectEnrollee()
-    const deleteEnrollee = useDeleteEnrollee()
-
-    const handlePromote = useCallback(() => {
-        if (!selectedEnrollee) {
-            return null
-        }
-        promoteEnrollee.mutate(selectedEnrollee.id, {
-            onSuccess: () => onClose(),
-        })
-    }, [selectedEnrollee])
-
-    const handleReject = useCallback(() => {
-        if (!selectedEnrollee) {
-            return null
-        }
-        rejectEnrollee.mutate(selectedEnrollee.id, {
-            onSuccess: () => onClose(),
-        })
-    }, [selectedEnrollee])
+    const { selectedEnrollee, isOpen, onClose } = useViewEnrolleeModal()
 
     const bodyContent = (
         <div>
@@ -107,36 +73,17 @@ const ViewEnrolleeModal = () => {
         </div>
     )
 
-    const footerContent = <></>
-
     return (
-        <Modal
-            isLoading={promoteEnrollee.isLoading || rejectEnrollee.isLoading}
-            disabled={promoteEnrollee.isLoading || rejectEnrollee.isLoading}
+        <RModal
+            isLoading={false}
+            disabled={false}
             isOpen={isOpen}
-            title={
-                <div className="flex-col gap-4">
-                    <div>{selectedEnrollee?.fullname}s Application</div>
-                    <div className="text-xs font-normal text-neutral-600 mt-1">
-                        Review an enrolles application
-                    </div>
-                </div>
-            }
             body={bodyContent}
-            footer={footerContent}
-            onClose={onClose}
-            secondaryActionLabel="Reject"
-            secondaryAction={
-                selectedEnrollee?.status === EnrollmentStatus.REQUESTED
-                    ? handleReject
-                    : undefined
-            }
-            actionLabel="Promote"
-            onSubmit={
-                selectedEnrollee?.status !== EnrollmentStatus.APPROVED
-                    ? handlePromote
-                    : undefined
-            }
+            onOpenChange={() => {}}
+            secondaryAction={onClose}
+            secondaryActionLabel="Close"
+            title={`${selectedEnrollee?.fullname} Application`}
+            subtitle="View the Application"
         />
     )
 }

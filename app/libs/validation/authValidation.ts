@@ -15,7 +15,7 @@ export const fullnameValidation = z
 
 export const passwordValidation = z
     .string()
-    .min(6, { message: 'Password must be atleast 6 characters' })
+    .min(6, { message: 'Must be atleast 6 characters' })
 
 export const emailValidation = z
     .string()

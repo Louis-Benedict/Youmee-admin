@@ -14,8 +14,9 @@ import { useEffect } from 'react'
 import { useAddEnrollee } from '@/app/(dashboard)/enrollees/queries'
 import FormInput from '../../inputs/FormInput'
 import RModal from '../RModal'
-import { IconButton } from '@radix-ui/themes'
-import { UserPlus } from 'lucide-react'
+import { Box, Heading } from '@radix-ui/themes'
+import { Globe, User } from 'lucide-react'
+import FollowerCountInput from '../../inputs/FollowerCountInput'
 
 const AddEnrolleeModal = () => {
     const addEnrolleeModal = useAddEnrolleeModal()
@@ -29,14 +30,12 @@ const AddEnrolleeModal = () => {
         formState: { errors },
     } = useForm<AddEnrolleeSchema>({
         resolver: zodResolver(addEnrolleeSchema),
-        defaultValues: {
-            recruiterUserId: addEnrolleeModal.currentUserId,
-            country: 'Thailand',
-        },
     })
 
     useEffect(() => {
-        reset({ recruiterUserId: addEnrolleeModal.currentUserId })
+        reset({
+            recruiterUserId: addEnrolleeModal.currentUserId,
+        })
     }, [addEnrolleeModal.currentUserId])
 
     const onSubmit: SubmitHandler<AddEnrolleeSchema> = (data) => {
@@ -47,68 +46,127 @@ const AddEnrolleeModal = () => {
     }
 
     const bodyContent = (
-        <div className="flex flex-col mt-4 gap-2">
-            <FormInput
-                id="fullname"
-                label="Name"
-                register={register}
-                errors={errors}
-            />
-            <FormInput
-                id="phoneNumber"
-                label="Phone number"
-                register={register}
-                errors={errors}
-            />
-            <FormInput
-                id="email"
-                label="Email"
-                register={register}
-                errors={errors}
-            />
-            <DropdownInput
-                data={countries}
-                defaultValue="Thailand"
-                label="Country"
-                id="country"
-                register={register}
-                errors={errors}
-                isLoading={adding}
-                control={control}
-            />
-            <FormInput
-                id="alias"
-                label="Alias"
-                register={register}
-                errors={errors}
-            />
-            <FormInput
-                id="lineId"
-                label="Line ID"
-                register={register}
-                errors={errors}
-            />
-            <TextArea
-                id="note"
-                label="Note"
-                register={register}
-                errors={errors}
-                placeholder="Write a note"
-            />
-        </div>
-    )
+        <div className="flex gap-12 px-2 mt-4">
+            <div className="w-1/2 flex flex-col gap-2">
+                <Heading size="2" className="mb-2">
+                    <User className="inline mr-1" size={18} />
+                    Personal Information
+                </Heading>
+                <FormInput
+                    id="fullname"
+                    label="Name"
+                    register={register}
+                    errors={errors}
+                />
+                <FormInput
+                    id="phoneNumber"
+                    label="Phone number"
+                    register={register}
+                    errors={errors}
+                />
+                <FormInput
+                    id="email"
+                    label="Email"
+                    register={register}
+                    errors={errors}
+                />
+                <DropdownInput
+                    data={countries}
+                    defaultValue="Thailand"
+                    label="Country"
+                    id="country"
+                    errors={errors}
+                    isLoading={adding}
+                    control={control}
+                />
+                <FormInput
+                    id="alias"
+                    label="Alias"
+                    register={register}
+                    errors={errors}
+                />
+                <FormInput
+                    id="lineId"
+                    label="Line ID"
+                    register={register}
+                    errors={errors}
+                />
+                <TextArea
+                    id="note"
+                    label="Note"
+                    register={register}
+                    errors={errors}
+                    placeholder="Write a note"
+                />
+            </div>
+            <div className="w-1/2 flex flex-col gap-2">
+                <Heading size="2" className="mb-2">
+                    <Globe size={16} className="inline mr-1" />
+                    Social Media
+                </Heading>
+                <Box className="border-[1px]  rounded-md p-4">
+                    <FormInput
+                        id="instagramHandle"
+                        label="Instagram Handle"
+                        register={register}
+                        errors={errors}
+                    />
+                    <FollowerCountInput
+                        id="instagramFollowers"
+                        control={control}
+                        errors={errors}
+                    />
+                </Box>
 
-    const trigger = (
-        <IconButton>
-            <UserPlus />
-        </IconButton>
+                <Box className="border-[1px]  rounded-md p-4">
+                    <FormInput
+                        id="youtubeHandle"
+                        label="Youtube Handle"
+                        register={register}
+                        errors={errors}
+                    />
+                    <FollowerCountInput
+                        id="youtubeFollowers"
+                        control={control}
+                        errors={errors}
+                    />
+                </Box>
+
+                <Box className="border-[1px]  rounded-md p-4">
+                    <FormInput
+                        id="tiktokHandle"
+                        label="TikTok Handle"
+                        register={register}
+                        errors={errors}
+                    />
+                    <FollowerCountInput
+                        id="tiktokFollowers"
+                        control={control}
+                        errors={errors}
+                    />
+                </Box>
+
+                <Box className="border-[1px]  rounded-md p-4">
+                    <FormInput
+                        id="facebookHandle"
+                        label="Facebook Handle"
+                        register={register}
+                        errors={errors}
+                    />
+                    <FollowerCountInput
+                        id="facebookFollowers"
+                        control={control}
+                        errors={errors}
+                    />
+                </Box>
+            </div>
+        </div>
     )
 
     return (
         <RModal
             isOpen={addEnrolleeModal.isOpen}
             onOpenChange={() => {}}
-            triggerElement={trigger}
             isLoading={adding}
             disabled={adding}
             title="Add Enrollee"

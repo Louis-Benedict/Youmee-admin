@@ -7,8 +7,8 @@ type Middleware = (
     req: NextRequest,
     params: ApiRouteParameter,
     // res: NextResponse,
-    next: () => void
-) => void
+    next: () => Response
+) => Response
 
 // Create a function to apply middleware to a handler
 export const withMiddleware =

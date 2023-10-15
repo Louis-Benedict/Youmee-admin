@@ -218,6 +218,14 @@ model Enrollee {
   referralCode          String?
   following             String?
   socialMediaHandle     String?
+  instagramHandle       String?
+  instagramFollowers    String?
+  facebookHandle        String?
+  facebookFollowers     String?
+  tiktokHandle          String?
+  tiktokFollowers       String?
+  youtubeHandle         String?
+  youtubeFollowers      String?
   additionalInformation String?
   note                  String?
   isContacted           Boolean          @default(false)

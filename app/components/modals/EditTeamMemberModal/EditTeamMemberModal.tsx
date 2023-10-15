@@ -89,7 +89,6 @@ const EditTeamMemberModal = () => {
 
             <DropdownInput
                 control={control}
-                register={register}
                 defaultValue={UserRole.RECRUITER}
                 errors={errors}
                 isLoading={editTeamMember.isLoading}
@@ -100,17 +99,10 @@ const EditTeamMemberModal = () => {
         </div>
     )
 
-    const trigger = (
-        <IconButton>
-            <UserPlus />
-        </IconButton>
-    )
-
     return (
         <RModal
             isOpen={isOpen}
             onOpenChange={() => {}}
-            triggerElement={trigger}
             isLoading={editTeamMember.isLoading}
             disabled={editTeamMember.isLoading}
             title="Edit Team member"

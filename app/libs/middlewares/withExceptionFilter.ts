@@ -31,10 +31,16 @@ export function withExceptionFilter(handler: ApiHandler) {
             const referer = headers.get('referer')
             const userAgent = headers.get('user-agent')
             const method = req.method
+            let ip
+
+            if (req.headers.get('x-forwarded-for')) {
+                ip = req.headers.get('x-forwarded-for')?.split(',')[0]
+            }
 
             const timestamp = new Date().toISOString()
             const requestContext = {
                 url,
+                ip,
                 timestamp,
                 method,
                 referer,

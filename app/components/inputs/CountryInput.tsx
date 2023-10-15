@@ -1,9 +1,8 @@
 import { Select, Text } from '@radix-ui/themes'
 import { Controller } from 'react-hook-form'
-import { FieldErrors, UseFormRegister } from 'react-hook-form/dist/types'
+import { FieldErrors } from 'react-hook-form/dist/types'
 
 interface DropdownInputProps {
-    register: UseFormRegister<any>
     errors: FieldErrors
     isLoading: boolean
     defaultValue: string
@@ -15,7 +14,6 @@ interface DropdownInputProps {
 
 const DropdownInput = ({
     label,
-    register,
     defaultValue,
     errors,
     data,
@@ -33,12 +31,12 @@ const DropdownInput = ({
             <Controller
                 control={control}
                 name={id}
+                defaultValue={defaultValue}
                 render={({ field }) => (
                     <Select.Root
-                        onValueChange={field.onChange}
-                        defaultValue={defaultValue}
-                        disabled={isLoading}
                         {...field}
+                        onValueChange={field.onChange}
+                        disabled={isLoading}
                     >
                         <Select.Trigger className="w-full bg-white" />
                         <Select.Content>

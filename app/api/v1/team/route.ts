@@ -51,7 +51,7 @@ async function createTeamMember(req: NextRequest) {
     const response = await sendPromise
     console.log(sendPromise)
 
-    return await NextResponse.json(
+    return NextResponse.json(
         { message: 'Success', status: 200, data: [createdTeamMember] },
         { status: 200 }
     )

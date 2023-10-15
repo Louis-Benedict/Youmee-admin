@@ -1,6 +1,6 @@
 import { FC } from 'react'
-import { Enrollee, EnrollmentStatus } from '@prisma/client'
-import { Crown, Loader2, Trash, Undo2, User } from 'lucide-react'
+import { Enrollee, EnrollmentStatus, UserRole } from '@prisma/client'
+import { BadgeCheck, Loader2, ThumbsDown, Trash, User } from 'lucide-react'
 import {
     Avatar,
     Button,
@@ -17,6 +17,8 @@ import {
 } from '@/app/(dashboard)/enrollees/queries'
 import { config } from '@/app/config/config'
 import { TeamMember } from '@/app/(dashboard)/team/queries'
+import RoleAccessHandler from '../hoc/RoleAccess'
+import { useSession } from 'next-auth/react'
 
 interface EnrolleeCardProps {
     enrollee: Enrollee & {
@@ -26,6 +28,7 @@ interface EnrolleeCardProps {
 }
 
 const EnrolleeCard: FC<EnrolleeCardProps> = ({ enrollee, onDetailsOpen }) => {
+    const session = useSession()
     const enrolleeId = enrollee.id
     const setNotified = useSetNotified()
     const deleteEnrollee = useDeleteEnrollee()
@@ -56,7 +59,7 @@ const EnrolleeCard: FC<EnrolleeCardProps> = ({ enrollee, onDetailsOpen }) => {
                                         className="animate-spin"
                                     />
                                 ) : (
-                                    <Undo2 size={16} />
+                                    <ThumbsDown size={16} />
                                 )}
                             </IconButton>
                         )}
@@ -81,7 +84,7 @@ const EnrolleeCard: FC<EnrolleeCardProps> = ({ enrollee, onDetailsOpen }) => {
                                         className="animate-spin"
                                     />
                                 ) : (
-                                    <Crown size={16} />
+                                    <BadgeCheck size={16} />
                                 )}
                             </IconButton>
                         )}
@@ -89,24 +92,29 @@ const EnrolleeCard: FC<EnrolleeCardProps> = ({ enrollee, onDetailsOpen }) => {
 
                     <hr />
                     {enrollee.recruiter && (
-                        <div className="text-xs flex flex-col gap-2">
-                            <Text size="1" weight="bold">
-                                Recruited By
-                            </Text>
-                            <div className="flex gap-2 p-2 ">
-                                <Avatar
-                                    src={
-                                        config.cdnBaseUrl +
-                                        enrollee.recruiter.image
-                                    }
-                                    fallback=""
-                                />
-                                <div className="flex flex-col gap-1">
-                                    <div>{enrollee.recruiter?.name}</div>
-                                    <div>{enrollee.recruiter?.email}</div>
+                        <RoleAccessHandler
+                            allowedRoles={[UserRole.ADMIN]}
+                            userRole={session.data?.user.role}
+                        >
+                            <div className="text-xs flex flex-col gap-2">
+                                <Text size="1" weight="bold">
+                                    Recruited By
+                                </Text>
+                                <div className="flex gap-2 p-2 ">
+                                    <Avatar
+                                        src={
+                                            config.cdnBaseUrl +
+                                            enrollee.recruiter.image
+                                        }
+                                        fallback=""
+                                    />
+                                    <div className="flex flex-col gap-1">
+                                        <div>{enrollee.recruiter?.name}</div>
+                                        <div>{enrollee.recruiter?.email}</div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </RoleAccessHandler>
                     )}
                     <hr />
                     <div className="text-xs flex flex-col gap-2">
@@ -125,7 +133,7 @@ const EnrolleeCard: FC<EnrolleeCardProps> = ({ enrollee, onDetailsOpen }) => {
 
                     <hr />
                     <div className="flex text-xs font-semibold text-white gap-1 mt-auto">
-                        <div className="flex flex-col gap-1 w-full mt-2">
+                        <div className="flex justify-end items-center gap-2 mt-2">
                             <Button
                                 variant="ghost"
                                 size="1"
@@ -137,7 +145,6 @@ const EnrolleeCard: FC<EnrolleeCardProps> = ({ enrollee, onDetailsOpen }) => {
 
                             <Button
                                 variant="solid"
-                                className="w-full"
                                 size="1"
                                 color="red"
                                 onClick={handleDelete}

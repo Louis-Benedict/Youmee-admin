@@ -1,12 +1,28 @@
-FROM node:18-alpine AS build
-# Install dependencies only when needed
-# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
-RUN apk add --no-cache libc6-compat
+# Stage 1: install dependencies
+FROM node:18-alpine AS deps
 WORKDIR /app
-# Copy and install the dependencies for the project
-COPY package.json package-lock.json ./
-RUN npm ci
-# Copy all other project files to working directory
-COPY . .
-# Run the next build process and generate the artifacts
+COPY package*.json .
+ARG NODE_ENV
+ENV NODE_ENV $NODE_ENV
+RUN npm install
+
+# Stage 2: build
+FROM node:18-alpine AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY app ./app
+COPY public ./public
+COPY prisma ./prisma
+COPY package.json .env next.config.js tsconfig.json ./
+RUN npx prisma generate
 RUN npm run build
+
+# Stage 3: run
+FROM node:18-alpine
+WORKDIR /app
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./
+COPY --from=builder /app/.env ./
+CMD ["npm", "run", "start"]

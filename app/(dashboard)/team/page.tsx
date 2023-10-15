@@ -6,21 +6,20 @@ import EditTeamMemberModal from '@/app/components/modals/EditTeamMemberModal/Edi
 import AddTeamMemberModal from '@/app/components/modals/AddTeamMemberModal/AddTeamMemberModal'
 import useEditTeamMemberModal from '@/app/components/modals/EditTeamMemberModal/useEditTeamMemberModal'
 import useAddTeamMemberModal from '@/app/components/modals/AddTeamMemberModal/useTeamMemberModal'
-import DashboardButton from '@/app/components/ui/Button/DashboardButton'
 import DashboardHeader from '@/app/components/ui/admin/DashboardHeader'
 import { UserRole } from '@prisma/client'
 import { ArrowUpRight, Edit, Loader2, UserPlus } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import { TeamMember, useDeleteTeamMember, useFetchTeamMembers } from './queries'
-import { FC, useCallback } from 'react'
-import { Button } from '@radix-ui/themes'
-import { useRouter } from 'next/navigation'
+import { FC, useCallback, useState } from 'react'
+import { Button, IconButton } from '@radix-ui/themes'
+import ConfirmDialog from '@/app/components/modals/ConfirmDialog'
 
 interface pageProps {}
 
 const Page: FC<pageProps> = ({}) => {
     const { data: session } = useSession()
-    const router = useRouter()
+    const [openDialog, setOpenDialog] = useState(false)
     const addTeamMemberModal = useAddTeamMemberModal()
     const editTeamMemberModal = useEditTeamMemberModal()
 
@@ -48,9 +47,13 @@ const Page: FC<pageProps> = ({}) => {
                         allowedRoles={[UserRole.ADMIN]}
                         userRole={session?.user.role}
                     >
-                        <DashboardButton
-                            openModalFunction={addTeamMemberModal.onOpen}
-                        />
+                        <IconButton
+                            key="x1"
+                            variant="surface"
+                            onClick={addTeamMemberModal.onOpen}
+                        >
+                            <UserPlus size={18} />
+                        </IconButton>
                     </RoleAccessHandler>,
                     <input
                         key="x-elem-2"
@@ -85,6 +88,7 @@ const Page: FC<pageProps> = ({}) => {
                                             <Edit size={14} />
                                             Edit
                                         </Button>
+
                                         <Button
                                             variant="solid"
                                             size="1"

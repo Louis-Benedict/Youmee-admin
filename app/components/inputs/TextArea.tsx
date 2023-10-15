@@ -55,8 +55,8 @@ const TextArea: FC<TextAreaProps> = ({
 
     return (
         <>
-            <div className="relative flex flex-col w-full h-full">
-                <div className="absolute -top-5 left-2 text-sm text-neutral-500">
+            <div className="relative flex flex-col w-full h-full mt-6">
+                <div className="absolute -top-6 font-[500] text-sm text-neutral-700">
                     <label htmlFor={id}>{label}</label>
                 </div>
                 <textarea
@@ -69,7 +69,7 @@ const TextArea: FC<TextAreaProps> = ({
                     defaultValue={defaultValue}
                     id={id}
                     {...props}
-                    className="px-3 pt-3 pb-5 text-sm overflow-hidden min-h-[160px] md:min-w-[340px] dark:bg-secondary-dark bg-white w-full h-full border-neutral-200 dark:placeholder:text-neutral-700 placeholder:text-neutral-400 text-neutral-700 border-[1px] rounded-md resize-none"
+                    className="px-2 pt-2 pb-5 text-sm overflow-hidden min-h-[160px] md:min-w-[340px] dark:bg-secondary-dark bg-white w-full h-full border-neutral-300 dark:placeholder:text-neutral-700 placeholder:text-neutral-400 text-neutral-700 border-[1px] rounded-md resize-none focus:border-white"
                 />
                 <div className="absolute bottom-2 right-3 text-[12px] dark:text-neutral-700 text-neutral-400">
                     {characters ? maxLength - characters.length : maxLength}{' '}

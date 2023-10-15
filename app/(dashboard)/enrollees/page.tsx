@@ -4,14 +4,20 @@ import dynamic from 'next/dynamic'
 import { useEffect, useMemo } from 'react'
 import { Enrollee, EnrollmentStatus } from '@prisma/client'
 import useAddEnrolleeModal from '@/app/components/modals/AddEnrolleeModal/useEnrolleeModal'
-import { Loader2, Search, UserPlus } from 'lucide-react'
+import {
+    BadgeCheck,
+    Loader2,
+    Mails,
+    Search,
+    ThumbsDown,
+    UserPlus,
+} from 'lucide-react'
 import DashboardHeader from '@/app/components/ui/admin/DashboardHeader'
 import { useFetchEnrollees } from './queries'
 import EnrolleeCard from '@/app/components/cards/EnrolleeCard'
 import useViewEnrolleeModal from '@/app/components/modals/ViewEnrolleeModal/useViewEnrolleeModal'
 import { useSession } from 'next-auth/react'
-import { Box, Tabs, TextField } from '@radix-ui/themes'
-import DashboardButton from '@/app/components/ui/Button/DashboardButton'
+import { Box, IconButton, Tabs, TextField } from '@radix-ui/themes'
 
 const AddEnrolleeModal = dynamic(
     () => import('@/app/components/modals/AddEnrolleeModal/AddEnrolleeModal')
@@ -66,10 +72,9 @@ export default function Page() {
             <DashboardHeader
                 title="Enrollees"
                 actions={[
-                    <DashboardButton
-                        key="x1"
-                        openModalFunction={addEnrolleeModal.onOpen}
-                    />,
+                    <IconButton key="x1" onClick={addEnrolleeModal.onOpen}>
+                        <UserPlus />
+                    </IconButton>,
                     <TextField.Root key="x2">
                         <TextField.Slot>
                             <Search height="16" width="16" />
@@ -81,12 +86,15 @@ export default function Page() {
             <Tabs.Root defaultValue="new" mt="4">
                 <Tabs.List size="2" color="#000">
                     <Tabs.Trigger value="new">
+                        <Mails size={16} className="mr-1" />
                         New ({newEnrollees.length})
                     </Tabs.Trigger>
                     <Tabs.Trigger value="rejected">
+                        <ThumbsDown size={14} className="mr-1" />
                         Rejected ({rejectedEnrollees.length})
                     </Tabs.Trigger>
                     <Tabs.Trigger value="approved">
+                        <BadgeCheck size={16} className="mr-1" />
                         Approved ({approvedEnrollees.length})
                     </Tabs.Trigger>
                 </Tabs.List>

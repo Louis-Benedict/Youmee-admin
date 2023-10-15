@@ -11,15 +11,26 @@ export async function createEnrollee({
     country,
     alias,
     email,
-    referralCode,
-    following,
-    socialMediaHandle,
     additionalInformation,
     note,
     recruiterUserId,
+    instagramHandle,
+    instagramFollowers,
+    facebookHandle,
+    facebookFollowers,
+    tiktokHandle,
+    tiktokFollowers,
+    youtubeHandle,
+    youtubeFollowers,
 }: Omit<
     Enrollee,
-    'id' | 'createdAt' | 'profileLink' | 'status' | 'isContacted'
+    | 'id'
+    | 'createdAt'
+    | 'profileLink'
+    | 'status'
+    | 'isContacted'
+    | 'referralCode'
+    | 'socialMediaHandle'
 >) {
     const existingUser = await prisma.user.findFirst({
         where: {
@@ -43,12 +54,17 @@ export async function createEnrollee({
             country,
             alias,
             email,
-            referralCode,
-            following,
-            socialMediaHandle,
             additionalInformation,
             note,
             recruiterUserId,
+            instagramHandle,
+            instagramFollowers,
+            facebookHandle,
+            facebookFollowers,
+            tiktokHandle,
+            tiktokFollowers,
+            youtubeHandle,
+            youtubeFollowers,
         },
         include: { recruiter: true },
     })
