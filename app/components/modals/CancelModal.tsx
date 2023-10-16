@@ -73,7 +73,6 @@ const LoginModal = () => {
             secondaryActionLabel="Go Back"
             primaryAction={handleSubmit(onSubmit)}
             body={bodyContent}
-            onOpenChange={() => {}}
             isLoading={false}
             subtitle={''}
         />

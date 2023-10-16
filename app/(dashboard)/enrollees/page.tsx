@@ -13,7 +13,7 @@ import {
     UserPlus,
 } from 'lucide-react'
 import DashboardHeader from '@/app/components/ui/admin/DashboardHeader'
-import { useFetchEnrollees } from './queries'
+import { useDeleteEnrollee, useFetchEnrollees } from './queries'
 import EnrolleeCard from '@/app/components/cards/EnrolleeCard'
 import useViewEnrolleeModal from '@/app/components/modals/ViewEnrolleeModal/useViewEnrolleeModal'
 import { useSession } from 'next-auth/react'
@@ -25,10 +25,14 @@ const AddEnrolleeModal = dynamic(
 const ViewEnrolleeModal = dynamic(
     () => import('@/app/components/modals/ViewEnrolleeModal/ViewEnrolleeModal')
 )
+const ConfirmDialog = dynamic(
+    () => import('@/app/components/modals/ConfirmDialog/ConfirmDialog')
+)
 
 export default function Page() {
     const addEnrolleeModal = useAddEnrolleeModal()
     const viewEnrolleeModal = useViewEnrolleeModal()
+    const deleteEnrollee = useDeleteEnrollee()
     const session = useSession()
 
     const { fetching, enrollees } = useFetchEnrollees()
@@ -41,7 +45,6 @@ export default function Page() {
     useEffect(() => {
         if (!session.data?.user) return
         addEnrolleeModal.selectCurrentUser(session.data.user.id)
-        console.log(addEnrolleeModal.currentUserId)
     }, [session])
 
     const newEnrollees = useMemo(() => {
@@ -69,11 +72,19 @@ export default function Page() {
         <>
             <ViewEnrolleeModal />
             <AddEnrolleeModal />
+            <ConfirmDialog
+                primaryAction={deleteEnrollee.mutate}
+                description="This enrollee will be permanently deleted."
+            />
             <DashboardHeader
                 title="Enrollees"
                 actions={[
-                    <IconButton key="x1" onClick={addEnrolleeModal.onOpen}>
-                        <UserPlus />
+                    <IconButton
+                        key="x1"
+                        onClick={addEnrolleeModal.onOpen}
+                        variant="soft"
+                    >
+                        <UserPlus size={20} />
                     </IconButton>,
                     <TextField.Root key="x2">
                         <TextField.Slot>

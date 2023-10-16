@@ -11,15 +11,13 @@ import { UserRole } from '@prisma/client'
 import { ArrowUpRight, Edit, Loader2, UserPlus } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import { TeamMember, useDeleteTeamMember, useFetchTeamMembers } from './queries'
-import { FC, useCallback, useState } from 'react'
+import { FC, useCallback } from 'react'
 import { Button, IconButton } from '@radix-ui/themes'
-import ConfirmDialog from '@/app/components/modals/ConfirmDialog'
 
 interface pageProps {}
 
 const Page: FC<pageProps> = ({}) => {
     const { data: session } = useSession()
-    const [openDialog, setOpenDialog] = useState(false)
     const addTeamMemberModal = useAddTeamMemberModal()
     const editTeamMemberModal = useEditTeamMemberModal()
 

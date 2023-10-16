@@ -15,8 +15,9 @@ import { useAddEnrollee } from '@/app/(dashboard)/enrollees/queries'
 import FormInput from '../../inputs/FormInput'
 import RModal from '../RModal'
 import { Box, Heading } from '@radix-ui/themes'
-import { Globe, User } from 'lucide-react'
+import { Facebook, Globe, Instagram, User, Youtube } from 'lucide-react'
 import FollowerCountInput from '../../inputs/FollowerCountInput'
+import { FaTiktok } from 'react-icons/fa'
 
 const AddEnrolleeModal = () => {
     const addEnrolleeModal = useAddEnrolleeModal()
@@ -104,7 +105,10 @@ const AddEnrolleeModal = () => {
                     <Globe size={16} className="inline mr-1" />
                     Social Media
                 </Heading>
-                <Box className="border-[1px]  rounded-md p-4">
+                <Box className="border-[1px] relative rounded-md px-4 pt-5 pb-3">
+                    <div className="absolute top-2 right-2">
+                        <Instagram size={14} />
+                    </div>
                     <FormInput
                         id="instagramHandle"
                         label="Instagram Handle"
@@ -118,7 +122,10 @@ const AddEnrolleeModal = () => {
                     />
                 </Box>
 
-                <Box className="border-[1px]  rounded-md p-4">
+                <Box className="border-[1px] relative rounded-md px-4 pt-5 pb-3">
+                    <div className="absolute top-2 right-2">
+                        <Youtube size={14} />
+                    </div>
                     <FormInput
                         id="youtubeHandle"
                         label="Youtube Handle"
@@ -132,7 +139,10 @@ const AddEnrolleeModal = () => {
                     />
                 </Box>
 
-                <Box className="border-[1px]  rounded-md p-4">
+                <Box className="border-[1px] relative rounded-md px-4 pt-5 pb-3">
+                    <div className="absolute top-2 right-2">
+                        <FaTiktok size={12} />
+                    </div>
                     <FormInput
                         id="tiktokHandle"
                         label="TikTok Handle"
@@ -146,7 +156,10 @@ const AddEnrolleeModal = () => {
                     />
                 </Box>
 
-                <Box className="border-[1px]  rounded-md p-4">
+                <Box className="border-[1px] relative rounded-md px-4 pt-5 pb-3">
+                    <div className="absolute top-2 right-2">
+                        <Facebook size={14} />
+                    </div>
                     <FormInput
                         id="facebookHandle"
                         label="Facebook Handle"
@@ -166,7 +179,6 @@ const AddEnrolleeModal = () => {
     return (
         <RModal
             isOpen={addEnrolleeModal.isOpen}
-            onOpenChange={() => {}}
             isLoading={adding}
             disabled={adding}
             title="Add Enrollee"

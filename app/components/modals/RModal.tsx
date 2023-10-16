@@ -1,9 +1,9 @@
 import { Button, Dialog, Flex } from '@radix-ui/themes'
+import { Loader2 } from 'lucide-react'
 import { FC } from 'react'
 
 interface RModalProps {
     isOpen: boolean
-    onOpenChange: VoidFunction
     isLoading: boolean
     title: string
     subtitle: string
@@ -18,7 +18,6 @@ interface RModalProps {
 
 const RModal: FC<RModalProps> = ({
     isOpen,
-    onOpenChange,
     isLoading,
     title,
     subtitle,
@@ -31,8 +30,8 @@ const RModal: FC<RModalProps> = ({
     maxWidth = 850,
 }) => {
     return (
-        <Dialog.Root open={isOpen} onOpenChange={onOpenChange}>
-            <Dialog.Content style={{ maxWidth }}>
+        <Dialog.Root open={isOpen}>
+            <Dialog.Content style={{ maxWidth }} className="relative">
                 <Dialog.Title>{title}</Dialog.Title>
                 <Dialog.Description size="1" mb="4">
                     {subtitle}
@@ -57,6 +56,9 @@ const RModal: FC<RModalProps> = ({
                     {primaryAction && (
                         <Dialog.Close onClick={primaryAction}>
                             <Button disabled={disabled}>
+                                {isLoading && (
+                                    <Loader2 className="animate-spin" />
+                                )}
                                 {primaryActionLabel}
                             </Button>
                         </Dialog.Close>

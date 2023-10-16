@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { NavbarLink } from '@/app/types'
 import { cn } from '@/app/libs/util'
 import { Button } from '@radix-ui/themes'
+import { config } from '@/app/config/config'
 
 interface SidebarLinkContainerProps {
     navbarLinks: NavbarLink[]
@@ -48,7 +49,13 @@ const SidebarLinkContainer: FC<SidebarLinkContainerProps> = ({
             <div className="flex flex-col justify-between text-white text-sm">
                 <div key={'x'} className="relative">
                     <div className="flex flex-col mt-4 gap-2 dark:bg-primary-dark w-full">
-                        <Button onClick={() => signOut()}>Sign out</Button>
+                        <Button
+                            onClick={() =>
+                                signOut({ callbackUrl: config.host })
+                            }
+                        >
+                            Sign out
+                        </Button>
                     </div>
                 </div>
             </div>

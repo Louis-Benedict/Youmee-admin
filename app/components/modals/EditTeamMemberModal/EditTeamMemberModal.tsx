@@ -12,8 +12,6 @@ import {
 } from '@/app/(dashboard)/team/validation'
 import { useEditTeamMember } from '@/app/(dashboard)/team/queries'
 import RModal from '../RModal'
-import { IconButton } from '@radix-ui/themes'
-import { UserPlus } from 'lucide-react'
 import FormInput from '../../inputs/FormInput'
 
 const EditTeamMemberModal = () => {
@@ -34,10 +32,6 @@ const EditTeamMemberModal = () => {
     useEffect(() => {
         reset({ ...(selectedTeamMember as any) })
     }, [selectedTeamMember])
-
-    useEffect(() => {
-        console.log(errors)
-    }, [errors])
 
     const onSubmit: SubmitHandler<TeamMemberEditSchema> = (data) => {
         editTeamMember.mutate({ ...data }, { onSuccess: onClose })
@@ -102,7 +96,6 @@ const EditTeamMemberModal = () => {
     return (
         <RModal
             isOpen={isOpen}
-            onOpenChange={() => {}}
             isLoading={editTeamMember.isLoading}
             disabled={editTeamMember.isLoading}
             title="Edit Team member"

@@ -216,7 +216,6 @@ model Enrollee {
   alias                 String
   email                 String
   referralCode          String?
-  following             String?
   socialMediaHandle     String?
   instagramHandle       String?
   instagramFollowers    String?

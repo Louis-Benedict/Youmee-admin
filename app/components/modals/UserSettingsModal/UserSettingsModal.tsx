@@ -108,7 +108,6 @@ const EditTeamMemberModal = () => {
     return (
         <RModal
             isOpen={isOpen}
-            onOpenChange={() => {}}
             isLoading={editTeamMember.isLoading}
             disabled={editTeamMember.isLoading}
             title="Adjust your user settings"

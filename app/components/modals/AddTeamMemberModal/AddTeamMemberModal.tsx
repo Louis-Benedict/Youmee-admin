@@ -104,7 +104,6 @@ const AddTeamMemberModal = () => {
             secondaryAction={addTeamMemberModal.onClose}
             secondaryActionLabel="Cancel"
             primaryAction={handleSubmit(onSubmit as any)}
-            onOpenChange={() => {}}
             isLoading={true}
             title="Add Teammember"
             subtitle="Create a new teammember"
