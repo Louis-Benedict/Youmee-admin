@@ -25,6 +25,7 @@ export default async function RootLayout({
                         accentColor="pink"
                         radius="medium"
                         className="h-full"
+                        appearance="light"
                     >
                         <AuthProvider>{children}</AuthProvider>
                     </Theme>
