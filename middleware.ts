@@ -15,8 +15,6 @@ export default withAuth(
 
         const isAuthPage = req.nextUrl.pathname.startsWith('/login')
 
-        console.log(isAuth)
-
         if (isAuthPage) {
             if (isAuth) {
                 return NextResponse.redirect(new URL('/', req.url))

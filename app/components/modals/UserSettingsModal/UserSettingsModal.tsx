@@ -3,7 +3,7 @@
 import { useEffect, useMemo } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import DropdownInput from '../../inputs/CountryInput'
+import DropdownInput from '../../inputs/DropdownInput'
 import { UserRole } from '@prisma/client'
 import useUserSettingsModal from './useUserSettingsModal'
 import {

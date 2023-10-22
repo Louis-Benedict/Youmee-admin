@@ -8,20 +8,25 @@ export default async function createNewTeamMember({
     name,
     email,
     phoneNumber,
+    lineId,
     role,
     image,
     password,
+    commissionPercentage,
 }: any) {
     try {
-        const hashedPassword = await bcrypt.hash(password, 12)
+        const hashedPassword = await bcrypt.hash(password || 'placeholder', 12)
+
         const createdTeamMember = await prisma.user.create({
             data: {
                 name,
                 email,
                 phoneNumber,
+                lineId,
                 role,
                 image,
                 hashedPassword,
+                commissionPercentage,
             },
         })
         return createdTeamMember

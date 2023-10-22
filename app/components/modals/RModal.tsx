@@ -43,7 +43,10 @@ const RModal: FC<RModalProps> = ({
 
                 <Flex gap="3" mt="4" justify="end">
                     {secondaryAction && (
-                        <Dialog.Close onClick={secondaryAction}>
+                        <Dialog.Close
+                            onClick={secondaryAction}
+                            data-testid="secondary-button"
+                        >
                             <Button
                                 variant="soft"
                                 color="gray"
@@ -54,7 +57,10 @@ const RModal: FC<RModalProps> = ({
                         </Dialog.Close>
                     )}
                     {primaryAction && (
-                        <Dialog.Close onClick={primaryAction}>
+                        <Dialog.Close
+                            onClick={primaryAction}
+                            data-testid="primary-button"
+                        >
                             <Button disabled={disabled}>
                                 {isLoading && (
                                     <Loader2 className="animate-spin" />

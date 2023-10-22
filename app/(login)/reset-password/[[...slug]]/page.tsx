@@ -6,7 +6,7 @@ interface IParams {
     slug: string[]
 }
 
-const Page = async ({ params }: { params: IParams }) => {
+const ResetPasswordPage = async ({ params }: { params: IParams }) => {
     const tokenSlug = params?.slug?.[0]
     var tokenError = null
 
@@ -24,4 +24,4 @@ const Page = async ({ params }: { params: IParams }) => {
     )
 }
 
-export default Page
+export default ResetPasswordPage

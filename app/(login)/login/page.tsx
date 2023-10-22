@@ -59,6 +59,7 @@ const LoginPage = () => {
                         disabled={isLoading}
                         register={register}
                         errors={errors}
+                        testid="email-input"
                         required
                     />
                     <FormInput
@@ -67,6 +68,7 @@ const LoginPage = () => {
                         disabled={isLoading}
                         register={register}
                         errors={errors}
+                        testid="password-input"
                         required
                     />
                     <Text color="red" size="1">
@@ -75,6 +77,7 @@ const LoginPage = () => {
                     <Button
                         onClick={handleSubmit(onSubmit)}
                         className="w-full h-10 mt-4"
+                        data-testid="login-button"
                     >
                         {isLoading ? (
                             <Loader2 className="animate-spin" />

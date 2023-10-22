@@ -2,22 +2,21 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import axios from 'axios'
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { toastMessages } from '@/app/static/toastMessages'
-import {
-    ResetPasswordSchema,
-    resetPasswordSchema,
-} from '@/app/libs/validation/authValidation'
-
 import { cn } from '@/app/libs/util'
 import { Check } from 'lucide-react'
-import PageInput from '../inputs/PageInput'
 import { toast } from '../ui/toast'
 import Heading from '../ui/Heading'
 import Spacer from '../ui/Spacer'
 import { Button } from '@radix-ui/themes'
+import FormInput from '../inputs/FormInput'
+import {
+    ResetPasswordSchema,
+    resetPasswordSchema,
+} from '@/app/libs/validation/authValidation'
 
 interface ResetPasswordFormProps {
     token: string
@@ -58,22 +57,22 @@ const ResetPasswordForm: FC<ResetPasswordFormProps> = ({ token }) => {
 
                 <div className="flex flex-col gap-4 items-center w-full ">
                     <div className="my-2 flex flex-col gap-8 w-full">
-                        <PageInput
+                        <FormInput
                             id="password"
                             label="Password"
-                            type="password"
                             disabled={isLoading}
                             register={register}
                             errors={errors}
+                            testid="password-input"
                             required
                         />
-                        <PageInput
+                        <FormInput
                             id="retypedPassword"
                             label="Enter password again"
-                            type="password"
                             disabled={isLoading}
                             register={register}
                             errors={errors}
+                            testid="repassword-input"
                             required
                         />
                     </div>
@@ -81,6 +80,7 @@ const ResetPasswordForm: FC<ResetPasswordFormProps> = ({ token }) => {
                     <Button
                         className="w-full h-10"
                         onClick={handleSubmit(onSubmit)}
+                        data-testid="submit-button"
                     >
                         Confirm
                     </Button>

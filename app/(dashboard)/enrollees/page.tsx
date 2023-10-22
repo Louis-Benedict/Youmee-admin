@@ -29,7 +29,7 @@ const ConfirmDialog = dynamic(
     () => import('@/app/components/modals/ConfirmDialog/ConfirmDialog')
 )
 
-export default function Page() {
+export default function EnrolleesPage() {
     const addEnrolleeModal = useAddEnrolleeModal()
     const viewEnrolleeModal = useViewEnrolleeModal()
     const deleteEnrollee = useDeleteEnrollee()
@@ -78,14 +78,18 @@ export default function Page() {
             />
             <DashboardHeader
                 title="Enrollees"
+                data-testid="header"
                 actions={[
-                    <IconButton
-                        key="x1"
-                        onClick={addEnrolleeModal.onOpen}
-                        variant="soft"
-                    >
-                        <UserPlus size={20} />
-                    </IconButton>,
+                    <div className="flex flex-col">
+                        <IconButton
+                            key="x1"
+                            onClick={addEnrolleeModal.onOpen}
+                            variant="soft"
+                        >
+                            <UserPlus size={20} />
+                        </IconButton>
+                        <span className="text-[10px] text-center">Add</span>
+                    </div>,
                     <TextField.Root key="x2">
                         <TextField.Slot>
                             <Search height="16" width="16" />
@@ -95,16 +99,16 @@ export default function Page() {
                 ]}
             />
             <Tabs.Root defaultValue="new" mt="4">
-                <Tabs.List size="2" color="#000">
+                <Tabs.List size="2" color="#000" data-testid="new-tab">
                     <Tabs.Trigger value="new">
                         <Mails size={16} className="mr-1" />
                         New ({newEnrollees.length})
                     </Tabs.Trigger>
-                    <Tabs.Trigger value="rejected">
+                    <Tabs.Trigger value="rejected" data-testid="rejected-tab">
                         <ThumbsDown size={14} className="mr-1" />
                         Rejected ({rejectedEnrollees.length})
                     </Tabs.Trigger>
-                    <Tabs.Trigger value="approved">
+                    <Tabs.Trigger value="approved" data-testid="approved-tab">
                         <BadgeCheck size={16} className="mr-1" />
                         Approved ({approvedEnrollees.length})
                     </Tabs.Trigger>

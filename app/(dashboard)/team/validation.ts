@@ -14,7 +14,7 @@ export const teamMemberSchema = z.object({
     image: z.string().nullish(),
     phoneNumber: phoneValidation,
     lineId: z.string(),
-    password: passwordValidation,
+    // password: passwordValidation,
     role: z.nativeEnum(UserRole),
     commissionPercentage: z
         .number()

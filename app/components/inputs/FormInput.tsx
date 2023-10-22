@@ -11,6 +11,7 @@ interface FormInputProps {
     register: UseFormRegister<any>
     errors: FieldErrors
     asNumber?: boolean
+    testid?: string
 }
 
 const FormInput: FC<FormInputProps> = ({
@@ -22,27 +23,34 @@ const FormInput: FC<FormInputProps> = ({
     required,
     disabled,
     asNumber,
+    testid,
 }) => {
     return (
         <div className="relative">
-            <label>
+            <label htmlFor={id}>
                 <Text as="div" size="2" mb="1" weight="medium">
                     {label}
                 </Text>
-                <TextField.Input
-                    id={id}
-                    type={asNumber ? 'number' : 'text'}
-                    {...register(id, {
-                        valueAsNumber: asNumber!!,
-                    })}
-                    required={required}
-                    disabled={disabled}
-                    placeholder={placeholder}
-                />
-                <div className="absolute right-1 top-1 text-xs text-red-500">
-                    {errors[id]?.message?.toString()}
-                </div>
             </label>
+            <TextField.Input
+                id={id}
+                type={asNumber ? 'number' : 'text'}
+                {...register(id, {
+                    valueAsNumber: asNumber!!,
+                })}
+                required={required}
+                disabled={disabled}
+                placeholder={placeholder}
+                data-testid={testid}
+            />
+            {errors[id] && (
+                <div
+                    className="absolute right-1 top-1 text-xs text-red-500"
+                    data-testid={testid + '-error'}
+                >
+                    {errors[id]!.message?.toString()}
+                </div>
+            )}
         </div>
     )
 }

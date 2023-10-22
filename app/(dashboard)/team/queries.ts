@@ -35,7 +35,6 @@ const TeamMemberEndpoint: Endpoint<TeamMember, TeamApiResponse> = {
         return response.data[0]
     },
     edit: async (user: Partial<TeamMember> & { id: string }) => {
-        console.log(user)
         const response = await ApiClient.put<
             Partial<TeamMember>,
             TeamApiResponse
@@ -107,11 +106,12 @@ const useAddTeamMember = () => {
     return useMutation({
         mutationFn: TeamMemberEndpoint.add,
         onSuccess: (addedTeamMember) => {
-            queryClient.setQueriesData<TeamMember[]>(['team'], (previous) => {
-                return previous
-                    ? [...previous, addedTeamMember]
-                    : [addedTeamMember]
-            })
+            queryClient.removeQueries(['team'])
+            // queryClient.setQueriesData<TeamMember[]>(['team'], (previous) => {
+            //     return previous
+            //         ? [...previous, addedTeamMember]
+            //         : [addedTeamMember]
+            // })
         },
     })
 }

@@ -51,7 +51,7 @@ const SidebarLinkContainer: FC<SidebarLinkContainerProps> = ({
                     <div className="flex flex-col mt-4 gap-2 dark:bg-primary-dark w-full">
                         <Button
                             onClick={() =>
-                                signOut({ callbackUrl: config.host })
+                                signOut({ callbackUrl: config.baseUrl })
                             }
                         >
                             Sign out

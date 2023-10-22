@@ -22,7 +22,19 @@ async function getTeamMembers(req: NextRequest) {
 
 async function createTeamMember(req: NextRequest) {
     const body = await req.json()
-    const { name, email, phoneNumber, role, image, password } = body
+    var {
+        name,
+        email,
+        phoneNumber,
+        role,
+        image,
+        lineId,
+        commissionPercentage,
+    } = body
+
+    if (role !== UserRole.RECRUITER) {
+        commissionPercentage = undefined
+    }
 
     const createdTeamMember = await createNewTeamMember({
         name,
@@ -30,7 +42,8 @@ async function createTeamMember(req: NextRequest) {
         phoneNumber,
         role,
         image,
-        password,
+        lineId,
+        commissionPercentage,
     })
 
     const resetToken = JWT.sign({ email }, process.env.NEXTAUTH_SECRET!, {
