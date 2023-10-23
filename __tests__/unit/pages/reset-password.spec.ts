@@ -43,7 +43,10 @@ describe('Reset Password Page', () => {
     })
 
     it('renders form with valid token param', async () => {
-        const token = jwt.sign('no data', process.env.NEXTAUTH_SECRET!)
+        const token = jwt.sign(
+            'testtoken_userdata',
+            process.env.NEXTAUTH_SECRET!
+        )
         const props = {
             params: { slug: [token] },
             searchParams: {},
