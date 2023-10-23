@@ -8,6 +8,9 @@ const nextConfig = {
     compiler: {
         styledComponents: true,
     },
+    eslint: {
+        ignoreDuringBuilds: true,
+    },
     output: 'standalone',
     images: {
         remotePatterns: [

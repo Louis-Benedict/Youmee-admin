@@ -80,9 +80,8 @@ export default function EnrolleesPage() {
                 title="Enrollees"
                 data-testid="header"
                 actions={[
-                    <div className="flex flex-col">
+                    <div key="x1" className="flex flex-col">
                         <IconButton
-                            key="x1"
                             onClick={addEnrolleeModal.onOpen}
                             variant="soft"
                         >
