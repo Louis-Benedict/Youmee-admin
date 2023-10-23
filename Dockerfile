@@ -3,8 +3,8 @@ FROM node:18-alpine AS deps
 WORKDIR /app
 COPY package*.json .
 ARG NODE_ENV
-ENV NODE_ENV $NODE_ENV
-RUN npm install
+ENV NODE_ENV ${NODE_ENV}
+RUN npm ci
 
 # Stage 2: build
 FROM node:18-alpine AS builder
@@ -13,8 +13,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY app ./app
 COPY public ./public
 COPY prisma ./prisma
-COPY package.json .env next.config.js tsconfig.json ./
-RUN npx prisma generate
+COPY package-lock.json next.config.js middleware.ts postcss.config.js tailwind.config.js tsconfig.json ./
 RUN npm run build
 
 # Stage 3: run

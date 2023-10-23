@@ -35,7 +35,7 @@ jobs:
             - name: Jest Unittests
               env:
                   NEXTAUTH_SECRET: ${{secrets.NEXTAUTH_SECRET}}
-              run: npm test:coverage
+              run: npm run test:coverage
 
     docker-build:
         runs-on: ubuntu-latest
