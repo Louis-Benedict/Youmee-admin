@@ -13,7 +13,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY app ./app
 COPY public ./public
 COPY prisma ./prisma
-COPY package-lock.json next.config.js middleware.ts postcss.config.js tailwind.config.js tsconfig.json ./
+COPY package-lock.json package.json next.config.js middleware.ts postcss.config.js tailwind.config.js tsconfig.json ./
 RUN npm run build
 
 # Stage 3: run
