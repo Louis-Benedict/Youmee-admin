@@ -83,7 +83,6 @@ const AddEnrolleeForm = forwardRef<FormHandle, unknown>((_, ref) => {
                     errors={errors}
                     isLoading={adding}
                     control={control}
-                    data-testid="country-select"
                 />
                 <FormInput
                     id="alias"
@@ -188,4 +187,6 @@ const AddEnrolleeForm = forwardRef<FormHandle, unknown>((_, ref) => {
         </div>
     )
 })
+
+AddEnrolleeForm.displayName = 'AddEnrolleeForm'
 export default AddEnrolleeForm
