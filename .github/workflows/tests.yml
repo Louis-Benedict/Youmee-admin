@@ -13,7 +13,13 @@ jobs:
         steps:
             - name: Checkout Repository
               uses: actions/checkout@v3
-
+            - uses: actions/cache@v2
+              with:
+                  path: |
+                      node_modules
+                  key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+                  restore-keys: |
+                      ${{ runner.os }}-npm-
             - uses: actions/cache@v3
               with:
                   path: ${{ github.workspace }}/.next/cache
@@ -49,7 +55,7 @@ jobs:
               uses: actions/cache@v3
               with:
                   path: /tmp/.buildx-cache
-                  key: ${{ runner.os }}-buildx-${{ hashFiles('**/yarn.lock') }}
+                  key: ${{ runner.os }}-buildx-${{ hashFiles('**/package-lock.json') }}
                   restore-keys: |
                       ${{ runner.os }}-buildx-
             # And make it available for the builds
@@ -66,3 +72,29 @@ jobs:
               run: |
                   rm -rf /tmp/.buildx-cache
                   mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+    make_main_pull_request:
+        name: Create PR Release to Main
+        needs: docker-build
+        runs-on: ubuntu-latest
+        steps:
+            - name: git checkout
+              uses: actions/checkout@v3
+              with:
+                  token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+
+            - name: create pull request
+              id: open-pr
+              uses: repo-sync/pull-request@v2
+              with:
+                  github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+                  destination_branch: ${{ github.event.repository.default_branch }}
+                  pr_title: '[Automated] Merge ${{ github.ref_name }} into ${{ github.event.repository.default_branch }}'
+                  pr_body: 'Automated Pull Request'
+
+            - name: enable automerge
+              if: steps.open-pr.outputs.pr_number != ''
+              uses: peter-evans/enable-pull-request-automerge@v2
+              with:
+                  token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+                  pull-request-number: ${{ steps.open-pr.outputs.pr_number }}
+                  merge-method: merge
