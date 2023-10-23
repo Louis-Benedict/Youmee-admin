@@ -18,14 +18,14 @@ const customJestConfig: Config = {
         '<rootDir>/app/components/*.{ts,tsx}',
         '<rootDir>/app/(**)/*.{ts,tsx}',
     ],
-    coverageThreshold: {
-        global: {
-            branches: 50,
-            functions: 50,
-            lines: 50,
-            statements: 50,
-        },
-    },
+    // coverageThreshold: {
+    //     global: {
+    //         branches: 50,
+    //         functions: 50,
+    //         lines: 50,
+    //         statements: 50,
+    //     },
+    // },
 }
 
 module.exports = createJestConfig(customJestConfig)

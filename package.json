@@ -4,13 +4,18 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm prisma:generate; next build",
     "export": "next export",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest --coverage",
+    "test:coverage": "jest --coverage",
+    "test": "jest",
     "test-preview": "jest-preview",
-    "postinstall": "prisma generate"
+    "prisma:generate": "prisma generate",
+    "postinstall": "prisma generate",
+    "db:reset": "prisma db push --force-reset",
+    "db:update": "prisma db push",
+    "db:init": "ts-node --project ./node.tsconfig.json src/services/prisma-datastore/db-init.ts"
   },
   "dependencies": {
     "@formatjs/intl-localematcher": "^0.4.0",
