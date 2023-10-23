@@ -8,7 +8,7 @@
     "export": "next export",
     "start": "next start",
     "lint": "next lint",
-    "test": "cross-env NODE_OPTIONS=--trace-warnings jest --watch --coverage",
+    "test": "jest --coverage",
     "test-preview": "jest-preview",
     "postinstall": "prisma generate"
   },
