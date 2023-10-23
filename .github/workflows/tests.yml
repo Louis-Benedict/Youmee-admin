@@ -74,7 +74,6 @@ jobs:
                   mv /tmp/.buildx-cache-new /tmp/.buildx-cache
     make_main_pull_request:
         name: Create PR Release to Main
-        needs: docker-build
         runs-on: ubuntu-latest
         steps:
             - name: git checkout
