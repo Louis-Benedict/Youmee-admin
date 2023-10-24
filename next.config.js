@@ -16,10 +16,6 @@ const nextConfig = {
         remotePatterns: [
             {
                 protocol: 'https',
-                hostname: 'youmee-s3.s3.eu-central-1.amazonaws.com',
-            },
-            {
-                protocol: 'https',
                 hostname: 'd1ljz7er88cmtt.cloudfront.net',
             },
             {
