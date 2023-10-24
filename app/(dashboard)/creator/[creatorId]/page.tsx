@@ -8,7 +8,6 @@ import {
     Mail,
     Phone,
     SquareAsterisk,
-    X,
 } from 'lucide-react'
 import Avatar from '@/app/components/ui/Avatar'
 import { concatUrl } from '@/app/config/s3'

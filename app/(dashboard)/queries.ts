@@ -1,8 +1,12 @@
 import getQueryClient from '@/app/libs/ReactQuery'
 import { Enrollee, Order, User, UserRole } from '@prisma/client'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
-import { Range } from 'react-date-range'
+
+type Range = {
+    startDate: string
+    endDate: string
+}
 
 /* CREATOR QUERIES */
 export const fetchCreators = async (): Promise<User[]> => {
