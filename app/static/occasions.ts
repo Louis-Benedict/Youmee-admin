@@ -1,4 +1,3 @@
-import { useTranslations } from 'next-intl'
 import {
     Cake,
     Flame,
@@ -12,39 +11,38 @@ import Icons from '../libs/icons'
 
 export const getOccasions = () => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const t = useTranslations('common')
 
     return [
         {
-            label: t('birthday'),
+            label: 'birthday',
             icon: Cake,
         },
         {
-            label: t('graduation'),
+            label: 'graduation',
             icon: GraduationCap,
         },
         {
-            label: t('wedding'),
+            label: 'wedding',
             icon: Icons.FaRing,
         },
         {
-            label: t('custom'),
+            label: 'custom',
             icon: UserCog,
         },
         {
-            label: t('advice'),
+            label: 'advice',
             icon: MessageSquare,
         },
         {
-            label: t('roast'),
+            label: 'roast',
             icon: Flame,
         },
         {
-            label: t('peptalk'),
+            label: 'peptalk',
             icon: MessageCircle,
         },
         {
-            label: t('invite'),
+            label: 'invite',
             icon: MailCheck,
         },
     ]
