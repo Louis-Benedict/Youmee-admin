@@ -32,10 +32,9 @@ jobs:
             - name: Build and push
               uses: docker/build-push-action@v5
               with:
-                  context: .
-                  file: Dockerfile.prod
+                  file: Dockerfile
                   push: true
-                  tags: youmee-admin/app:latest
+                  tags: louisbenedictb/youmee:latest
                   cache-from: type=local,src=/tmp/.buildx-cache
                   cache-to: type=local,dest=/tmp/.buildx-cache-new
 
