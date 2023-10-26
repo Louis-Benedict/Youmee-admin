@@ -29,7 +29,7 @@ jobs:
 
             - name: Lookup EC2 Instance ID
               id: instance_status
-              run: ./__scripts/getEC2InstanceIDbyName.sh ${{secrets.EC2_INSTANCENAME}}
+              run: bash ${GITHUB_WORKSPACE}/__scripts/getEC2InstanceIDbyName.sh ${{secrets.EC2_INSTANCENAME}}
 
             - name: Run EC2 Instance if stopped
               if: ${{steps.instance_status.outputs}} != ''
@@ -39,7 +39,7 @@ jobs:
             - name: Lookup EC2 Instance Public IP
               if: ${{steps.instance_status.outputs}} != ''
               id: instance_public_ip
-              run: ./__scripts/awaitEC2Start.sh ${{secrets.EC2_INSTANCENAME}}
+              run: bash ${GITHUB_WORKSPACE}/__scripts/awaitEC2Start.sh ${{secrets.EC2_INSTANCENAME}}
 
             - name: Copy Dockerfile to Instance
               uses: appleboy/scp-action@v0.1.4
@@ -56,4 +56,4 @@ jobs:
                   host: ec2-user@${{ steps.instance_public_ip.outputs }}
                   username: ${{ secrets.EC2_USERNAME }}
                   key: ${{ secrets.GHA_EC2_SSH_ACCESSKEY }}
-                  script: ./__scripts/zeroDowntimeDeployment.sh ${{secrets.DOCKERHUB_USERNAME}}
+                  script: bash ${GITHUB_WORKSPACE}/__scripts/zeroDowntimeDeployment.sh ${{secrets.DOCKERHUB_USERNAME}}
