@@ -1,4 +1,4 @@
 #!/bin/sh
   
-result="$(aws ec2 describe-instances  --filters  Name=tag:Name,Values=$1 Name=instance-state-name,Values=running  --query  Reservations[].Instances[].InstanceId --output text)"
-echo "INSTANCE_ID=$result"
+result="$(aws ec2 describe-instances  --filters  Name=tag:Name,Values=youmee-testing  --query  Reservations[].Instances[].State --output text)"
+echo "INSTANCE_STATE=$result"
