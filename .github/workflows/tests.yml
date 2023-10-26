@@ -7,7 +7,7 @@ on:
         branches: [dev]
 
 jobs:
-    test:
+    tests:
         runs-on: ubuntu-latest
         environment: development
         steps:
@@ -42,8 +42,8 @@ jobs:
               env:
                   NEXTAUTH_SECRET: ${{secrets.NEXTAUTH_SECRET}}
               run: npm run test:coverage
-    make_main_pull_request:
-        name: Create PR Release to Main
+    automerge-master:
+        name: Auto Merge main
         runs-on: ubuntu-latest
         steps:
             - name: git checkout
