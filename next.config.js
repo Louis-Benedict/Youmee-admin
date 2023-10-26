@@ -1,3 +1,4 @@
+import config from './app/config/config'
 /**
  * @format
  * @type {import('next').NextConfig}
@@ -16,12 +17,12 @@ const nextConfig = {
         remotePatterns: [
             {
                 protocol: 'https',
-                hostname: 'd1ljz7er88cmtt.cloudfront.net',
+                hostname: config.cdnBaseUrl,
             },
             {
                 protocol: 'http',
-                hostname: 'localhost',
-                port: '3000',
+                hostname: config.host,
+                port: config.port,
             },
         ],
     },
