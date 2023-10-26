@@ -22,7 +22,7 @@ jobs:
             - name: Login AWS
               uses: aws-actions/configure-aws-credentials@v4
               with:
-                  role-duration-seconds: 900
+                  audience: sts.amazonaws.com
                   role-to-assume: ${{secrets.AWS_GHA_OIDC_ROLE}}
                   aws-region: ${{secrets.AWS_REGION}}
 
