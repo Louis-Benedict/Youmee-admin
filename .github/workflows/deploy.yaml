@@ -36,8 +36,8 @@ jobs:
               run: echo "$(./getEC2InstanceIDbyName.sh ${{secrets.EC2_INSTANCENAME}})" >> $GITHUB_OUTPUT
 
             - name: Run EC2 Instance if stopped
-              if: ${{steps.instance_status.outputs}} == ''
-              run: aws ec2 start-instances --instance-id ${{steps.instance_status.outputs}}
+              if: steps.instance_status.outputs.INSTANCE_ID == ''
+              run: aws ec2 start-instances --instance-id ${{steps.instance_status.outputs.INSTANCE_ID}}
 
               # Wait for the instance to come online
             - name: Lookup EC2 Instance Public IP
