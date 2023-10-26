@@ -7,16 +7,15 @@ on:
 jobs:
     docker-build:
         runs-on: ubuntu-latest
+        environment: production
         defaults:
             run:
                 shell: bash
                 working-directory: ./__scripts
-        environment: production
         permissions:
             id-token: write
             contents: read
-        env:
-            INSTANCE_ID:
+
         steps:
             - uses: actions/checkout@v3
             - name: Login to Docker Hub
@@ -29,17 +28,16 @@ jobs:
             - name: Login AWS
               uses: aws-actions/configure-aws-credentials@v4
               with:
-                  audience: sts.amazonaws.com
                   role-to-assume: arn:aws:iam::623557680318:role/GitHubAction-AssumeRoleWithAction.
                   aws-region: ${{secrets.AWS_REGION}}
 
             - name: Lookup EC2 Instance ID
               id: instance_status
-              run: ./getEC2InstanceIDbyName.sh ${{secrets.EC2_INSTANCENAME}} >> $GITHUB_OUTPUT
+              run: echo "$(./getEC2InstanceIDbyName.sh ${{secrets.EC2_INSTANCENAME}})" >> $GITHUB_OUTPUT
 
             - name: Run EC2 Instance if stopped
               if: ${{steps.instance_status.outputs}} != ''
-              run: aws ec2 start-instances --instance-id ${{steps.instance_status.outputs}}
+              run: aws ec2 start-instances --instance-id ${{steps.instance_status.outputs.INSTANCE_ID}}
 
               # Wait for the instance to come online
             - name: Lookup EC2 Instance Public IP
