@@ -26,7 +26,7 @@ until [[ -n "$INSTANCE_PUBLIC_IP" || $RETRIES -gt $MAX_RETRIES ]]
 do
     INSTANCE_PUBLIC_IP=$(poll_instance "$1")
     if [[ -z "$INSTANCE_PUBLIC_IP" ]]; then
-        echo "[$RETRIES/$MAX_RETRIES] Polling instance..." 
+        # echo "[$RETRIES/$MAX_RETRIES] Polling instance..." 
         ((RETRIES=RETRIES+1))
         sleep 1
     fi
