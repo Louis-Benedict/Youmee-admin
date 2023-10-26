@@ -19,11 +19,12 @@ jobs:
                   username: ${{secrets.DOCKERHUB_USERNAME}}
                   password: ${{secrets.DOCKERHUB_ACCESSTOKEN}}
 
+            # https://aws.amazon.com/blogs/security/use-iam-roles-to-connect-github-actions-to-actions-in-aws/
             - name: Login AWS
               uses: aws-actions/configure-aws-credentials@v4
               with:
                   audience: sts.amazonaws.com
-                  role-to-assume: ${{secrets.AWS_GHA_OIDC_ROLE}}
+                  role-to-assume: arn:aws:iam::623557680318:role/GitHubAction-AssumeRoleWithAction
                   aws-region: ${{secrets.AWS_REGION}}
 
             - name: Lookup EC2 Instance ID
