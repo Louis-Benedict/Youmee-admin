@@ -24,7 +24,7 @@ jobs:
               uses: aws-actions/configure-aws-credentials@v4
               with:
                   audience: sts.amazonaws.com
-                  role-to-assume: arn:aws:iam::623557680318:role/GitHubAction-AssumeRoleWithAction
+                  role-to-assume: arn:aws:iam::623557680318:role/GitHubAction-AssumeRoleWithAction.
                   aws-region: ${{secrets.AWS_REGION}}
 
             - name: Lookup EC2 Instance ID
