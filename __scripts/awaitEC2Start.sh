@@ -39,5 +39,5 @@ if [[ -z "$INSTANCE_ID" ]]; then
 fi
 
 # Echo out the instance ID
-echo "$INSTANCE_ID"
+echo "INSTANCE_ID=$INSTANCE_ID"
 exit 0
