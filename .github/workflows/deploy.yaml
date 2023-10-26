@@ -10,7 +10,7 @@ jobs:
         defaults:
             run:
                 shell: bash
-                working-directory: ${GITHUB_WORKSPACE}/__scripts
+                working-directory: ./__scripts
         environment: production
         permissions:
             id-token: write
