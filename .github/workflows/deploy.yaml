@@ -57,7 +57,7 @@ jobs:
             - name: Pull and Replace latest Image
               uses: appleboy/ssh-action@v1.0.0
               with:
-                  host: ${{secrets.EC2_USERNAME}}@${{ steps.instance_public_ip.outputs.INSTANCE_PUBLIC_IP }}
+                  host: ${{ steps.instance_public_ip.outputs.INSTANCE_PUBLIC_IP }}
                   username: ${{ secrets.EC2_USERNAME }}
                   key: ${{ secrets.GHA_EC2_SSH_ACCESSKEY }}
                   script: zeroDowntimeDeployment.sh ${{secrets.DOCKERHUB_USERNAME}}
