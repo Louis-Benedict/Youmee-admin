@@ -26,6 +26,7 @@ model User {
   phoneNumber     String?
   lineId          String?
   role            UserRole @default(USER)
+  emailSubscribed Boolean @default(true)
 
   notifications Notification[]
   accounts      Account[]
