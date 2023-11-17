@@ -1,0 +1,27 @@
+services:
+    web-app:
+        build: .
+        image: louisbenedictb/youmee:latest
+        ports:
+            - 3000:3000/tcp
+
+    reverse-proxy:
+        context: ./reverse-proxy
+        image: yobasystems/alpine-nginx
+        depends_on:
+            - web-app
+        environment:
+            - HOST=admin.youmee.info
+        container_name: nginx-youmee
+        ports:
+            - 80:80/tcp
+            - 443:443/tcp
+        volumes:
+            - ./proxy/src:/usr/share/nginx/html
+            - ./proxy/ssl:/etc/nginx/ssl
+            - type: bind
+              source: ./proxy/nginx.conf.template
+              target: /etc/nginx/nginx.conf.template
+        command: /bin/bash -c "envsubst < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && nginx -g 'daemon off;'"
+
+networks: test-network

@@ -7,7 +7,7 @@ import {
     waitFor,
 } from '../../../utils/utils'
 import AddEnrolleeModal from '@/app/components/modals/AddEnrolleeModal/AddEnrolleeModal'
-import process from 'process'
+
 
 // Modals are by default closed. This mock sets it to an Open State.
 jest.mock(

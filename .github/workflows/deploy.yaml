@@ -47,16 +47,17 @@ jobs:
             - name: Copy Dockerfile to Instance
               uses: appleboy/scp-action@v0.1.4
               with:
-                  host: ${{ steps.instance_public_ip.outputs }}
+                  host: ${{ steps.instance_public_ip.outputs.INSTANCE_PUBLIC_IP }}
                   username: ${{ secrets.EC2_USERNAME }}
+                  port: 22
                   key: ${{ secrets.GHA_EC2_SSH_ACCESSKEY }}
-                  source: 'docker-compose.prod.yaml, proxy/*, __scripts/zeroDowntimeDeployment.sh'
-                  target: './app'
+                  source: 'docker-compose.prod.yaml,proxy,__scripts/zeroDowntimeDeployment.sh'
+                  target: 'app'
 
             - name: Pull and Replace latest Image
               uses: appleboy/ssh-action@v1.0.0
               with:
-                  host: ec2-user@${{ steps.instance_public_ip.outputs }}
+                  host: ${{secrets.EC2_USERNAME}}@${{ steps.instance_public_ip.outputs }}
                   username: ${{ secrets.EC2_USERNAME }}
                   key: ${{ secrets.GHA_EC2_SSH_ACCESSKEY }}
                   script: zeroDowntimeDeployment.sh ${{secrets.DOCKERHUB_USERNAME}}
