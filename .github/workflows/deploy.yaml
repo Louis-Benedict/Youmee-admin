@@ -61,4 +61,4 @@ jobs:
                   username: ${{ secrets.EC2_USERNAME }}
                   key: ${{ secrets.GHA_EC2_SSH_ACCESSKEY }}
                   script: |
-                      ./app/noDowntimeDeployment.sh ${{secrets.DOCKERHUB_USERNAME}}
+                      ./app/__scripts/noDowntimeDeployment.sh ${{secrets.DOCKERHUB_USERNAME}}
