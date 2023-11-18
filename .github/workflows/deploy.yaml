@@ -11,7 +11,7 @@ jobs:
         defaults:
             run:
                 shell: bash
-                working-directory: ./__scripts
+                working-directory: ./__scripts__
         permissions:
             id-token: write
             contents: read
@@ -51,7 +51,7 @@ jobs:
                   username: ${{ secrets.EC2_USERNAME }}
                   port: 22
                   key: ${{ secrets.GHA_EC2_SSH_ACCESSKEY }}
-                  source: 'docker-compose.yaml,proxy,__scripts/noDowntimeDeployment.sh'
+                  source: 'docker-compose.yaml,proxy,__scripts__/noDowntimeDeployment.sh'
                   target: 'app'
 
             - name: Pull and Replace latest Image
@@ -61,4 +61,4 @@ jobs:
                   username: ${{ secrets.EC2_USERNAME }}
                   key: ${{ secrets.GHA_EC2_SSH_ACCESSKEY }}
                   script: |
-                      ./app/__scripts/noDowntimeDeployment.sh ${{secrets.DOCKERHUB_USERNAME}}
+                      ./app/__scripts__/noDowntimeDeployment.sh ${{secrets.DOCKERHUB_USERNAME}}

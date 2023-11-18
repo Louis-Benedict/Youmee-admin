@@ -1,17 +1,19 @@
 services:
     web-app:
-        build: .
         image: louisbenedictb/youmee:latest
-        ports:
-            - 3000:3000/tcp
+
+    redis-cache:
+        image: redis:7.0-alpine
 
     reverse-proxy:
-        context: ./reverse-proxy
-        image: yobasystems/alpine-nginx
+        image: nginx:alpine-1
+        restart: always
         depends_on:
             - web-app
         environment:
-            - HOST=admin.youmee.info
+            - HOST=${HOST}
+            - HOST=${HOST}
+            - HOST=${HOST}
         container_name: nginx-youmee
         ports:
             - 80:80/tcp
@@ -22,6 +24,6 @@ services:
             - type: bind
               source: ./proxy/nginx.conf.template
               target: /etc/nginx/nginx.conf.template
-        command: /bin/bash -c "envsubst < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && nginx -g 'daemon off;'"
-
-networks: test-network
+        command: |
+            /
+            /bin/bash -c "envsubst < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && nginx -g 'daemon off;'"
