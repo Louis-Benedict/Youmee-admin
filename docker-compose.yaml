@@ -1,20 +1,16 @@
+version: '3'
 services:
-    web-app:
+    youmee_admin:
         image: louisbenedictb/youmee:latest
 
     redis-cache:
         image: redis:7.0-alpine
 
-    reverse-proxy:
-        image: nginx:alpine-1
+    reverse_proxy:
+        image: nginx:1-alpine
         restart: always
         depends_on:
-            - web-app
-        environment:
-            - HOST=${HOST}
-            - HOST=${HOST}
-            - HOST=${HOST}
-        container_name: nginx-youmee
+            - youmee_admin
         ports:
             - 80:80/tcp
             - 443:443/tcp
@@ -22,8 +18,7 @@ services:
             - ./proxy/src:/usr/share/nginx/html
             - ./proxy/ssl:/etc/nginx/ssl
             - type: bind
-              source: ./proxy/nginx.conf.template
-              target: /etc/nginx/nginx.conf.template
+              source: ./proxy/nginx.conf
+              target: /etc/nginx/nginx.conf
         command: |
-            /
             /bin/bash -c "envsubst < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && nginx -g 'daemon off;'"
