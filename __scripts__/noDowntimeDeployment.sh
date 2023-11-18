@@ -1,8 +1,16 @@
-#/bin/sh
+#!/bin/sh
 
 docker pull $1/youmee:latest
 RUNNING_CONTAINER=$(docker ps | grep $1/youmee)
-if [[ -z $RUNNING_CONTAINER ]]; then docker-compose up -d; else docker-compose scale web=2 --no-recreate
+
+if [[ -z $RUNNING_CONTAINER ]]; then 
+    echo "No running container found. Starting containers..."
+    docker-compose up -d
+else 
+    echo "Containers already running. Attempting hot reload..."
+    docker-compose scale web=2 --no-recreate
+fi
+
 sleep 10
 docker rm -f youmee_old
 docker-compose up -d --scale web=1 --no-recreate
