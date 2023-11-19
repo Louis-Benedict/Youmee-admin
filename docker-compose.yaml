@@ -1,12 +1,20 @@
 version: '3'
 services:
     youmee_admin:
+        container_name: 'yma-app'
         image: louisbenedictb/youmee:latest
+        environment:
+            - DATABASE_URL=${DATABASE_URL}
+            - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
 
     redis-cache:
+        container_name: 'yma-cache'
         build: ./redis
+        environment:
+            - ALLOW_EMPTY_PASSWORD=yes
 
     proxy:
+        container_name: 'yma-admin-proxy'
         build: ./proxy
         restart: always
         depends_on:

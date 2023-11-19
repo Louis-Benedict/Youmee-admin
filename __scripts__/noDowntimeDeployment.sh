@@ -1,7 +1,7 @@
 #!/bin/sh
 
 docker pull $1/youmee:latest
-RUNNING_CONTAINER=$(docker ps | grep $1/youmee)
+RUNNING_CONTAINER=$(docker container ps -q | wc -l | grep $1/youmee)
 
 if [[ -z $RUNNING_CONTAINER ]]; then 
     echo "No running container found. Starting containers..."
@@ -13,4 +13,4 @@ fi
 
 sleep 10
 docker rm -f youmee_old
-docker-compose up -d --scale web=1 --no-recreate
+docker-compose up -d -f ../docker --scale web=1 --no-recreate

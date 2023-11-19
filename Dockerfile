@@ -21,11 +21,6 @@ RUN npm run build
 FROM node:18-alpine
 WORKDIR /app
 
-RUN --mount=type=secret,id=DATABASE_URL \
- --mount=type=secret,id=AWS_REGION \
- --mount=type=secret,id=AWS_ACCESS_KEY_ID \
- --mount=type=secret,id=AWS_SECRET_ACCESS_KEY \
- --mount=type=secret,id=NEXTAUTH_SECRET 
 
 ENV NODE_ENV production
 ENV NEXT_TELEMETRY_DISABLED 1
