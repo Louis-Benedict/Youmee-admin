@@ -17,10 +17,9 @@ services:
             - 80:80/tcp
             - 443:443/tcp
         volumes:
-            - ./proxy/src:/usr/share/nginx/html
             - ./proxy/ssl:/etc/nginx/ssl
             - type: bind
-              source: ./proxy/nginx.conf
-              target: /etc/nginx/nginx.conf
+              source: ./proxy/default.conf
+              target: /etc/nginx/conf.d
         command: |
-            /bin/bash -c "envsubst < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && nginx -g 'daemon off;'"
+            /bin/sh -c "nginx -g 'daemon off;'"
