@@ -54,8 +54,6 @@ jobs:
                   DATABASE_URL="$DATABASE_URL"
                   EOF
 
-                  cat .env
-
             - name: Copy Resources to Instance
               uses: appleboy/scp-action@v0.1.4
               with:
@@ -63,7 +61,7 @@ jobs:
                   username: ${{ secrets.EC2_USERNAME }}
                   port: 22
                   key: ${{ secrets.GHA_EC2_SSH_ACCESSKEY }}
-                  source: 'docker-compose.yaml,proxy,__scripts__/noDowntimeDeployment.sh,redis,.env'
+                  source: '.env,docker-compose.yaml,proxy,__scripts__/noDowntimeDeployment.sh,redis'
                   target: 'app'
 
             - name: Pull and Replace latest Image
