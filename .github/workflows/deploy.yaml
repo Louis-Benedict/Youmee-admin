@@ -49,6 +49,7 @@ jobs:
                   NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
                   DATABASE_URL: ${{ secrets.DATABASE_URL }}
               run: |
+                  cd ..
                   cat <<EOF > .env
                   NEXTAUTH_SECRET="$NEXTAUTH_SECRET"
                   DATABASE_URL="$DATABASE_URL"
