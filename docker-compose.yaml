@@ -4,12 +4,10 @@ services:
         image: louisbenedictb/youmee:latest
 
     redis-cache:
-        build:
-            - ./redis
+        build: ./redis
 
     proxy:
-        build:
-            - ./proxy
+        build: ./proxy
         restart: always
         depends_on:
             - youmee_admin
