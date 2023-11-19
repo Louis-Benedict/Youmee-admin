@@ -54,6 +54,8 @@ jobs:
                   DATABASE_URL="$DATABASE_URL"
                   EOF
 
+                  ls -la
+
             - name: Copy Resources to Instance
               uses: appleboy/scp-action@v0.1.4
               with:
