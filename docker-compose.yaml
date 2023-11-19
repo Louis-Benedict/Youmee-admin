@@ -24,8 +24,5 @@ services:
             - 443:443/tcp
         volumes:
             - ./proxy/ssl:/etc/nginx/ssl
-            - type: bind
-              source: ./proxy/default.conf
-              target: /etc/nginx/conf.d
         command: |
             /bin/sh -c "nginx -g 'daemon off;'"
