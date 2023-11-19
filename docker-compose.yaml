@@ -4,10 +4,12 @@ services:
         image: louisbenedictb/youmee:latest
 
     redis-cache:
-        image: redis:7.0-alpine
+        build:
+            - ./redis
 
-    reverse_proxy:
-        image: nginx:1-alpine
+    proxy:
+        build:
+            - ./proxy
         restart: always
         depends_on:
             - youmee_admin
