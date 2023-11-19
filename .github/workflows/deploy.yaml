@@ -51,7 +51,7 @@ jobs:
                   username: ${{ secrets.EC2_USERNAME }}
                   port: 22
                   key: ${{ secrets.GHA_EC2_SSH_ACCESSKEY }}
-                  source: 'docker-compose.yaml,proxy,__scripts__/noDowntimeDeployment.sh'
+                  source: 'docker-compose.yaml,proxy,__scripts__/noDowntimeDeployment.sh,redis'
                   target: 'app'
 
             - name: Pull and Replace latest Image
