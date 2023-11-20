@@ -11,7 +11,7 @@ const host = process.env.HOST
 const port = process.env.PORT
 const protocol = process.env.PROTOCOL
 
-const nextConfig: NextConfig = {
+const nextConfig = {
     reactStrictMode: true,
     compiler: {
         styledComponents: true,
@@ -24,15 +24,15 @@ const nextConfig: NextConfig = {
         remotePatterns: [
             {
                 protocol: 'https',
-                hostname: s3Host!,
+                hostname: s3Host,
             },
             {
                 protocol: 'https',
-                hostname: cfHost!,
+                hostname: cfHost,
             },
             {
-                protocol: protocol! as 'http' | 'https',
-                hostname: host!,
+                protocol: protocol,
+                hostname: host,
                 port: port,
             },
         ],
