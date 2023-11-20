@@ -1,3 +1,4 @@
+'use server'
 import { NextRequest, NextResponse } from 'next/server'
 import { withAuth } from 'next-auth/middleware'
 import { getToken } from 'next-auth/jwt'
@@ -5,6 +6,8 @@ import { UserRole } from '@prisma/client'
 
 export default withAuth(
     async function middleware(req: NextRequest) {
+        const requestHeaders = new Headers(req.headers)
+        requestHeaders.forEach((entry) => console.log(entry))
         // Manage route protection
         const token = await getToken({ req })
         const isAuth =

@@ -3,6 +3,12 @@
  * @type {import('next').NextConfig}
  */
 
+const s3Host = process.env.NEXT_PUBLIC_S3_URL
+const cfHost = process.env.NEXT_PUBLIC_CF_URL
+const host = process.env.HOST
+const port = process.env.PORT
+const protocol = process.env.PROTOCOL
+
 const nextConfig = {
     reactStrictMode: true,
     compiler: {
@@ -16,12 +22,16 @@ const nextConfig = {
         remotePatterns: [
             {
                 protocol: 'https',
-                hostname: 'd1ljz7er88cmtt.cloudfront.net',
+                hostname: s3Host,
             },
             {
-                protocol: 'http',
-                hostname: 'localhost',
-                port: '3000',
+                protocol: 'https',
+                hostname: cfHost,
+            },
+            {
+                protocol: protocol,
+                hostname: host,
+                port: port,
             },
         ],
     },

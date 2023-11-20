@@ -36,12 +36,6 @@ jobs:
                       louisbenedictb/youmee:${{github.sha}}
                   cache-from: type=local,src=/tmp/.buildx-cache
                   cache-to: type=local,dest=/tmp/.buildx-cache-new
-                  secrets: |
-                      "DATABASE_URL=${{ secrets.DATABASE_URL }}"
-                      "AWS_REGION=${{ secrets.AWS_REGION }}"
-                      "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}"
-                      "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}"
-                      "NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}"
 
             - name: Move cache
               run: |

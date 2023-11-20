@@ -1,62 +1,10 @@
-function globalVariable(varName: any, defaultValue: any) {
-    try {
-        return window[varName] || defaultValue
-    } catch {
-        // @eslint-ignore
-        return process.env[varName] || defaultValue
+export function getConfig(environment = process.env.export) {
+    return {
+        baseUrl: process.env.NEXT_PUBLIC_BASEURL,
+        apiBaseUrl: process.env.NEXT_PUBLIC_API_BASEURL,
+        cdnBaseUrl: process.env.NEXT_PUBLIC_CF_URL,
+        s3BaseUrl: process.env.NEXT_PUBLIC_S3_URL,
     }
-}
-
-const NODE_ENV = globalVariable('NODE_ENV', 'development')
-const HOST = globalVariable('HOST', 'localhost')
-const PORT = globalVariable('PORT', 3000)
-const APIPORT = globalVariable('APIPORT', 3000)
-const APIVERSION = globalVariable('APIVERSION', 'v1')
-
-const production = {
-    environment: 'production',
-    s3BaseUrl: 'https://youmee-th.s3.ap-southeast-1.amazonaws.com/',
-    cdnBaseUrl: 'https://d1ljz7er88cmtt.cloudfront.net/',
-    website: 'https://admin.youmee.info',
-    emailAddress: 'noreply@youmee.info',
-}
-
-const development = {
-    environment: 'development',
-    s3BaseUrl: 'https://youmee-th.s3.ap-southeast-1.amazonaws.com/',
-    cdnBaseUrl: 'https://d1ljz7er88cmtt.cloudfront.net/',
-    emailAddress: 'noreply@youmee.info',
-}
-
-const localdev = {
-    ...development,
-}
-
-const test = {
-    ...localdev,
-}
-
-const configurations: any = {
-    localdev,
-    test,
-    development,
-    production,
-}
-
-export function getConfig(environment = NODE_ENV) {
-    return Object.assign(
-        {
-            environment,
-            company: 'Youmee',
-            host: HOST,
-            port: PORT,
-            apiPort: APIPORT,
-            apiVersion: APIVERSION,
-            baseUrl: `http://${HOST}:${PORT}`,
-            apiBaseUrl: `http://${HOST}:${APIPORT}/api/${APIVERSION}`,
-        },
-        configurations[environment]
-    )
 }
 
 export const config = getConfig()
