@@ -5,6 +5,8 @@ services:
         depends_on:
             - proxy
             - redis-cache
+        env_file:
+            - .env
 
     redis-cache:
         build: ./redis
