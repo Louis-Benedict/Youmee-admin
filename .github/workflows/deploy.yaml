@@ -46,17 +46,22 @@ jobs:
 
             - name: Setup Environment
               env:
+                  HOST: ${{secrets.DOMAINNAME}}
+                  APIPORT: 3000
+                  APIVERSION: 'v1'
+                  PROTOCOL: https
+                  PORT: 3000
                   NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
                   DATABASE_URL: ${{ secrets.DATABASE_URL }}
-                  DOMAINNAME: ${{secrets.DOMAINNAME}}
               run: |
                   cd ..
                   cat <<EOF > .env
                   NODE_ENV=production
                   NEXTAUTH_SECRET="$NEXTAUTH_SECRET"
                   DATABASE_URL="$DATABASE_URL"
-                  HOST="$DOMAINNAME"
-                  PORT=3000
+                  NEXT_PUBLIC_BASEURL="$PROTOCOL://$HOST:$PORT"
+                  NEXT_PUBLIC_API_BASEURL="$NEXT_PUBLIC_BASEURL/api/$APIVERSION"
+                  NEXTAUTH_URL="$NEXT_PUBLIC_API_BASEURL/auth"
                   EOF
 
                   ls -la
