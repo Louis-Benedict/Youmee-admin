@@ -11,11 +11,14 @@ if [[ -z $RUNNING_CONTAINER ]]; then
     (test $? -eq 0 || echo "Failed to start containers") > 2&
 else 
     echo "Containers already running. Attempting hot reload..."
-    docker-compose scale youmee-admin=2 --no-recreate
+    docker-compose scale admin-app=2 --no-recreate
 fi
 
+echo "Waiting for container startup..."
 sleep 10
-docker rm -f youmee_old
-docker-compose -f ../docker-compose.yaml up -d --scale youmee-admin=1 
+echo "Deleting old container..."
+docker rm -f app-admin-app-1
+docker-compose -f ../docker-compose.yaml up -d --scale admin-app=1 
+docker container prune -f
 
 (test $? -eq 0 || echo "Failed to scale containers") > 2&
