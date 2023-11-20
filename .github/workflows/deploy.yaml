@@ -60,8 +60,8 @@ jobs:
                   NEXTAUTH_SECRET="$NEXTAUTH_SECRET"
                   DATABASE_URL="$DATABASE_URL"
                   NEXT_PUBLIC_BASEURL="$PROTOCOL://$HOST:$PORT"
-                  NEXT_PUBLIC_API_BASEURL="$NEXT_PUBLIC_BASEURL/api/$APIVERSION"
-                  NEXTAUTH_URL="$NEXT_PUBLIC_API_BASEURL/auth"
+                  NEXT_PUBLIC_API_BASEURL="$PROTOCOL://$HOST:$PORT/api/$APIVERSION"
+                  NEXTAUTH_URL="$PROTOCOL://$HOST:$PORT/api/$APIVERSION/auth"
                   EOF
 
                   ls -la
