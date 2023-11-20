@@ -3,8 +3,6 @@
  * @type {import('next').NextConfig}
  */
 
-import { NextConfig } from 'next'
-
 const s3Host = process.env.NEXT_PUBLIC_S3_URL
 const cfHost = process.env.NEXT_PUBLIC_CF_URL
 const host = process.env.HOST
