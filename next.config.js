@@ -3,12 +3,6 @@
  * @type {import('next').NextConfig}
  */
 
-const s3Host = process.env.NEXT_PUBLIC_S3_URL
-const cfHost = process.env.NEXT_PUBLIC_CF_URL
-const host = process.env.HOST
-const port = process.env.PORT
-const protocol = process.env.PROTOCOL
-
 const nextConfig = {
     reactStrictMode: true,
     compiler: {
@@ -18,20 +12,26 @@ const nextConfig = {
         ignoreDuringBuilds: true,
     },
     output: 'standalone',
+    poweredByHeader: false,
     images: {
         remotePatterns: [
             {
                 protocol: 'https',
-                hostname: s3Host,
+                hostname: 'youmee-th.s3.ap-southeast-1.amazonaws.com',
             },
             {
                 protocol: 'https',
-                hostname: cfHost,
+                hostname: 'https://d1ljz7er88cmtt.cloudfront.net/',
             },
             {
-                protocol: protocol,
-                hostname: host,
-                port: port,
+                protocol: 'http',
+                hostname: 'localhost',
+                port: 3000,
+            },
+            {
+                protocol: 'https',
+                hostname: 'youmee.admin.co.th',
+                port: 3000,
             },
         ],
     },
