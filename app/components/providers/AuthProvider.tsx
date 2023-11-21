@@ -9,7 +9,7 @@ type Props = {
 
 export const AuthProvider = ({ children }: Props) => {
     return (
-        <SessionProvider basePath={`/api/${config.apiVersion}/auth`}>
+        <SessionProvider basePath={`${config.apiBaseUrl}/auth`}>
             {children}
         </SessionProvider>
     )
