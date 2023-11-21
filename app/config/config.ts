@@ -6,7 +6,7 @@ export function getConfig() {
             process.env.NEXT_PUBLIC_API_BASEURL!,
         cdnBaseUrl: process.env.NEXT_PUBLIC_CF_URL!,
         s3BaseUrl: process.env.NEXT_PUBLIC_S3_URL!,
-        emailAddress: process.env.EMAIL_SENDER,
+        emailAddress: process.env.EMAIL_SENDER!,
     })
 }
 
