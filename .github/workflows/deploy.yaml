@@ -70,8 +70,6 @@ jobs:
                   NEXT_PUBLIC_API_BASEURL="$NEXT_PUBLIC_BASEURL/api/$APIVERSION"
                   EOF
 
-                  ls -la
-
             - name: Copy Resources to Instance
               uses: appleboy/scp-action@v0.1.4
               with:
