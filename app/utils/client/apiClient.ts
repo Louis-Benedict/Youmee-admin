@@ -1,6 +1,6 @@
 import { toast } from '@/app/components/ui/toast'
 import { config } from '@/app/config/config'
-import { EndpointErrorResponse, EndpointResponse } from '@/app/types'
+import { EndpointErrorResponse } from '@/app/types'
 import { ApiError } from 'next/dist/server/api-utils'
 
 export declare class ApiResponseError extends ApiError {

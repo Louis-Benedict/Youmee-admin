@@ -6,8 +6,6 @@ import { UserRole } from '@prisma/client'
 
 export default withAuth(
     async function middleware(req: NextRequest) {
-        const requestHeaders = new Headers(req.headers)
-        requestHeaders.forEach((entry) => console.log(entry))
         // Manage route protection
         const token = await getToken({ req })
         const isAuth =
