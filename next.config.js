@@ -21,7 +21,7 @@ const nextConfig = {
             },
             {
                 protocol: 'https',
-                hostname: 'https://d1ljz7er88cmtt.cloudfront.net/',
+                hostname: 'd1ljz7er88cmtt.cloudfront.net',
             },
             {
                 protocol: 'http',
