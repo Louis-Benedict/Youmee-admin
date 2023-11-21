@@ -1,10 +1,10 @@
 export function getConfig() {
     return Object.freeze({
         baseUrl: process.env.NEXT_PUBLIC_BASEURL!,
-        apiBaseUrl: process.env.NEXT_PUBLIC_API_BASEURL!,
+        apiBaseUrl: '/api/v1',
         cdnBaseUrl: process.env.NEXT_PUBLIC_CF_URL!,
         s3BaseUrl: process.env.NEXT_PUBLIC_S3_URL!,
-        emailAddress: process.env.EMAIL_SENDER,
+        emailAddress: process.env.NEXT_PUBLIC_EMAIL_SENDER!,
     })
 }
 
