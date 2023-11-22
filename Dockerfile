@@ -11,6 +11,8 @@ RUN npm ci
 FROM node:18-alpine AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
+COPY .env ./
+RUN ls -lA
 COPY app ./app
 COPY public ./public
 COPY prisma ./prisma
