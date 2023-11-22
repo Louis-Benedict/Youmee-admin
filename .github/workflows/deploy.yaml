@@ -50,8 +50,8 @@ jobs:
                   DATABASE_URL: ${{ secrets.DATABASE_URL }}
               run: |
                   cd ..
-                  export NODE_ENV=production
-                  cat <<EOF > .env.production
+                  cat <<EOF > .env
+                  NODE_ENV=production
                   NEXTAUTH_SECRET="$NEXTAUTH_SECRET"
                   DATABASE_URL="$DATABASE_URL"
                   EOF
