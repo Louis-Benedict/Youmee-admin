@@ -12,10 +12,11 @@ FROM node:18-alpine AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 RUN ls -lA
+RUN env
 COPY app ./app
 COPY public ./public
 COPY prisma ./prisma
-COPY package-lock.json package.json next.config.js middleware.ts postcss.config.js tailwind.config.js tsconfig.json .env ./
+COPY package-lock.json package.json next.config.js middleware.ts postcss.config.js tailwind.config.js tsconfig.json ./
 RUN npm run build
 
 # Stage 3: run
