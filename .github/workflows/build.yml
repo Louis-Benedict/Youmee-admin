@@ -39,16 +39,18 @@ jobs:
                   NEXT_PUBLIC_CF_URL: ${{ secrets.NEXT_PUBLIC_CF_URL}}
                   EMAIL_SENDER: ${{secrets.EMAIL_FROM}}
               run: |
+                  ls -lA
                   cd ..
-                  export NODE_ENV=production
-                  cat <<EOF > .env.production
+                  cat <<EOF > .env
+                  NODE_ENV=production
                   NEXTAUTH_URL="$PROTOCOL://$HOST:$PORT/api/$APIVERSION/auth"
                   NEXT_PUBLIC_S3_URL="$NEXT_PUBLIC_S3_URL"
                   NEXT_PUBLIC_CF_URL="$NEXT_PUBLIC_CF_URL"
                   NEXT_PUBLIC_EMAIL_SENDER="$EMAIL_SENDER"
                   NEXT_PUBLIC_BASEURL="$PROTOCOL://$HOST:$PORT"
-                  NEXT_PUBLIC_API_BASEURL="$NEXT_PUBLIC_BASEURL/api/$APIVERSION"
+                  NEXT_PUBLIC_API_BASEURL="/api/$APIVERSION"
                   EOF
+                  ls -lA
 
             - name: Build and push
               uses: docker/build-push-action@v5
