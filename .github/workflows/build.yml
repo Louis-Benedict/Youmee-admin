@@ -40,7 +40,6 @@ jobs:
                   EMAIL_SENDER: ${{secrets.EMAIL_FROM}}
               run: |
                   ls -lA
-                  cd ..
                   cat <<EOF > .env
                   NODE_ENV=production
                   NEXTAUTH_URL="$PROTOCOL://$HOST:$PORT/api/$APIVERSION/auth"
