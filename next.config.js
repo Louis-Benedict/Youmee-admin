@@ -13,6 +13,7 @@ const nextConfig = {
     },
     output: 'standalone',
     poweredByHeader: false,
+    assetPrefix: 'youmee.admin.co.th',
     images: {
         remotePatterns: [
             {

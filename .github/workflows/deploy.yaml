@@ -44,30 +44,16 @@ jobs:
               id: instance_public_ip
               run: echo "$(./awaitEC2Start.sh ${{secrets.EC2_INSTANCENAME}})" >> $GITHUB_OUTPUT
 
-            - name: Setup Environment
+            - name: Setup production environment
               env:
-                  HOST: ${{secrets.DOMAINNAME}}
-                  APIPORT: 3000
-                  APIVERSION: 'v1'
-                  PROTOCOL: https
-                  PORT: 3000
-                  NEXT_PUBLIC_S3_URL: ${{ secrets.NEXT_PUBLIC_S3_URL}}
-                  NEXT_PUBLIC_CF_URL: ${{ secrets.NEXT_PUBLIC_CF_URL}}
-                  EMAIL_SENDER: ${{secrets.EMAIL_FROM}}
                   NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
                   DATABASE_URL: ${{ secrets.DATABASE_URL }}
               run: |
                   cd ..
-                  cat <<EOF > .env
-                  NODE_ENV=production
+                  export NODE_ENV=production
+                  cat <<EOF > .env.production
                   NEXTAUTH_SECRET="$NEXTAUTH_SECRET"
                   DATABASE_URL="$DATABASE_URL"
-                  NEXTAUTH_URL="$PROTOCOL://$HOST:$PORT/api/$APIVERSION/auth"
-                  NEXT_PUBLIC_S3_URL="$NEXT_PUBLIC_S3_URL"
-                  NEXT_PUBLIC_CF_URL="$NEXT_PUBLIC_CF_URL"
-                  NEXT_PUBLIC_EMAIL_SENDER="$EMAIL_SENDER"
-                  NEXT_PUBLIC_BASEURL="$PROTOCOL://$HOST:$PORT"
-                  NEXT_PUBLIC_API_BASEURL="$NEXT_PUBLIC_BASEURL/api/$APIVERSION"
                   EOF
 
             - name: Copy Resources to Instance
