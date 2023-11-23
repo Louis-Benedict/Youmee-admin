@@ -12,6 +12,11 @@ docker pull $1/youmee:latest
 
 cd ~/app
 old_container_id=$(docker ps -f name=$service_name -q | tail -n1)
+if [[ -z  $old_container_id ]]; then
+    echo 'No running container found. Starting containers...'
+    docker-compose up -d 
+    exit 0
+fi
 docker-compose up -d --no-deps --scale $service_name=2 --no-recreate $service_name
 new_container_id=$(docker ps -f name=$service_name -q | head -n1)
 new_container_ip=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $new_container_id)
