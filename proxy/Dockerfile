@@ -9,6 +9,8 @@ RUN rm /etc/nginx/conf.d/*
 COPY ./default.conf /etc/nginx/conf.d/
 COPY ./proxy_params /etc/nginx/proxy_params
 
+EXPOSE 443
+EXPOSE 80
 
 # Launch NGINX
 CMD [ "nginx", "-g", "daemon off;" ]
