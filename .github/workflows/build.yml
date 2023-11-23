@@ -30,11 +30,11 @@ jobs:
             #  https://nextjs.org/docs/pages/building-your-application/configuring/environment-variables
             - name: Setup production environment
               env:
-                  HOST: ${{secrets.DOMAINNAME}}
                   APIPORT: 3000
                   APIVERSION: 'v1'
                   PROTOCOL: https
                   PORT: 3000
+                  HOST: ${{secrets.DOMAINNAME}}
                   NEXT_PUBLIC_S3_URL: ${{ secrets.NEXT_PUBLIC_S3_URL}}
                   NEXT_PUBLIC_CF_URL: ${{ secrets.NEXT_PUBLIC_CF_URL}}
                   EMAIL_SENDER: ${{secrets.EMAIL_FROM}}
@@ -61,6 +61,12 @@ jobs:
                       louisbenedictb/youmee:${{github.sha}}
                   cache-from: type=local,src=/tmp/.buildx-cache
                   cache-to: type=local,dest=/tmp/.buildx-cache-new
+                  build-args: |
+                      NEXT_PUBLIC_S3_URL=${{ secrets.NEXT_PUBLIC_S3_URL }}
+                      NEXT_PUBLIC_CF_URL=${{ secrets.NEXT_PUBLIC_CF_URL }}
+                      NEXT_PUBLIC_API_BASEURL="/api/$APIVERSION"
+                      NEXT_PUBLIC_EMAIL_SENDER="$EMAIL_SENDER"
+                      NEXT_PUBLIC_BASEURL="$PROTOCOL://$HOST:$PORT"
 
             - name: Move cache
               run: |
