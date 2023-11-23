@@ -1,4 +1,4 @@
-name: Build and Deploy
+name: Build and Push
 on:
     push:
         branches: [main]
@@ -39,16 +39,13 @@ jobs:
                   NEXT_PUBLIC_CF_URL: ${{ secrets.NEXT_PUBLIC_CF_URL}}
                   EMAIL_SENDER: ${{secrets.EMAIL_FROM}}
               run: |
-                  ls -lA
-                  cat <<EOF > buildtime-environment
-                  NODE_ENV=production
-                  NEXTAUTH_URL="$PROTOCOL://$HOST:$PORT/api/$APIVERSION/auth"
-                  NEXT_PUBLIC_S3_URL="$NEXT_PUBLIC_S3_URL"
-                  NEXT_PUBLIC_CF_URL="$NEXT_PUBLIC_CF_URL"
-                  NEXT_PUBLIC_EMAIL_SENDER="$EMAIL_SENDER"
-                  NEXT_PUBLIC_BASEURL="$PROTOCOL://$HOST:$PORT"
-                  NEXT_PUBLIC_API_BASEURL="/api/$APIVERSION"
-                  EOF
+                  export NODE_ENV=production
+                  export NEXTAUTH_URL="$PROTOCOL://$HOST:$PORT/api/$APIVERSION/auth"
+                  export NEXT_PUBLIC_S3_URL="$NEXT_PUBLIC_S3_URL"
+                  export NEXT_PUBLIC_CF_URL="$NEXT_PUBLIC_CF_URL"
+                  export NEXT_PUBLIC_EMAIL_SENDER="$EMAIL_SENDER"
+                  export NEXT_PUBLIC_BASEURL="$PROTOCOL://$HOST:$PORT"
+                  export NEXT_PUBLIC_API_BASEURL="/api/$APIVERSION"
                   env
                   ls -lA
 
@@ -63,11 +60,12 @@ jobs:
                   cache-from: type=local,src=/tmp/.buildx-cache
                   cache-to: type=local,dest=/tmp/.buildx-cache-new
                   build-args: |
-                      "NEXT_PUBLIC_S3_URL=$NEXT_PUBLIC_S3_URL"
-                      "NEXT_PUBLIC_CF_URL=$NEXT_PUBLIC_CF_URL"
-                      "NEXT_PUBLIC_API_BASEURL=$NEXT_PUBLIC_API_BASEURL"
-                      "NEXT_PUBLIC_EMAIL_SENDER=$NEXT_PUBLIC_EMAIL_SENDER"
-                      "NEXT_PUBLIC_BASEURL=$NEXT_PUBLIC_BASEURL"
+                      "NODE_ENV=production"
+                      "NEXT_PUBLIC_S3_URL=${{secrets.NEXT_PUBLIC_S3_URL}}"
+                      "NEXT_PUBLIC_CF_URL=${{ secrets.NEXT_PUBLIC_CF_URL}}"
+                      "NEXT_PUBLIC_API_BASEURL=/api/v1"
+                      "NEXT_PUBLIC_EMAIL_SENDER=${{secrets.EMAIL_FROM}}"
+                      "NEXT_PUBLIC_BASEURL=https://admin.youmee.co.th"
 
             - name: Move cache
               run: |
