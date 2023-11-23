@@ -62,7 +62,7 @@ jobs:
                   build-args: |
                       "NEXT_PUBLIC_S3_URL=${{ secrets.NEXT_PUBLIC_S3_URL }}"
                       "NEXT_PUBLIC_CF_URL=${{ secrets.NEXT_PUBLIC_CF_URL }}"
-                      "NEXT_PUBLIC_API_BASEURL=${{ vars.APIVERSION }}"
+                      "NEXT_PUBLIC_API_BASEURL=api/${{ vars.APIVERSION }}"
                       "NEXT_PUBLIC_EMAIL_SENDER=${{ secrets.EMAIL_FROM }}"
                       "NEXT_PUBLIC_BASEURL=${{ vars.NEXT_PUBLIC_BASEURL }}"
 
