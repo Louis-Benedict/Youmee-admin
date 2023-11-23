@@ -1,13 +1,12 @@
 'use client'
 
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { FC } from 'react'
 import { signOut } from 'next-auth/react'
 import Link from 'next/link'
 import { NavbarLink } from '@/app/types'
 import { cn } from '@/app/libs/util'
 import { Button } from '@radix-ui/themes'
-import { config } from '@/app/config/config'
 
 interface SidebarLinkContainerProps {
     navbarLinks: NavbarLink[]
@@ -17,6 +16,7 @@ const SidebarLinkContainer: FC<SidebarLinkContainerProps> = ({
     navbarLinks,
 }) => {
     const pathname = usePathname()
+    const router = useRouter()
 
     return (
         <div className=" flex flex-col justify-between h-full">
@@ -50,9 +50,10 @@ const SidebarLinkContainer: FC<SidebarLinkContainerProps> = ({
                 <div key={'x'} className="relative">
                     <div className="flex flex-col mt-4 gap-2 dark:bg-primary-dark w-full">
                         <Button
-                            onClick={() =>
-                                signOut({ callbackUrl: config.baseUrl })
-                            }
+                            onClick={() => {
+                                signOut()
+                                router.push('/login')
+                            }}
                         >
                             Sign out
                         </Button>
