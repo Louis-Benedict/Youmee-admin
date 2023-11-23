@@ -26,7 +26,7 @@ COPY app ./app
 COPY public ./public
 COPY prisma ./prisma
 COPY package-lock.json package.json next.config.js middleware.ts postcss.config.js tailwind.config.js tsconfig.json ./
-RUN next build
+RUN npm run build
 
 # Stage 3: run
 FROM node:18-alpine
