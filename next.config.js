@@ -2,14 +2,16 @@
  * @format
  * @type {import('next').NextConfig}
  */
+const isProd = process.env.NODE_ENV === 'production'
 
 const nextConfig = {
     reactStrictMode: true,
+    compress: !isProd,
     compiler: {
         styledComponents: true,
     },
     eslint: {
-        ignoreDuringBuilds: true,
+        ignoreDuringBuilds: !isProd,
     },
     output: 'standalone',
     poweredByHeader: false,
