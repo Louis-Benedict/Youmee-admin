@@ -39,7 +39,6 @@ jobs:
                   cache-from: type=local,src=/tmp/.buildx-cache
                   cache-to: type=local,dest=/tmp/.buildx-cache-new
                   build-args: |
-                      "NODE_ENV=${{ vars.ENVIRONMENT }}"
                       "NEXT_PUBLIC_S3_URL=${{ secrets.NEXT_PUBLIC_S3_URL }}"
                       "NEXT_PUBLIC_CF_URL=${{ secrets.NEXT_PUBLIC_CF_URL }}"
                       "NEXT_PUBLIC_API_BASEURL=api/${{ vars.APIVERSION }}"
