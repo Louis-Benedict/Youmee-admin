@@ -28,26 +28,26 @@ jobs:
 
             # Public secrets need to be injected at build-time
             #  https://nextjs.org/docs/pages/building-your-application/configuring/environment-variables
-            - name: Setup production environment
-              env:
-                  APIPORT: 3000
-                  APIVERSION: 'v1'
-                  PROTOCOL: https
-                  PORT: 3000
-                  HOST: ${{secrets.DOMAINNAME}}
-                  NEXT_PUBLIC_S3_URL: ${{ secrets.NEXT_PUBLIC_S3_URL}}
-                  NEXT_PUBLIC_CF_URL: ${{ secrets.NEXT_PUBLIC_CF_URL}}
-                  EMAIL_SENDER: ${{secrets.EMAIL_FROM}}
-              run: |
-                  export NODE_ENV=production
-                  export NEXTAUTH_URL="$PROTOCOL://$HOST:$PORT/api/$APIVERSION/auth"
-                  export NEXT_PUBLIC_S3_URL="$NEXT_PUBLIC_S3_URL"
-                  export NEXT_PUBLIC_CF_URL="$NEXT_PUBLIC_CF_URL"
-                  export NEXT_PUBLIC_EMAIL_SENDER="$EMAIL_SENDER"
-                  export NEXT_PUBLIC_BASEURL="$PROTOCOL://$HOST:$PORT"
-                  export NEXT_PUBLIC_API_BASEURL="/api/$APIVERSION"
-                  env
-                  ls -lA
+            # - name: Setup production environment
+            #   env:
+            #       APIPORT: 3000
+            #       APIVERSION: 'v1'
+            #       PROTOCOL: https
+            #       PORT: 3000
+            #       HOST: ${{secrets.DOMAINNAME}}
+            #       NEXT_PUBLIC_S3_URL: ${{ secrets.NEXT_PUBLIC_S3_URL}}
+            #       NEXT_PUBLIC_CF_URL: ${{ secrets.NEXT_PUBLIC_CF_URL}}
+            #       EMAIL_SENDER: ${{secrets.EMAIL_FROM}}
+            #   run: |
+            #       export NODE_ENV=production
+            #       export NEXTAUTH_URL="$PROTOCOL://$HOST:$PORT/api/$APIVERSION/auth"
+            #       export NEXT_PUBLIC_S3_URL="$NEXT_PUBLIC_S3_URL"
+            #       export NEXT_PUBLIC_CF_URL="$NEXT_PUBLIC_CF_URL"
+            #       export NEXT_PUBLIC_EMAIL_SENDER="$EMAIL_SENDER"
+            #       export NEXT_PUBLIC_BASEURL="$PROTOCOL://$HOST:$PORT"
+            #       export NEXT_PUBLIC_API_BASEURL="/api/$APIVERSION"
+            #       env
+            #       ls -lA
 
             - name: Build and push
               uses: docker/build-push-action@v5
@@ -61,11 +61,11 @@ jobs:
                   cache-to: type=local,dest=/tmp/.buildx-cache-new
                   build-args: |
                       "NODE_ENV=production"
-                      "NEXT_PUBLIC_S3_URL=${{secrets.NEXT_PUBLIC_S3_URL}}"
-                      "NEXT_PUBLIC_CF_URL=${{ secrets.NEXT_PUBLIC_CF_URL}}"
-                      "NEXT_PUBLIC_API_BASEURL=/api/v1"
-                      "NEXT_PUBLIC_EMAIL_SENDER=${{secrets.EMAIL_FROM}}"
-                      "NEXT_PUBLIC_BASEURL=https://admin.youmee.co.th"
+                      "NEXT_PUBLIC_S3_URL=${{ secrets.NEXT_PUBLIC_S3_URL }}"
+                      "NEXT_PUBLIC_CF_URL=${{ secrets.NEXT_PUBLIC_CF_URL }}"
+                      "NEXT_PUBLIC_API_BASEURL=${{ vars.APIVERSION }}"
+                      "NEXT_PUBLIC_EMAIL_SENDER=${{ secrets.EMAIL_FROM }}"
+                      "NEXT_PUBLIC_BASEURL=${{ vars.NEXT_PUBLIC_BASEURL }}"
 
             - name: Move cache
               run: |
