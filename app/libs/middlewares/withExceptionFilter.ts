@@ -1,4 +1,3 @@
-// exceptionMiddleware.js
 import { authOptions } from '@/app/api/v1/auth/[...nextauth]/route'
 import {
     EndpointResponse,
@@ -9,6 +8,7 @@ import { HttpStatusCode } from 'axios'
 import { getServerSession } from 'next-auth'
 import { ApiError } from 'next/dist/server/api-utils'
 import { NextRequest, NextResponse } from 'next/server'
+import { getRequestIpAdress } from '../getRequestIp'
 
 type ApiHandler = (
     req: NextRequest,
@@ -31,11 +31,7 @@ export function withExceptionFilter(handler: ApiHandler) {
             const referer = headers.get('referer')
             const userAgent = headers.get('user-agent')
             const method = req.method
-            let ip
-
-            if (req.headers.get('x-forwarded-for')) {
-                ip = req.headers.get('x-forwarded-for')?.split(',')[0]
-            }
+            const ip = getRequestIpAdress(req)
 
             const timestamp = new Date().toISOString()
             const requestContext = {
@@ -60,7 +56,7 @@ export function withExceptionFilter(handler: ApiHandler) {
                 timestamp,
                 message:
                     exception instanceof ApiError ? message : 'Unknown error',
-                path: req.url,
+                path: url!,
                 data: [],
             }
 
