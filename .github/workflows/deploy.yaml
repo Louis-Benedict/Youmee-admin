@@ -54,7 +54,7 @@ jobs:
                   NODE_ENV=production
                   NEXTAUTH_SECRET="$NEXTAUTH_SECRET"
                   DATABASE_URL="$DATABASE_URL"
-                  REDIS_HOST="redis"
+                  REDIS_HOST="redis-cache"
                   REDIS_PORT=6379
                   EOF
 

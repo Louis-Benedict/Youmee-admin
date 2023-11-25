@@ -10,8 +10,6 @@ services:
 
     redis-cache:
         build: ./redis
-        env_file:
-            - .env
         environment:
             - ALLOW_EMPTY_PASSWORD=yes
 
