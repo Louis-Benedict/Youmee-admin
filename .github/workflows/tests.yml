@@ -33,7 +33,7 @@ jobs:
                   node-version-file: '.nvmrc'
 
             - name: Install Dependencies
-              run: npm install
+              run: npm ci
 
             - name: Run Lint
               run: npm run lint
