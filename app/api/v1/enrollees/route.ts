@@ -11,7 +11,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { authOptions } from '../auth/[...nextauth]/route'
 import { UserRole } from '@prisma/client'
 
-async function getAllEnrollees(req: NextRequest) {
+async function getAllEnrollees(req: NextRequest, res: NextResponse) {
     const session = await getServerSession(authOptions)
     if (!session) {
         throw new ApiError(
@@ -20,11 +20,34 @@ async function getAllEnrollees(req: NextRequest) {
         )
     }
 
-    const result = await rateLimiter(req)
-    if (!result.success) {
-        throw new ApiError(
-            HttpStatusCode.TooManyRequests,
-            'Too many requests. Try again later.'
+    await rateLimiter(req, res)
+
+    let enrollees = []
+    if (session.user.role === UserRole.RECRUITER) {
+        const cachedEnrolles = await redis.get(`enrollees:${session.user.id}`)
+        console.log('REDIS CACHE HIT: ' + cachedEnrolles)
+
+        if (cachedEnrolles) {
+            return NextResponse.json(
+                { message: 'Success', status: 200, data: [cachedEnrolles] },
+                { status: 200 }
+            )
+        }
+
+        enrollees = await prisma.enrollee.findMany({
+            where: {
+                recruiterUserId: session.user.id,
+            },
+        })
+
+        await redis.set(
+            `enrollees:${session.user.id}`,
+            JSON.stringify(enrollees)
+        )
+
+        return NextResponse.json(
+            { message: 'Success', status: 200, data: enrollees },
+            { status: 200 }
         )
     }
 
@@ -33,25 +56,6 @@ async function getAllEnrollees(req: NextRequest) {
     if (cachedEnrolles) {
         return NextResponse.json(
             { message: 'Success', status: 200, data: [cachedEnrolles] },
-            {
-                status: 200,
-                headers: {
-                    'X-RateLimit-Limit': result.limit,
-                    'X-RateLimit-Remaining': result.remaining,
-                },
-            }
-        )
-    }
-
-    let enrollees = []
-    if (session.user.role === UserRole.RECRUITER) {
-        enrollees = await prisma.enrollee.findMany({
-            where: {
-                recruiterUserId: session.user.id,
-            },
-        })
-        return NextResponse.json(
-            { message: 'Success', status: 200, data: enrollees },
             { status: 200 }
         )
     }
@@ -67,15 +71,10 @@ async function getAllEnrollees(req: NextRequest) {
             },
         },
     })
+
     return NextResponse.json(
         { message: 'Success', status: 200, data: enrollees },
-        {
-            status: 200,
-            headers: {
-                'X-RateLimit-Limit': result.limit,
-                'X-RateLimit-Remaining': result.remaining,
-            },
-        }
+        { status: 200 }
     )
 }
 
