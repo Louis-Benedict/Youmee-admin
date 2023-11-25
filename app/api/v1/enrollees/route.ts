@@ -1,6 +1,9 @@
+import prisma from '@/app/libs/prismadb'
+import redis from '@/app/libs/redis'
+import rateLimiter from '@/app/libs/RateLimiter'
+
 import { createEnrollee } from '@/app/actions/enrollee/createEnrollee'
 import { withExceptionFilter } from '@/app/libs/middlewares/withExceptionFilter'
-import prisma from '@/app/libs/prismadb'
 import { HttpStatusCode } from 'axios'
 import { getServerSession } from 'next-auth'
 import { ApiError } from 'next/dist/server/api-utils'
@@ -17,6 +20,29 @@ async function getAllEnrollees(req: NextRequest) {
         )
     }
 
+    const result = await rateLimiter(req)
+    if (!result.success) {
+        throw new ApiError(
+            HttpStatusCode.TooManyRequests,
+            'Too many requests. Try again later.'
+        )
+    }
+
+    const cachedEnrolles = await redis.get('enrollees')
+
+    if (cachedEnrolles) {
+        return NextResponse.json(
+            { message: 'Success', status: 200, data: [cachedEnrolles] },
+            {
+                status: 200,
+                headers: {
+                    'X-RateLimit-Limit': result.limit,
+                    'X-RateLimit-Remaining': result.remaining,
+                },
+            }
+        )
+    }
+
     let enrollees = []
     if (session.user.role === UserRole.RECRUITER) {
         enrollees = await prisma.enrollee.findMany({
@@ -24,7 +50,7 @@ async function getAllEnrollees(req: NextRequest) {
                 recruiterUserId: session.user.id,
             },
         })
-        return await NextResponse.json(
+        return NextResponse.json(
             { message: 'Success', status: 200, data: enrollees },
             { status: 200 }
         )
@@ -41,15 +67,21 @@ async function getAllEnrollees(req: NextRequest) {
             },
         },
     })
-    return await NextResponse.json(
+    return NextResponse.json(
         { message: 'Success', status: 200, data: enrollees },
-        { status: 200 }
+        {
+            status: 200,
+            headers: {
+                'X-RateLimit-Limit': result.limit,
+                'X-RateLimit-Remaining': result.remaining,
+            },
+        }
     )
 }
 
-async function newEnrollee(req: NextRequest) {
+async function addEnrollee(req: NextRequest) {
     const body = await req.json()
-    console.log(body)
+
     const {
         fullname,
         phoneNumber,
@@ -105,5 +137,5 @@ async function newEnrollee(req: NextRequest) {
     )
 }
 
-export const POST = withExceptionFilter(newEnrollee)
+export const POST = withExceptionFilter(addEnrollee)
 export const GET = withExceptionFilter(getAllEnrollees)
