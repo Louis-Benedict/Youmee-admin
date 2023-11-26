@@ -1,7 +1,7 @@
 import { toast } from 'react-hot-toast'
-import { MAX_FILE_SIZE_VIDEO } from '@/app/config/fileupload'
 import { FileTooLargeError } from '../libs/exceptions'
 import { s3ResponseSchema } from '../utils/validation/s3'
+import config from '../libs/aws/s3/config'
 
 interface UseS3UploadReturn {
     s3Upload: (
@@ -77,7 +77,8 @@ const uploadResourceToS3 = async (postUrl: string, formData: FormData) => {
 export const useS3VideoUpload = (): UseS3UploadReturn => {
     const s3Upload = async (file: File) => {
         try {
-            if (file.size > MAX_FILE_SIZE_VIDEO) throw new FileTooLargeError()
+            if (file.size > config.MAX_FILE_SIZE_VIDEO)
+                throw new FileTooLargeError()
 
             const { getUrl, key } = await uploadFile(file)
 

@@ -10,7 +10,6 @@ import {
     SquareAsterisk,
 } from 'lucide-react'
 import Avatar from '@/app/components/ui/Avatar'
-import { concatUrl } from '@/app/config/s3'
 import { AdminTable } from '@/app/components/ui/admin/AdminTable'
 import { Order, User } from '@prisma/client'
 import { ColumnDef } from '@tanstack/react-table'
@@ -18,6 +17,7 @@ import { useMemo } from 'react'
 import { fuzzySort } from '@/app/utils/util'
 import Heading from '@/app/components/ui/Heading'
 import { useRouter } from 'next/navigation'
+import { config } from '@/app/config/config'
 
 interface pageProps {
     creatorId: String
@@ -93,7 +93,7 @@ export default function Page({ params }: { params: { creatorId: string } }) {
                     <Avatar
                         size={50}
                         semi
-                        url={concatUrl(creator.data?.image as string)}
+                        url={config.cdnBaseUrl + creator.data?.image}
                     />
                     <div className="ml-4">
                         <div className="font-bold text-xl w-max dark:text-white text-primary-dark">
