@@ -1,15 +1,13 @@
 import prisma from '@/app/libs/prisma/prismadb'
-import getCurrentUser from '../currentUser/getCurrentUser'
+import { grantRoleAccess } from '../util/checkRoleAccess'
 
 export default async function getOrdersWithRecipient() {
     try {
-        const currentUser = await getCurrentUser()
-
-        if (!currentUser) return null
+        const { role, id } = await grantRoleAccess([])
 
         const clips = await prisma.order.findMany({
             where: {
-                senderUserId: currentUser.id,
+                senderUserId: id,
             },
             include: {
                 recipient: true,

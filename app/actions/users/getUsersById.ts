@@ -1,5 +1,5 @@
 import prisma from '@/app/libs/prisma/prismadb'
-import getCurrentUser from './currentUser/getCurrentUser'
+import { grantRoleAccess } from '../util/checkRoleAccess'
 
 interface IParams {
     favoriteIds: any
@@ -7,9 +7,8 @@ interface IParams {
 
 export default async function getUsersById(params: IParams) {
     try {
-        const currentUser = await getCurrentUser()
+        const { role, id } = await grantRoleAccess([])
 
-        if (!currentUser) throw new Error()
         const { favoriteIds } = params
 
         const user = await prisma.user.findMany({
