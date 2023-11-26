@@ -50,7 +50,8 @@ jobs:
                   rm -rf /tmp/.buildx-cache
                   mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
-    docker-build:
+    ### Deployment workflow ###
+    deploy-aws:
         needs: [build-push-image]
         runs-on: ubuntu-latest
         environment: production
