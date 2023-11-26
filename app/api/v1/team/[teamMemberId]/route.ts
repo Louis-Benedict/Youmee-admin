@@ -10,7 +10,6 @@ import { ApiRouteParameter } from '@/app/types'
 
 async function deleteTeamMember(
     req: NextRequest,
-    res: NextResponse,
     urlParameter: ApiRouteParameter
 ) {
     const { teamMemberId } = urlParameter.params
@@ -33,7 +32,6 @@ async function deleteTeamMember(
 
 async function editTeamMember(
     req: NextRequest,
-    res: NextResponse,
     urlParameter: ApiRouteParameter
 ) {
     const { teamMemberId } = urlParameter.params
@@ -67,7 +65,6 @@ async function editTeamMember(
 
 async function getTeamMember(
     req: NextRequest,
-    res: NextResponse,
     urlParameter: ApiRouteParameter
 ) {
     const { teamMemberId } = urlParameter.params

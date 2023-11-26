@@ -5,7 +5,6 @@ import { ApiRouteParameter } from '@/app/types'
 
 async function getAllEnrollees(
     req: NextRequest,
-    res: NextResponse,
     urlParameter: ApiRouteParameter
 ) {
     const { teamMemberId } = urlParameter.params

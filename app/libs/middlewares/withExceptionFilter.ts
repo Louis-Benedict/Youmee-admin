@@ -12,18 +12,13 @@ import { getRequestIpAdress } from '../getRequestIp'
 
 type ApiHandler = (
     req: NextRequest,
-    res: NextResponse,
     params: ApiRouteParameter
 ) => Promise<NextResponse<EndpointResponse<any> | EndpointErrorResponse>>
 
 export function withExceptionFilter(handler: ApiHandler) {
-    return async (
-        req: NextRequest,
-        res: NextResponse,
-        params: ApiRouteParameter
-    ) => {
+    return async (req: NextRequest, params: ApiRouteParameter) => {
         try {
-            return await handler(req, res, params)
+            return await handler(req, params)
         } catch (exception) {
             const { url, headers } = req
 
