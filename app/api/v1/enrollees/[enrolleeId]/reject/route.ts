@@ -8,9 +8,10 @@ import { ApiRouteParameter } from '@/app/types'
 
 async function rejectEnrollee(
     req: NextRequest,
-    urlParameter: ApiRouteParameter
+    res: NextResponse,
+    urlParameter?: ApiRouteParameter
 ) {
-    const enrolleeId = urlParameter.params?.enrolleeId
+    const enrolleeId = urlParameter?.params.enrolleeId
 
     if (!enrolleeId) {
         throw new ApiError(HttpStatusCode.BadRequest, 'Something went wrong...')

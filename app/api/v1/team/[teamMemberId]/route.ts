@@ -10,9 +10,10 @@ import { ApiRouteParameter } from '@/app/types'
 
 async function deleteTeamMember(
     req: NextRequest,
-    urlParameter: ApiRouteParameter
+    res: NextResponse,
+    urlParameter?: ApiRouteParameter
 ) {
-    const { teamMemberId } = urlParameter.params
+    const teamMemberId = urlParameter?.params.teamMemberId
 
     const deletedTeamMember = await prisma.user.delete({
         where: { id: teamMemberId },
@@ -32,9 +33,10 @@ async function deleteTeamMember(
 
 async function editTeamMember(
     req: NextRequest,
-    urlParameter: ApiRouteParameter
+    res: NextResponse,
+    urlParameter?: ApiRouteParameter
 ) {
-    const { teamMemberId } = urlParameter.params
+    const teamMemberId = urlParameter?.params.teamMemberId
 
     const body = await req.json()
     const { name, phoneNumber, role, lineId, commissionPercentage } = body
@@ -65,9 +67,10 @@ async function editTeamMember(
 
 async function getTeamMember(
     req: NextRequest,
-    urlParameter: ApiRouteParameter
+    res: NextResponse,
+    urlParameter?: ApiRouteParameter
 ) {
-    const { teamMemberId } = urlParameter.params
+    const teamMemberId = urlParameter?.params.teamMemberId
 
     const teamMember = await prisma.user.findUnique({
         where: {
