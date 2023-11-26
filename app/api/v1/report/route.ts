@@ -2,18 +2,11 @@ import AWS from 'aws-sdk'
 import { NextRequest, NextResponse } from 'next/server'
 import { withExceptionFilter } from '@/app/libs/middlewares/withExceptionFilter'
 import { sesConfig } from '@/app/config/ses'
-import { ApiError } from 'next/dist/server/api-utils'
 import { errorReportTemplate } from '@/app/utils/email_templates/errorReport'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '../auth/[...nextauth]/route'
-import { HttpStatusCode } from 'axios'
+import { grantRoleAccess } from '@/app/actions/checkRoleAccess'
 
 async function sendReport(req: NextRequest) {
-    const session = await getServerSession(authOptions)
-
-    if (!session) {
-        throw new ApiError(HttpStatusCode.Unauthorized, 'Not authorized')
-    }
+    await grantRoleAccess([])
 
     const body = await req.json()
     const { name, encounterLocation, description } = body
