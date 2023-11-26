@@ -1,7 +1,7 @@
 import prisma from '@/app/libs/prismadb'
 import redis from '@/app/libs/redis'
 
-export async function getEnrollees() {
+export async function getAll() {
     const cachedEnrolles = await redis.get('enrollees')
 
     if (cachedEnrolles) {

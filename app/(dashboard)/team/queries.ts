@@ -13,6 +13,8 @@ export type TeamMember = Pick<
     | 'phoneNumber'
     | 'id'
     | 'accountVerified'
+    | 'lineId'
+    | 'commissionPercentage'
 >
 
 export type TeamMemberEndpointFilter = EndpointFilter & {

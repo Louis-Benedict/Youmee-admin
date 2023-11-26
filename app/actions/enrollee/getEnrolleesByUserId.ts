@@ -1,7 +1,7 @@
 import prisma from '@/app/libs/prismadb'
 import redis from '@/app/libs/redis'
 
-export async function getEnrolleesByUserId(userId: string) {
+export async function getByUserId(userId: string) {
     const cachedEnrolles = await redis.get(`enrollees:${userId}`)
 
     if (cachedEnrolles) {

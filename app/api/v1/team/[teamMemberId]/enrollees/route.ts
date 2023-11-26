@@ -1,7 +1,9 @@
 import { withExceptionFilter } from '@/app/libs/middlewares/withExceptionFilter'
-import prisma from '@/app/libs/prismadb'
 import { NextRequest, NextResponse } from 'next/server'
 import { ApiRouteParameter } from '@/app/types'
+import { getEnrollees } from '@/app/actions/team'
+import { ApiError } from 'next/dist/server/api-utils'
+import { HttpStatusCode } from 'axios'
 
 async function getAllEnrollees(
     req: NextRequest,
@@ -9,11 +11,15 @@ async function getAllEnrollees(
 ) {
     const { teamMemberId } = urlParameter.params
 
-    const enrollees = await prisma.enrollee.findMany({
-        where: {
-            recruiterUserId: teamMemberId,
-        },
-    })
+    if (!teamMemberId) {
+        throw new ApiError(
+            HttpStatusCode.BadRequest,
+            'Resource could not be found'
+        )
+    }
+
+    const enrollees = await getEnrollees(teamMemberId)
+
     return await NextResponse.json(
         { message: 'Success', status: 200, data: [enrollees] },
         { status: 200 }

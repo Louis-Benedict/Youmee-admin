@@ -1,41 +1,30 @@
 import rateLimiter from '@/app/libs/RateLimiter'
-import { createEnrollee } from '@/app/actions/enrollee/createEnrollee'
+import { create, getByUserId, getAll } from '@/app/actions/enrollee'
 import { withExceptionFilter } from '@/app/libs/middlewares/withExceptionFilter'
 import { HttpStatusCode } from 'axios'
-import { getServerSession } from 'next-auth'
 import { ApiError } from 'next/dist/server/api-utils'
 import { NextRequest, NextResponse } from 'next/server'
-import { authOptions } from '../auth/[...nextauth]/route'
 import { UserRole } from '@prisma/client'
-import { getEnrollees } from '@/app/actions/enrollee/getAllEnrollees'
-import { getEnrolleesByUserId } from '@/app/actions/enrollee/getEnrolleesByUserId'
+import { grantRoleAccess } from '@/app/actions/checkRoleAccess'
 
 async function getAllEnrollees(req: NextRequest) {
-    const session = await getServerSession(authOptions)
+    const role = await grantRoleAccess([])
+    const rateHeaders = await rateLimiter(req)
 
-    if (!session) {
-        throw new ApiError(
-            HttpStatusCode.Unauthorized,
-            'No permission to access this resource'
-        )
-    }
-
-    const headers = await rateLimiter(req)
-
-    if (session.user.role === UserRole.RECRUITER) {
-        const enrollees = getEnrolleesByUserId(session.user.id)
+    if (role === UserRole.RECRUITER) {
+        const enrollees = getByUserId(role)
 
         return NextResponse.json(
             { message: 'Success', status: 200, data: enrollees },
-            { status: 200, headers }
+            { status: 200, headers: rateHeaders }
         )
     }
 
-    const enrollees = await getEnrollees()
+    const enrollees = await getAll()
 
     return NextResponse.json(
         { message: 'Success', status: 200, data: enrollees },
-        { status: 200, headers }
+        { status: 200, headers: rateHeaders }
     )
 }
 
@@ -63,7 +52,7 @@ async function addEnrollee(req: NextRequest) {
         youtubeFollowers,
     } = body
 
-    const newEnrollee = await createEnrollee({
+    const newEnrollee = await create({
         fullname,
         phoneNumber,
         birthday,

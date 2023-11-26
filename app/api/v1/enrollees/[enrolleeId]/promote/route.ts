@@ -17,7 +17,10 @@ async function promoteEnrollee(
     const { enrolleeId } = urlParameter.params
 
     if (!enrolleeId) {
-        throw new ApiError(HttpStatusCode.BadRequest, 'Bad Request')
+        throw new ApiError(
+            HttpStatusCode.BadRequest,
+            'Resource could not be found'
+        )
     }
 
     const promotedEnrollee = await promote(enrolleeId)
