@@ -40,9 +40,11 @@ async function getAllEnrollees(req: NextRequest, res: NextResponse) {
             },
         })
 
-        await redis.set(
+        redis.set(
             `enrollees:${session.user.id}`,
-            JSON.stringify(enrollees)
+            JSON.stringify(enrollees),
+            'EX',
+            60
         )
 
         return NextResponse.json(
