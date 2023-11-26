@@ -41,7 +41,7 @@ async function getAllEnrollees(req: NextRequest, res: NextResponse) {
         })
 
         console.log('BEFORE SET- ' + redis)
-        redis.set(
+        await redis.set(
             `enrollees:${session.user.id}`,
             JSON.stringify(enrollees),
             'EX',
@@ -74,6 +74,8 @@ async function getAllEnrollees(req: NextRequest, res: NextResponse) {
             },
         },
     })
+
+    await redis.set(`enrollees`, JSON.stringify(enrollees), 'EX', 60)
 
     return NextResponse.json(
         { message: 'Success', status: 200, data: enrollees },
