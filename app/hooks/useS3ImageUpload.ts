@@ -1,7 +1,7 @@
 import { toast } from 'react-hot-toast'
 import { MAX_FILE_SIZE_IMAGE } from '@/app/config/fileupload'
 import { FileTooLargeError } from '../libs/exceptions'
-import { s3ResponseSchema } from '../libs/validation/s3'
+import { s3ResponseSchema } from '../utils/validation/s3'
 
 interface UseS3UploadReturn {
     s3Upload: (

@@ -6,7 +6,7 @@ import { FC, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { toastMessages } from '@/app/static/toastMessages'
-import { cn } from '@/app/libs/util'
+import { cn } from '@/app/utils/util'
 import { Check } from 'lucide-react'
 import { toast } from '../ui/toast'
 import Heading from '../ui/Heading'
@@ -16,7 +16,7 @@ import FormInput from '../inputs/FormInput'
 import {
     ResetPasswordSchema,
     resetPasswordSchema,
-} from '@/app/libs/validation/authValidation'
+} from '@/app/utils/validation/authValidation'
 
 interface ResetPasswordFormProps {
     token: string

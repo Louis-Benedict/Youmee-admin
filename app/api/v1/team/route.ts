@@ -1,14 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import JWT from 'jsonwebtoken'
-import AWS from 'aws-sdk'
+import rateLimiter from '@/app/utils/RateLimiter'
 import { UserRole } from '@prisma/client'
-import { withExceptionFilter } from '@/app/libs/middlewares/withExceptionFilter'
-
+import { withExceptionFilter } from '@/app/utils/middlewares/withExceptionFilter'
 import { create, getAll } from '@/app/actions/team'
 import { inviteToAdmin } from '@/app/utils/email_templates/inviteToAdmin'
-import { sesConfig } from '@/app/config/ses'
-import rateLimiter from '@/app/libs/RateLimiter'
-import { grantRoleAccess } from '@/app/actions/checkRoleAccess'
+import { grantRoleAccess } from '@/app/actions/util/checkRoleAccess'
+import { sendEmail } from '@/app/libs/aws/ses/sesClient'
 
 async function getTeamMembers(req: NextRequest) {
     const headers = await rateLimiter(req)
@@ -55,18 +53,8 @@ async function createTeamMember(req: NextRequest) {
     })
 
     const invitationTemplate = inviteToAdmin(name, resetToken)
-    const params = sesConfig(
-        email,
-        'Invitation to Youmee Team',
-        invitationTemplate
-    )
 
-    var sendPromise = new AWS.SES({ apiVersion: '2010-12-01' })
-        .sendEmail(params)
-        .promise()
-
-    const response = await sendPromise
-    console.log(sendPromise)
+    await sendEmail(email, 'Invitation to Youmee Admin', invitationTemplate)
 
     return NextResponse.json(
         { message: 'Success', status: 200, data: [createdTeamMember] },
@@ -75,5 +63,4 @@ async function createTeamMember(req: NextRequest) {
 }
 
 export const GET = withExceptionFilter(getTeamMembers)
-
 export const POST = withExceptionFilter(createTeamMember)

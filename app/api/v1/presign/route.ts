@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import preSignFile from '@/app/libs/s3'
+import { preSignFile } from '@/app/libs/aws/s3/s3Client'
 import { getServerSession } from 'next-auth'
 import { ApiError } from 'next/dist/server/api-utils'
 import { HttpStatusCode } from 'axios'

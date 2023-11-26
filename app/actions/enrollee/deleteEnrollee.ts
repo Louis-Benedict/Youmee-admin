@@ -1,4 +1,4 @@
-import prisma from '@/app/libs/prismadb'
+import prisma from '@/app/libs/prisma/prismadb'
 import { HttpStatusCode } from 'axios'
 import { ApiError } from 'next/dist/server/api-utils'
 

@@ -2,7 +2,7 @@ import {
     emailValidation,
     passwordValidation,
     phoneValidation,
-} from '@/app/libs/validation/authValidation'
+} from '@/app/utils/validation/authValidation'
 import { UserRole } from '@prisma/client'
 import { z } from 'zod'
 

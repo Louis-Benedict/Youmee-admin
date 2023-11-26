@@ -1,5 +1,5 @@
-import prisma from '@/app/libs/prismadb'
-import redis from '@/app/libs/redis'
+import prisma from '@/app/libs/prisma/prismadb'
+import redis from '@/app/libs/redis/redis'
 import { HttpStatusCode } from 'axios'
 import { ApiError } from 'next/dist/server/api-utils'
 

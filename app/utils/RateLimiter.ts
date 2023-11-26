@@ -1,4 +1,4 @@
-import redis from '@/app/libs/redis'
+import redis from '@/app/libs/redis/redis'
 import { NextRequest, NextResponse } from 'next/server'
 import { getRequestIpAdress } from './getRequestIp'
 import { ApiError } from 'next/dist/server/api-utils'

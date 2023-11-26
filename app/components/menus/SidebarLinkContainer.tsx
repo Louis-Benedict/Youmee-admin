@@ -5,7 +5,7 @@ import { FC } from 'react'
 import { signOut } from 'next-auth/react'
 import Link from 'next/link'
 import { NavbarLink } from '@/app/types'
-import { cn } from '@/app/libs/util'
+import { cn } from '@/app/utils/util'
 import { Button } from '@radix-ui/themes'
 
 interface SidebarLinkContainerProps {

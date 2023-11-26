@@ -15,7 +15,7 @@ import { AdminTable } from '@/app/components/ui/admin/AdminTable'
 import { Order, User } from '@prisma/client'
 import { ColumnDef } from '@tanstack/react-table'
 import { useMemo } from 'react'
-import { fuzzySort } from '@/app/libs/util'
+import { fuzzySort } from '@/app/utils/util'
 import Heading from '@/app/components/ui/Heading'
 import { useRouter } from 'next/navigation'
 

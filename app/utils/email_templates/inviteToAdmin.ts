@@ -1,3 +1,7 @@
+import { config } from '@/app/config/config'
+
+type EmailTemplate = (recipientName: string) => string
+
 export const inviteToAdmin = (recipientName: string, setupLink: string) => {
     return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="en">
@@ -162,7 +166,7 @@ export const inviteToAdmin = (recipientName: string, setupLink: string) => {
 														<a
 															data-id="react-email-button"
 															target="_blank"
-                                                            href="http://192.168.68.105:3000/reset-password/${setupLink}"
+                                                            href="http://${config.baseUrl}/reset-password/${setupLink}"
 															style="
 																line-height: 100%;
 																text-decoration: none;
@@ -207,11 +211,11 @@ export const inviteToAdmin = (recipientName: string, setupLink: string) => {
 											This link is valid for one week. In case your link expired
 											or you need assistance, contact us at
 											<a
-												href="mailto:support@youmee.info"
+												href="mailto:support@youmee.co.th"
 												data-id="react-email-link"
 												target="_blank"
 												style="color: rgb(64, 64, 64); text-decoration: none"
-												>support@youmee.info</a
+												>support@youmee.co.th</a
 											>.<br /><br />Regards,<br />
 											Your Youmee Team
 										</p>

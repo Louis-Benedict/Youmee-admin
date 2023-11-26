@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import prisma from '@/app/libs/prismadb'
+import prisma from '@/app/libs/prisma/prismadb'
 import recoveryMail from '@/app/utils/email_templates/forgotPassword'
 
 export async function POST(request: Request) {

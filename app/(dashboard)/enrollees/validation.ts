@@ -2,7 +2,7 @@ import {
     emailValidation,
     fullnameValidation,
     phoneValidation,
-} from '@/app/libs/validation/authValidation'
+} from '@/app/utils/validation/authValidation'
 import { z } from 'zod'
 
 export type AddEnrolleeSchema = z.infer<typeof addEnrolleeSchema>

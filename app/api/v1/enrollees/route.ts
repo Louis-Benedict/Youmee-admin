@@ -1,11 +1,11 @@
-import rateLimiter from '@/app/libs/RateLimiter'
+import rateLimiter from '@/app/utils/RateLimiter'
 import { create, getByUserId, getAll } from '@/app/actions/enrollee'
-import { withExceptionFilter } from '@/app/libs/middlewares/withExceptionFilter'
+import { withExceptionFilter } from '@/app/utils/middlewares/withExceptionFilter'
 import { HttpStatusCode } from 'axios'
 import { ApiError } from 'next/dist/server/api-utils'
 import { NextRequest, NextResponse } from 'next/server'
 import { UserRole } from '@prisma/client'
-import { grantRoleAccess } from '@/app/actions/checkRoleAccess'
+import { grantRoleAccess } from '@/app/actions/util/checkRoleAccess'
 
 async function getAllEnrollees(req: NextRequest) {
     const role = await grantRoleAccess([])

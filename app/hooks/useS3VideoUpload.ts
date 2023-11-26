@@ -1,53 +1,55 @@
-import { toast } from 'react-hot-toast';
-import { MAX_FILE_SIZE_VIDEO } from '@/app/config/fileupload';
-import { FileTooLargeError } from '../libs/exceptions';
-import { s3ResponseSchema } from '../libs/validation/s3';
+import { toast } from 'react-hot-toast'
+import { MAX_FILE_SIZE_VIDEO } from '@/app/config/fileupload'
+import { FileTooLargeError } from '../libs/exceptions'
+import { s3ResponseSchema } from '../utils/validation/s3'
 
 interface UseS3UploadReturn {
-	s3Upload: (file: File) => Promise<{ getUrl: string | null; key: string | null }>;
+    s3Upload: (
+        file: File
+    ) => Promise<{ getUrl: string | null; key: string | null }>
 }
 
 const uploadFile = async (file: File) => {
-	try {
-		const res = await fetch('/api/user/upload/video', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({ fileType: file.type }),
-		});
+    try {
+        const res = await fetch('/api/user/upload/video', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ fileType: file.type }),
+        })
 
-		const data = await res.json();
+        const data = await res.json()
 
-		const { key, fields, getUrl, postUrl } = s3ResponseSchema.parse(data);
+        const { key, fields, getUrl, postUrl } = s3ResponseSchema.parse(data)
 
-		const outboundToS3 = {
-			...fields,
-			'Content-Type': file.type,
-			file,
-		};
+        const outboundToS3 = {
+            ...fields,
+            'Content-Type': file.type,
+            file,
+        }
 
-		const formData = new FormData();
+        const formData = new FormData()
 
-		Object.entries(outboundToS3).forEach(([key, value]) => {
-			formData.append(key, value);
-		});
+        Object.entries(outboundToS3).forEach(([key, value]) => {
+            formData.append(key, value)
+        })
 
-		await uploadResourceToS3(postUrl, formData);
+        await uploadResourceToS3(postUrl, formData)
 
-		return { getUrl, key };
-	} catch (error) {
-		console.log(error);
-		throw new Error('Internal Server Error');
-	}
-};
+        return { getUrl, key }
+    } catch (error) {
+        console.log(error)
+        throw new Error('Internal Server Error')
+    }
+}
 
 const uploadResourceToS3 = async (postUrl: string, formData: FormData) => {
-	await fetch(postUrl, {
-		method: 'POST',
-		body: formData,
-	});
-};
+    await fetch(postUrl, {
+        method: 'POST',
+        body: formData,
+    })
+}
 
 // const requestDbEntry = async (key: string, targetOrderId: string) => {
 // await axios.post('/api/clip', { key: key }).then(async (result) => {
@@ -73,24 +75,24 @@ const uploadResourceToS3 = async (postUrl: string, formData: FormData) => {
 // };
 
 export const useS3VideoUpload = (): UseS3UploadReturn => {
-	const s3Upload = async (file: File) => {
-		try {
-			if (file.size > MAX_FILE_SIZE_VIDEO) throw new FileTooLargeError();
+    const s3Upload = async (file: File) => {
+        try {
+            if (file.size > MAX_FILE_SIZE_VIDEO) throw new FileTooLargeError()
 
-			const { getUrl, key } = await uploadFile(file);
+            const { getUrl, key } = await uploadFile(file)
 
-			return { getUrl, key };
-		} catch (error) {
-			if (error instanceof FileTooLargeError) {
-				toast.error('File too big');
-				return { getUrl: null, key: null };
-			}
-			console.log(error);
-			toast.error('There was an error uploading your image.');
+            return { getUrl, key }
+        } catch (error) {
+            if (error instanceof FileTooLargeError) {
+                toast.error('File too big')
+                return { getUrl: null, key: null }
+            }
+            console.log(error)
+            toast.error('There was an error uploading your image.')
 
-			return { getUrl: null, key: null };
-		}
-	};
+            return { getUrl: null, key: null }
+        }
+    }
 
-	return { s3Upload };
-};
+    return { s3Upload }
+}

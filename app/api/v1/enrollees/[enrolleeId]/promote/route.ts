@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { EnrollmentStatus, UserRole } from '@prisma/client'
-import { withExceptionFilter } from '@/app/libs/middlewares/withExceptionFilter'
+import { withExceptionFilter } from '@/app/utils/middlewares/withExceptionFilter'
 import { HttpStatusCode } from 'axios'
 import { ApiError } from 'next/dist/server/api-utils'
 import createCreatorFromEnrollee from '@/app/actions/creators/createCreatorFromEnrollee'
 import { ApiRouteParameter } from '@/app/types'
-import { grantRoleAccess } from '@/app/actions/checkRoleAccess'
+import { grantRoleAccess } from '@/app/actions/util/checkRoleAccess'
 import { promote } from '@/app/actions/enrollee/promoteEnrollee'
 
 async function promoteEnrollee(

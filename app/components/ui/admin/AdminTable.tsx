@@ -16,7 +16,7 @@ import {
     FilterFn,
     flexRender,
 } from '@tanstack/react-table'
-import { fuzzyFilter } from '@/app/libs/util'
+import { fuzzyFilter } from '@/app/utils/util'
 import { DebouncedInput } from '../DebouncedInput'
 import { ChevronDown, ChevronUp } from 'lucide-react'
 
