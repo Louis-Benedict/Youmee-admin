@@ -1,26 +1,30 @@
 import { NextRequest, NextResponse } from 'next/server'
+import JWT from 'jsonwebtoken'
+import AWS from 'aws-sdk'
 import { UserRole } from '@prisma/client'
-import { withMiddleware } from '@/app/libs/middlewares/utils'
 import { withExceptionFilter } from '@/app/libs/middlewares/withExceptionFilter'
-import withAuthGuard from '@/app/libs/middlewares/withAuthGuard'
 import getAllTeamMembers from '@/app/actions/team/getAllTeamMembers'
 import createNewTeamMember from '@/app/actions/team/postNewTeamMember'
-import AWS from 'aws-sdk'
-import JWT from 'jsonwebtoken'
 import { inviteToAdmin } from '@/app/utils/email_templates/inviteToAdmin'
 import { sesConfig } from '@/app/config/ses'
-import { ApiError } from 'next/dist/server/api-utils'
+import rateLimiter from '@/app/libs/RateLimiter'
+import { grantRoleAccess } from '@/app/actions/checkRoleAccess'
 
 async function getTeamMembers(req: NextRequest) {
+    const headers = await rateLimiter(req)
     const teamMembers = await getAllTeamMembers()
 
     return NextResponse.json(
         { message: 'Success', status: 200, data: teamMembers },
-        { status: 200 }
+        { status: 200, headers }
     )
 }
 
 async function createTeamMember(req: NextRequest) {
+    await grantRoleAccess([UserRole.ADMIN])
+
+    const headers = await rateLimiter(req)
+
     const body = await req.json()
     var {
         name,
@@ -66,7 +70,7 @@ async function createTeamMember(req: NextRequest) {
 
     return NextResponse.json(
         { message: 'Success', status: 200, data: [createdTeamMember] },
-        { status: 200 }
+        { status: 200, headers }
     )
 }
 

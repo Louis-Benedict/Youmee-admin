@@ -1,7 +1,4 @@
-import prisma from '@/app/libs/prismadb'
-import redis from '@/app/libs/redis'
 import rateLimiter from '@/app/libs/RateLimiter'
-
 import { createEnrollee } from '@/app/actions/enrollee/createEnrollee'
 import { withExceptionFilter } from '@/app/libs/middlewares/withExceptionFilter'
 import { HttpStatusCode } from 'axios'
@@ -10,9 +7,12 @@ import { ApiError } from 'next/dist/server/api-utils'
 import { NextRequest, NextResponse } from 'next/server'
 import { authOptions } from '../auth/[...nextauth]/route'
 import { UserRole } from '@prisma/client'
+import { getEnrollees } from '@/app/actions/enrollee/getAllEnrollees'
+import { getEnrolleesByUserId } from '@/app/actions/enrollee/getEnrolleesByUserId'
 
 async function getAllEnrollees(req: NextRequest) {
     const session = await getServerSession(authOptions)
+
     if (!session) {
         throw new ApiError(
             HttpStatusCode.Unauthorized,
@@ -22,35 +22,8 @@ async function getAllEnrollees(req: NextRequest) {
 
     const headers = await rateLimiter(req)
 
-    let enrollees = []
     if (session.user.role === UserRole.RECRUITER) {
-        const cachedEnrolles = await redis.get(`enrollees:${session.user.id}`)
-        console.log('REDIS CACHE HIT: ' + cachedEnrolles)
-
-        if (cachedEnrolles) {
-            return NextResponse.json(
-                {
-                    message: 'Success',
-                    status: 200,
-                    data: JSON.parse(cachedEnrolles),
-                },
-                { status: 200, headers }
-            )
-        }
-
-        enrollees = await prisma.enrollee.findMany({
-            where: {
-                recruiterUserId: session.user.id,
-            },
-        })
-
-        console.log('BEFORE SET- ' + redis)
-        await redis.set(
-            `enrollees:${session.user.id}`,
-            JSON.stringify(enrollees),
-            'EX',
-            60
-        )
+        const enrollees = getEnrolleesByUserId(session.user.id)
 
         return NextResponse.json(
             { message: 'Success', status: 200, data: enrollees },
@@ -58,32 +31,7 @@ async function getAllEnrollees(req: NextRequest) {
         )
     }
 
-    const cachedEnrolles = await redis.get('enrollees')
-
-    if (cachedEnrolles) {
-        return NextResponse.json(
-            {
-                message: 'Success',
-                status: 200,
-                data: JSON.parse(cachedEnrolles),
-            },
-            { status: 200, headers }
-        )
-    }
-
-    enrollees = await prisma.enrollee.findMany({
-        include: {
-            recruiter: {
-                select: {
-                    name: true,
-                    image: true,
-                    email: true,
-                },
-            },
-        },
-    })
-
-    await redis.set(`enrollees`, JSON.stringify(enrollees), 'EX', 60)
+    const enrollees = await getEnrollees()
 
     return NextResponse.json(
         { message: 'Success', status: 200, data: enrollees },
