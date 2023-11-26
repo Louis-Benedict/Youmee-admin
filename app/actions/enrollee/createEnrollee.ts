@@ -3,7 +3,7 @@ import { Enrollee } from '@prisma/client'
 import { HttpStatusCode } from 'axios'
 import { ApiError } from 'next/dist/server/api-utils'
 
-export async function createEnrollee({
+export async function create({
     fullname,
     phoneNumber,
     birthday,

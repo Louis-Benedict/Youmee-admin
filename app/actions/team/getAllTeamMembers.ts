@@ -2,7 +2,7 @@ import prisma from '@/app/libs/prismadb'
 import redis from '@/app/libs/redis'
 import { UserRole } from '@prisma/client'
 
-export default async function getAllTeamMembers() {
+export async function getAll() {
     const cachedTeamMembers = await redis.get('team:all')
 
     if (cachedTeamMembers) {

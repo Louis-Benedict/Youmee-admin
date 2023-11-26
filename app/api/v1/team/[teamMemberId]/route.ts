@@ -1,12 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
-import prisma from '@/app/libs/prismadb'
-import { UserRole } from '@prisma/client'
-import withAuthGuard from '@/app/libs/middlewares/withAuthGuard'
-import { withMiddleware } from '@/app/libs/middlewares/utils'
 import { withExceptionFilter } from '@/app/libs/middlewares/withExceptionFilter'
-import { ApiError } from '@/app/libs/middlewares/withLogging'
-import { HttpStatusCode } from 'axios'
 import { ApiRouteParameter } from '@/app/types'
+import { _delete, update, getOne } from '@/app/actions/team'
 
 async function deleteTeamMember(
     req: NextRequest,
@@ -14,16 +9,8 @@ async function deleteTeamMember(
 ) {
     const { teamMemberId } = urlParameter.params
 
-    const deletedTeamMember = await prisma.user.delete({
-        where: { id: teamMemberId },
-    })
+    const deletedTeamMember = _delete(teamMemberId)
 
-    if (!deletedTeamMember) {
-        throw new ApiError(
-            HttpStatusCode.NotFound,
-            'Resource could not be found'
-        )
-    }
     return await NextResponse.json(
         { message: 'Success', status: 200, data: [deletedTeamMember] },
         { status: 200 }
@@ -39,23 +26,13 @@ async function editTeamMember(
     const body = await req.json()
     const { name, phoneNumber, role, lineId, commissionPercentage } = body
 
-    const editedTeamMember = await prisma.user.update({
-        where: { id: teamMemberId },
-        data: {
-            name,
-            phoneNumber,
-            role,
-            lineId,
-            commissionPercentage,
-        },
+    const editedTeamMember = update(teamMemberId, {
+        name,
+        phoneNumber,
+        role,
+        lineId,
+        commissionPercentage,
     })
-
-    if (!editedTeamMember) {
-        throw new ApiError(
-            HttpStatusCode.NotFound,
-            'Resource could not be found'
-        )
-    }
 
     return await NextResponse.json(
         { message: 'Success', status: 200, data: [editedTeamMember] },
@@ -69,18 +46,7 @@ async function getTeamMember(
 ) {
     const { teamMemberId } = urlParameter.params
 
-    const teamMember = await prisma.user.findUnique({
-        where: {
-            id: teamMemberId,
-        },
-    })
-
-    if (!teamMember) {
-        throw new ApiError(
-            HttpStatusCode.NotFound,
-            'Resource could not be found'
-        )
-    }
+    const teamMember = await getOne(teamMemberId)
 
     return await NextResponse.json(
         { message: 'Success', status: 200, data: [teamMember] },
@@ -90,5 +56,4 @@ async function getTeamMember(
 
 export const DELETE = withExceptionFilter(deleteTeamMember)
 export const PUT = withExceptionFilter(editTeamMember)
-
 export const GET = withExceptionFilter(getTeamMember)

@@ -3,8 +3,8 @@ import JWT from 'jsonwebtoken'
 import AWS from 'aws-sdk'
 import { UserRole } from '@prisma/client'
 import { withExceptionFilter } from '@/app/libs/middlewares/withExceptionFilter'
-import getAllTeamMembers from '@/app/actions/team/getAllTeamMembers'
-import createNewTeamMember from '@/app/actions/team/postNewTeamMember'
+
+import { create, getAll } from '@/app/actions/team'
 import { inviteToAdmin } from '@/app/utils/email_templates/inviteToAdmin'
 import { sesConfig } from '@/app/config/ses'
 import rateLimiter from '@/app/libs/RateLimiter'
@@ -12,7 +12,7 @@ import { grantRoleAccess } from '@/app/actions/checkRoleAccess'
 
 async function getTeamMembers(req: NextRequest) {
     const headers = await rateLimiter(req)
-    const teamMembers = await getAllTeamMembers()
+    const teamMembers = await getAll()
 
     return NextResponse.json(
         { message: 'Success', status: 200, data: teamMembers },
@@ -40,7 +40,7 @@ async function createTeamMember(req: NextRequest) {
         commissionPercentage = undefined
     }
 
-    const createdTeamMember = await createNewTeamMember({
+    const createdTeamMember = await create({
         name,
         email,
         phoneNumber,

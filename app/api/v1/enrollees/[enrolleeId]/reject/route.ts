@@ -5,43 +5,28 @@ import { withExceptionFilter } from '@/app/libs/middlewares/withExceptionFilter'
 import { HttpStatusCode } from 'axios'
 import { ApiError } from 'next/dist/server/api-utils'
 import { ApiRouteParameter } from '@/app/types'
+import { reject } from '@/app/actions/enrollee/rejectEnrollee'
+import rateLimiter from '@/app/libs/RateLimiter'
 
 async function rejectEnrollee(
     req: NextRequest,
     urlParameter: ApiRouteParameter
 ) {
+    const rateHeaders = await rateLimiter(req)
     const { enrolleeId } = urlParameter.params
 
     if (!enrolleeId) {
-        throw new ApiError(HttpStatusCode.BadRequest, 'Something went wrong...')
-    }
-
-    const existingEnrollee = await prisma.enrollee.findUnique({
-        where: { id: enrolleeId },
-    })
-
-    if (!existingEnrollee) {
-        throw new ApiError(HttpStatusCode.NotFound, 'User could not be found')
-    }
-
-    const updatedEnrollee = await prisma.enrollee.update({
-        where: { id: enrolleeId },
-        include: { recruiter: true },
-        data: {
-            status: EnrollmentStatus.REJECTED,
-        },
-    })
-
-    if (!updatedEnrollee) {
         throw new ApiError(
-            HttpStatusCode.InternalServerError,
-            'User could not be updated'
+            HttpStatusCode.BadRequest,
+            'Resource could not be found'
         )
     }
 
+    const rejectedEnrollee = await reject(enrolleeId)
+
     return await NextResponse.json(
-        { message: 'Success', status: 200, data: [updatedEnrollee] },
-        { status: 200 }
+        { message: 'Success', status: 200, data: [rejectedEnrollee] },
+        { status: 200, headers: rateHeaders }
     )
 }
 
