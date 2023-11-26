@@ -1,9 +1,11 @@
-import { MAX_FILE_SIZE_VIDEO } from '../config/fileupload'
+import config from '@/app/libs/aws/s3/config'
 
 export class FileTooLargeError extends Error {
-	constructor(
-		message = `Images cannot be larger than ${MAX_FILE_SIZE_VIDEO / 1000000}MB.`
-	) {
-		super(message)
-	}
+    constructor(
+        message = `Images cannot be larger than ${
+            config.MAX_FILE_SIZE_VIDEO / 1000000
+        }MB.`
+    ) {
+        super(message)
+    }
 }
