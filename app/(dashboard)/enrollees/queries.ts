@@ -74,7 +74,7 @@ const EnrolleeEndpoint: EnrolleeEndpointType = {
         >(`/enrollees/${user.id}`, user)
         toast({
             title: 'Success',
-            message: `Successfully edited ${user.fullname}`,
+            message: `Successfully edited ${response.data[0].fullname}`,
             type: 'success',
         })
         return response.data[0]
@@ -114,9 +114,7 @@ const useFetchEnrollees = (
 ) => {
     const { isLoading: fetching, data: enrollees } = useQuery({
         queryKey: ['enrollees'],
-        queryFn: () => {
-            return EnrolleeEndpoint.fetch(filter)
-        },
+        queryFn: () => EnrolleeEndpoint.fetch(filter),
     })
     return { fetching, enrollees }
 }
