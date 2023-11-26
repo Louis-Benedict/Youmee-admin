@@ -29,7 +29,11 @@ async function getAllEnrollees(req: NextRequest, res: NextResponse) {
 
         if (cachedEnrolles) {
             return NextResponse.json(
-                { message: 'Success', status: 200, data: [cachedEnrolles] },
+                {
+                    message: 'Success',
+                    status: 200,
+                    data: JSON.parse(cachedEnrolles),
+                },
                 { status: 200, headers }
             )
         }
@@ -61,7 +65,7 @@ async function getAllEnrollees(req: NextRequest, res: NextResponse) {
             {
                 message: 'Success',
                 status: 200,
-                data: [JSON.parse(cachedEnrolles)],
+                data: JSON.parse(cachedEnrolles),
             },
             { status: 200, headers }
         )
