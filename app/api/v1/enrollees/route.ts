@@ -11,7 +11,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { authOptions } from '../auth/[...nextauth]/route'
 import { UserRole } from '@prisma/client'
 
-async function getAllEnrollees(req: NextRequest, res: NextResponse) {
+async function getAllEnrollees(req: NextRequest) {
     const session = await getServerSession(authOptions)
     if (!session) {
         throw new ApiError(
