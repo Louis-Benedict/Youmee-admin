@@ -11,18 +11,19 @@ import { ApiError } from 'next/dist/server/api-utils'
 
 async function deleteEnrollee(
     req: NextRequest,
-    urlParameter: ApiRouteParameter
+    res: NextResponse,
+    urlParameter?: ApiRouteParameter
 ) {
     const enrolleeId = urlParameter?.params.enrolleeId
 
     console.log(enrolleeId)
 
-    // if (!enrolleeId) {
-    //     throw new ApiError(
-    //         HttpStatusCode.NotFound,
-    //         'Resource could not be found'
-    //     )
-    // }
+    if (!enrolleeId) {
+        throw new ApiError(
+            HttpStatusCode.NotFound,
+            'Resource could not be found'
+        )
+    }
 
     const deletedEnrollee = await prisma.enrollee.delete({
         where: { id: enrolleeId },
@@ -40,15 +41,19 @@ async function deleteEnrollee(
     )
 }
 
-async function getEnrollee(req: NextRequest, urlParameter: ApiRouteParameter) {
+async function getEnrollee(
+    req: NextRequest,
+    res: NextResponse,
+    urlParameter?: ApiRouteParameter
+) {
     const enrolleeId = urlParameter?.params.enrolleeId
 
-    // if (!enrolleeId) {
-    //     throw new ApiError(
-    //         HttpStatusCode.BadRequest,
-    //         'Resource could not be found'
-    //     )
-    // }
+    if (!enrolleeId) {
+        throw new ApiError(
+            HttpStatusCode.BadRequest,
+            'Resource could not be found'
+        )
+    }
 
     const enrollee = await getEnrolleeById(enrolleeId)
 
@@ -65,8 +70,19 @@ async function getEnrollee(req: NextRequest, urlParameter: ApiRouteParameter) {
     )
 }
 
-async function editEnrollee(req: NextRequest, urlParameter: ApiRouteParameter) {
+async function editEnrollee(
+    req: NextRequest,
+    res: NextResponse,
+    urlParameter?: ApiRouteParameter
+) {
     const enrolleeId = urlParameter?.params.enrolleeId
+
+    if (!enrolleeId) {
+        throw new ApiError(
+            HttpStatusCode.BadRequest,
+            'Resource could not be found'
+        )
+    }
 
     const body = await req.json()
 
