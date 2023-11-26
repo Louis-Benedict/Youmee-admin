@@ -1,9 +1,9 @@
-import prisma from '@/app/libs/prismadb'
+import prisma from '@/app/libs/prisma/prismadb'
 import JWT from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import { NextRequest, NextResponse } from 'next/server'
-import { withExceptionFilter } from '@/app/libs/middlewares/withExceptionFilter'
-import { ApiError } from '@/app/libs/middlewares/withLogging'
+import { withExceptionFilter } from '@/app/utils/middlewares/withExceptionFilter'
+import { ApiError } from '@/app/utils/middlewares/withLogging'
 import { HttpStatusCode } from 'axios'
 
 async function changePassword(req: NextRequest) {

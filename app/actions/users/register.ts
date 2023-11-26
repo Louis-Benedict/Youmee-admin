@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt'
-import prisma from '@/app/libs/prismadb'
+import prisma from '@/app/libs/prisma/prismadb'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
-import { ApiError } from '../libs/middlewares/withLogging'
+import { ApiError } from '../../utils/middlewares/withLogging'
 import { HttpStatusCode } from 'axios'
 
 export async function registerUser(

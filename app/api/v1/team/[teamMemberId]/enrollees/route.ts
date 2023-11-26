@@ -1,4 +1,4 @@
-import { withExceptionFilter } from '@/app/libs/middlewares/withExceptionFilter'
+import { withExceptionFilter } from '@/app/utils/middlewares/withExceptionFilter'
 import { NextRequest, NextResponse } from 'next/server'
 import { ApiRouteParameter } from '@/app/types'
 import { getEnrollees } from '@/app/actions/team'

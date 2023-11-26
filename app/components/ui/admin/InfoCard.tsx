@@ -1,6 +1,6 @@
 'use client'
 
-import { cn } from '@/app/libs/util'
+import { cn } from '@/app/utils/util'
 import { ArrowBigUp, ArrowUp, Loader2 } from 'lucide-react'
 import { FC } from 'react'
 

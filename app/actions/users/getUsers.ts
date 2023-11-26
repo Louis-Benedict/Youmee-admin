@@ -1,4 +1,4 @@
-import prisma from '@/app/libs/prismadb'
+import prisma from '@/app/libs/prisma/prismadb'
 import { User, UserRole } from '@prisma/client'
 
 export interface IUserFilterParams {

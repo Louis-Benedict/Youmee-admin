@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { withExceptionFilter } from '@/app/libs/middlewares/withExceptionFilter'
+import { withExceptionFilter } from '@/app/utils/middlewares/withExceptionFilter'
 import { ApiRouteParameter } from '@/app/types'
 import { _delete, update, getOne } from '@/app/actions/team'
 

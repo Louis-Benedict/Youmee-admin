@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import {
     UserLoginSchema,
     userLoginSchema,
-} from '@/app/libs/validation/authValidation'
+} from '@/app/utils/validation/authValidation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button, Text } from '@radix-ui/themes'
 import { Loader2, LogIn } from 'lucide-react'

@@ -1,12 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
-import prisma from '@/app/libs/prismadb'
-import { EnrollmentStatus } from '@prisma/client'
-import { withExceptionFilter } from '@/app/libs/middlewares/withExceptionFilter'
+import { withExceptionFilter } from '@/app/utils/middlewares/withExceptionFilter'
 import { HttpStatusCode } from 'axios'
 import { ApiError } from 'next/dist/server/api-utils'
 import { ApiRouteParameter } from '@/app/types'
 import { reject } from '@/app/actions/enrollee/rejectEnrollee'
-import rateLimiter from '@/app/libs/RateLimiter'
+import rateLimiter from '@/app/utils/RateLimiter'
 
 async function rejectEnrollee(
     req: NextRequest,

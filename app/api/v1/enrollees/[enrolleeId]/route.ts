@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getOne, update, _delete } from '@/app/actions/enrollee'
-import { withExceptionFilter } from '@/app/libs/middlewares/withExceptionFilter'
+import { withExceptionFilter } from '@/app/utils/middlewares/withExceptionFilter'
 import { HttpStatusCode } from 'axios'
 import { ApiRouteParameter } from '@/app/types'
 import { ApiError } from 'next/dist/server/api-utils'
-import rateLimiter from '@/app/libs/RateLimiter'
+import rateLimiter from '@/app/utils/RateLimiter'
 
 async function deleteEnrollee(
     req: NextRequest,

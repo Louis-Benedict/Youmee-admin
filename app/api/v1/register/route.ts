@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { userRegisterSchema } from '@/app/libs/validation/authValidation'
-import { withExceptionFilter } from '@/app/libs/middlewares/withExceptionFilter'
-import { registerUser } from '@/app/actions/register'
+import { userRegisterSchema } from '@/app/utils/validation/authValidation'
+import { withExceptionFilter } from '@/app/utils/middlewares/withExceptionFilter'
+import { registerUser } from '@/app/actions/users/register'
 import { ApiError } from 'next/dist/server/api-utils'
 import { HttpStatusCode } from 'axios'
 

@@ -2,7 +2,7 @@
 
 import { FC } from 'react'
 import { Loader2 } from 'lucide-react'
-import { cn } from '../../../libs/util'
+import { cn } from '../../../utils/util'
 import { VariantProps, cva } from 'class-variance-authority'
 
 export interface ModalButtonProps

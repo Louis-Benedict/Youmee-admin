@@ -1,5 +1,5 @@
 import { TeamMember } from '@/app/(dashboard)/team/queries'
-import prisma from '@/app/libs/prismadb'
+import prisma from '@/app/libs/prisma/prismadb'
 import { Prisma } from '@prisma/client'
 import { HttpStatusCode } from 'axios'
 import bcrypt from 'bcrypt'
