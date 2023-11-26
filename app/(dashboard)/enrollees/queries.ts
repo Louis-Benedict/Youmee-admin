@@ -72,11 +72,13 @@ const EnrolleeEndpoint: EnrolleeEndpointType = {
             Partial<Enrollee>,
             EnrolleeApiResponse
         >(`/enrollees/${user.id}`, user)
+
         toast({
             title: 'Success',
-            message: `Successfully edited ${response.data[0].fullname}`,
+            message: `Successfully updated ${response.data[0].fullname}`,
             type: 'success',
         })
+
         return response.data[0]
     },
 
@@ -85,11 +87,13 @@ const EnrolleeEndpoint: EnrolleeEndpointType = {
         const response = await ApiClient._delete<Enrollee, EnrolleeApiResponse>(
             `/enrollees/${userId}`
         )
+
         toast({
             title: 'Success',
             message: `Successfully removed ${response.data[0].fullname}`,
             type: 'success',
         })
+
         return response.data[0]
     },
 
@@ -99,19 +103,18 @@ const EnrolleeEndpoint: EnrolleeEndpointType = {
             '/enrollees',
             user
         )
+
         toast({
             title: 'Success',
-            message: `Successfully added ${user.fullname}`,
+            message: `Successfully added ${response.data[0].fullname}`,
             type: 'success',
         })
+
         return response.data[0]
     },
 }
 
-const useFetchEnrollees = (
-    userSession?: Session,
-    filter?: EnrolleeEndpointFilter
-) => {
+const useFetchEnrollees = (filter?: EnrolleeEndpointFilter) => {
     const { isLoading: fetching, data: enrollees } = useQuery({
         queryKey: ['enrollees'],
         queryFn: () => EnrolleeEndpoint.fetch(filter),

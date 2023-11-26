@@ -20,7 +20,7 @@ async function deleteEnrollee(
         )
     }
 
-    const deletedEnrollee = _delete(enrolleeId)
+    const deletedEnrollee = await _delete(enrolleeId)
 
     return NextResponse.json(
         { message: 'Success', status: 200, data: [deletedEnrollee] },

@@ -16,13 +16,11 @@ export type TeamMember = Pick<
     | 'lineId'
     | 'commissionPercentage'
 >
-
+export type TeamApiResponse = EndpointResponse<TeamMember>
+export type TeamMemberEndpointType = Endpoint<TeamMember, TeamApiResponse>
 export type TeamMemberEndpointFilter = EndpointFilter & {
     createdAt?: Date
 }
-
-export type TeamApiResponse = EndpointResponse<TeamMember>
-export type TeamMemberEndpointType = Endpoint<TeamMember, TeamApiResponse>
 
 const TeamMemberEndpoint: Endpoint<TeamMember, TeamApiResponse> = {
     fetch: async (filter?: TeamMemberEndpointFilter) => {
@@ -43,7 +41,7 @@ const TeamMemberEndpoint: Endpoint<TeamMember, TeamApiResponse> = {
         >(`/team/${user.id}`, user)
         toast({
             title: 'Success',
-            message: `Successfully edited ${user.name}`,
+            message: `Successfully updated ${user.name}`,
             type: 'success',
         })
         return response.data[0]
@@ -67,7 +65,7 @@ const TeamMemberEndpoint: Endpoint<TeamMember, TeamApiResponse> = {
         )
         toast({
             title: 'Success',
-            message: `Successfully added ${user.name}`,
+            message: `Successfully added ${response.data[0].name}`,
             type: 'success',
         })
         return response.data[0]
