@@ -1,5 +1,5 @@
 import prisma from '@/app/libs/prisma/prismadb'
-import { CreatorWithClip } from '../types'
+import { CreatorWithClip } from '../../types'
 
 export default async function getUserByIdWithClips(
     userId?: string
