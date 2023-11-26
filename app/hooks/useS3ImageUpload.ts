@@ -1,5 +1,5 @@
 import { toast } from 'react-hot-toast'
-import { MAX_FILE_SIZE_IMAGE } from '@/app/config/fileupload'
+import config from '@/app/libs/aws/s3/config'
 import { FileTooLargeError } from '../libs/exceptions'
 import { s3ResponseSchema } from '../utils/validation/s3'
 
@@ -63,7 +63,8 @@ const uploadFile = async (file: File) => {
 export const useS3ImageUpload = (): UseS3UploadReturn => {
     const s3Upload = async (file: File) => {
         try {
-            if (file.size > MAX_FILE_SIZE_IMAGE) throw new FileTooLargeError()
+            if (file.size > config.MAX_FILE_SIZE_IMAGE)
+                throw new FileTooLargeError()
 
             const singleFile = file as File
             const { getUrl, key } = await uploadFile(singleFile)

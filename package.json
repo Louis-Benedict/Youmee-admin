@@ -77,7 +77,6 @@
     "@types/jsonwebtoken": "^9.0.2",
     "@types/react-date-range": "^1.4.4",
     "@types/request-ip": "^0.0.41",
-    "@types/stripe": "^8.0.417",
     "autoprefixer": "^10.4.14",
     "babel-jest": "^29.7.0",
     "cross-env": "^7.0.3",
