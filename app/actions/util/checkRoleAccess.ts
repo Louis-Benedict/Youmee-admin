@@ -18,5 +18,5 @@ export async function grantRoleAccess(roles: UserRole[]) {
         throw new ApiError(HttpStatusCode.Unauthorized, 'Not authorized')
     }
 
-    return session.user.role
+    return { role: session.user.role, id: session.user.id }
 }

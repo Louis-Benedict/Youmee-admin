@@ -1,15 +1,13 @@
 import prisma from '@/app/libs/prisma/prismadb'
-import getCurrentUser from './currentUser/getCurrentUser'
+import { grantRoleAccess } from '../util/checkRoleAccess'
 
 export default async function getCurrentUserNotifications() {
     try {
-        const currentUser = await getCurrentUser()
-
-        if (!currentUser) return null
+        const { role, id } = await grantRoleAccess([])
 
         const notifications = await prisma.notification.findMany({
             where: {
-                userId: currentUser.id,
+                userId: id,
                 active: true,
             },
         })

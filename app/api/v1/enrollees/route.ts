@@ -8,7 +8,7 @@ import { UserRole } from '@prisma/client'
 import { grantRoleAccess } from '@/app/actions/util/checkRoleAccess'
 
 async function getAllEnrollees(req: NextRequest) {
-    const role = await grantRoleAccess([])
+    const { role } = await grantRoleAccess([])
     const rateHeaders = await rateLimiter(req)
 
     if (role === UserRole.RECRUITER) {

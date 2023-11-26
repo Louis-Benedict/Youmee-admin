@@ -1,16 +1,14 @@
 import prisma from '@/app/libs/prisma/prismadb'
-import getCurrentUser from '../currentUser/getCurrentUser'
+import { grantRoleAccess } from '../util/checkRoleAccess'
 
 export default async function getRequests() {
     try {
-        const currentUser = await getCurrentUser()
-
-        if (!currentUser) return null
+        const { role, id } = await grantRoleAccess([])
 
         const request = await prisma.order.findMany({
             orderBy: [{ createdAt: 'desc' }],
             where: {
-                recipientUserId: currentUser?.id,
+                recipientUserId: id,
             },
             include: {
                 sender: true,
