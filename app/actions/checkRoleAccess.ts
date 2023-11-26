@@ -3,6 +3,7 @@ import { authOptions } from '../api/v1/auth/[...nextauth]/route'
 import { ApiError } from 'next/dist/server/api-utils'
 import { HttpStatusCode } from 'axios'
 import { UserRole } from '@prisma/client'
+import { iterateEnum } from '../utils/iterateEnum'
 
 export async function grantRoleAccess(roles: UserRole[]) {
     const session = await getServerSession(authOptions)
@@ -11,7 +12,9 @@ export async function grantRoleAccess(roles: UserRole[]) {
         throw new ApiError(HttpStatusCode.Forbidden, 'Not authenticated')
     }
 
-    if (!roles.includes(session.user.role)) {
+    const hasRole = iterateEnum(UserRole, session.user.role)
+
+    if (!hasRole) {
         throw new ApiError(HttpStatusCode.Unauthorized, 'Not authorized')
     }
 
