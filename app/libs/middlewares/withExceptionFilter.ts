@@ -13,14 +13,14 @@ import { getRequestIpAdress } from '../getRequestIp'
 type ApiHandler = (
     req: NextRequest,
     res: NextResponse,
-    params?: ApiRouteParameter
+    params: ApiRouteParameter
 ) => Promise<NextResponse<EndpointResponse<any> | EndpointErrorResponse>>
 
 export function withExceptionFilter(handler: ApiHandler) {
     return async (
         req: NextRequest,
         res: NextResponse,
-        params?: ApiRouteParameter
+        params: ApiRouteParameter
     ) => {
         try {
             return await handler(req, res, params)

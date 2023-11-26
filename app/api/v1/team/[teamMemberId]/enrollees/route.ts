@@ -6,9 +6,9 @@ import { ApiRouteParameter } from '@/app/types'
 async function getAllEnrollees(
     req: NextRequest,
     res: NextResponse,
-    urlParameter?: ApiRouteParameter
+    urlParameter: ApiRouteParameter
 ) {
-    const teamMemberId = urlParameter?.params.teamMemberId
+    const { teamMemberId } = urlParameter.params
 
     const enrollees = await prisma.enrollee.findMany({
         where: {

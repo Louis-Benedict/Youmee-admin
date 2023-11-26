@@ -12,9 +12,9 @@ import { ApiError } from 'next/dist/server/api-utils'
 async function deleteEnrollee(
     req: NextRequest,
     res: NextResponse,
-    urlParameter?: ApiRouteParameter
+    urlParameter: ApiRouteParameter
 ) {
-    const enrolleeId = urlParameter?.params.enrolleeId
+    const { enrolleeId } = urlParameter.params
 
     console.log(enrolleeId)
 
@@ -44,9 +44,9 @@ async function deleteEnrollee(
 async function getEnrollee(
     req: NextRequest,
     res: NextResponse,
-    urlParameter?: ApiRouteParameter
+    urlParameter: ApiRouteParameter
 ) {
-    const enrolleeId = urlParameter?.params.enrolleeId
+    const { enrolleeId } = urlParameter.params
 
     if (!enrolleeId) {
         throw new ApiError(
@@ -73,9 +73,9 @@ async function getEnrollee(
 async function editEnrollee(
     req: NextRequest,
     res: NextResponse,
-    urlParameter?: ApiRouteParameter
+    urlParameter: ApiRouteParameter
 ) {
-    const enrolleeId = urlParameter?.params.enrolleeId
+    const { enrolleeId } = urlParameter.params
 
     if (!enrolleeId) {
         throw new ApiError(

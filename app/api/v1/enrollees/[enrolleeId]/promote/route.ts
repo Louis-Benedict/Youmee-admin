@@ -10,9 +10,9 @@ import { ApiRouteParameter } from '@/app/types'
 async function promoteEnrollee(
     req: NextRequest,
     res: NextResponse,
-    urlParameter: ApiRouteParameter | undefined
+    urlParameter: ApiRouteParameter
 ) {
-    const enrolleeId = urlParameter?.params.enrolleeId
+    const { enrolleeId } = urlParameter.params
 
     if (!enrolleeId) {
         throw new ApiError(HttpStatusCode.BadRequest, 'Bad Request')
