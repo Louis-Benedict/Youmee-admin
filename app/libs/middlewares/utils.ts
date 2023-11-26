@@ -6,7 +6,7 @@ import { NextRequest, NextResponse } from 'next/server'
 type Middleware = (
     req: NextRequest,
     params: ApiRouteParameter,
-    // res: NextResponse,
+    //
     next: () => Response
 ) => Response
 

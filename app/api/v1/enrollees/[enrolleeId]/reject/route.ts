@@ -8,7 +8,6 @@ import { ApiRouteParameter } from '@/app/types'
 
 async function rejectEnrollee(
     req: NextRequest,
-    res: NextResponse,
     urlParameter: ApiRouteParameter
 ) {
     const { enrolleeId } = urlParameter.params

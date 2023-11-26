@@ -11,7 +11,6 @@ import { ApiError } from 'next/dist/server/api-utils'
 
 async function deleteEnrollee(
     req: NextRequest,
-    res: NextResponse,
     urlParameter: ApiRouteParameter
 ) {
     const { enrolleeId } = urlParameter.params
@@ -43,7 +42,7 @@ async function deleteEnrollee(
 
 async function getEnrollee(
     req: NextRequest,
-    res: NextResponse,
+
     urlParameter: ApiRouteParameter
 ) {
     const { enrolleeId } = urlParameter.params
@@ -70,11 +69,7 @@ async function getEnrollee(
     )
 }
 
-async function editEnrollee(
-    req: NextRequest,
-    res: NextResponse,
-    urlParameter: ApiRouteParameter
-) {
+async function editEnrollee(req: NextRequest, urlParameter: ApiRouteParameter) {
     const { enrolleeId } = urlParameter.params
 
     if (!enrolleeId) {
