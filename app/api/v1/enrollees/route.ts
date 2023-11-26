@@ -20,7 +20,7 @@ async function getAllEnrollees(req: NextRequest, res: NextResponse) {
         )
     }
 
-    await rateLimiter(req, res)
+    const headers = await rateLimiter(req)
 
     let enrollees = []
     if (session.user.role === UserRole.RECRUITER) {
@@ -30,7 +30,7 @@ async function getAllEnrollees(req: NextRequest, res: NextResponse) {
         if (cachedEnrolles) {
             return NextResponse.json(
                 { message: 'Success', status: 200, data: [cachedEnrolles] },
-                { status: 200 }
+                { status: 200, headers }
             )
         }
 
@@ -40,6 +40,7 @@ async function getAllEnrollees(req: NextRequest, res: NextResponse) {
             },
         })
 
+        console.log('BEFORE SET- ' + redis)
         redis.set(
             `enrollees:${session.user.id}`,
             JSON.stringify(enrollees),
@@ -49,7 +50,7 @@ async function getAllEnrollees(req: NextRequest, res: NextResponse) {
 
         return NextResponse.json(
             { message: 'Success', status: 200, data: enrollees },
-            { status: 200 }
+            { status: 200, headers }
         )
     }
 
@@ -58,7 +59,7 @@ async function getAllEnrollees(req: NextRequest, res: NextResponse) {
     if (cachedEnrolles) {
         return NextResponse.json(
             { message: 'Success', status: 200, data: [cachedEnrolles] },
-            { status: 200 }
+            { status: 200, headers }
         )
     }
 
@@ -76,7 +77,7 @@ async function getAllEnrollees(req: NextRequest, res: NextResponse) {
 
     return NextResponse.json(
         { message: 'Success', status: 200, data: enrollees },
-        { status: 200 }
+        { status: 200, headers }
     )
 }
 
