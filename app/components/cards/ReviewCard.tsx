@@ -1,9 +1,9 @@
 'use client'
 
 import Avatar from '../ui/Avatar'
-import { concatUrl } from '@/app/config/s3'
 import RatingIndicator from '../ui/RatingIndicator'
 import { ReviewWithSenderAndOccasion } from '@/app/types'
+import { config } from '@/app/config/config'
 
 interface ReviewCardProps extends ReviewWithSenderAndOccasion {}
 
@@ -24,7 +24,7 @@ const ReviewCard = ({
                                 <Avatar
                                     semi
                                     size={42}
-                                    url={concatUrl(senderImage!)}
+                                    url={config.cdnBaseUrl + senderImage}
                                 />
                                 <div className="ml-2">
                                     <div className="font-semibold text-sm">
