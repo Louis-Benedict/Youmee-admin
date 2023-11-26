@@ -6,7 +6,6 @@ import { HttpStatusCode } from 'axios'
 
 const rateLimiter = async (
     request: NextRequest,
-    response: NextResponse,
     limit: number = 60,
     duration: number = 60
 ) => {
@@ -25,8 +24,11 @@ const rateLimiter = async (
     redis.incr(key)
     redis.expire(key, duration)
 
-    response.headers.set('X-RateLimit-Limit', limit.toString())
-    response.headers.set('X-RateLimit-Remaining', `${limit - (count + 1)}`)
+    const headers = new Headers()
+    headers.set('X-RateLimit-Limit', limit.toString())
+    headers.set('X-RateLimit-Remaining', `${limit - (count + 1)}`)
+
+    return headers
 }
 
 export default rateLimiter
