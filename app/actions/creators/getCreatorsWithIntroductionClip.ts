@@ -1,6 +1,6 @@
 import prisma from '@/app/libs/prisma/prismadb'
 import { UserRole } from '@prisma/client'
-import { TempCreator } from '../types'
+import { TempCreator } from '../../types'
 
 export default async function getCreatorsWithIntroductionClip(
     maxPrice?: number,

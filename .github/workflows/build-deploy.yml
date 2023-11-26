@@ -25,9 +25,9 @@ jobs:
                   key: ${{ runner.os }}-buildx-${{ hashFiles('**/package-lock.json') }}
                   restore-keys: |
                       ${{ runner.os }}-buildx-
-
             # Public environment variables need to be injected at build-time
             # https://nextjs.org/docs/pages/building-your-application/configuring/environment-variables
+
             - name: Build and push
               uses: docker/build-push-action@v5
               with:
