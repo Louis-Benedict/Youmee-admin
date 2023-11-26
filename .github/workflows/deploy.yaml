@@ -1,78 +1,78 @@
-name: Deploy to AWS
+# name: Deploy to AWS
 
-on:
-    push:
-        branches: [main]
+# on:
+#     push:
+#         branches: [main]
 
-jobs:
-    docker-build:
-        runs-on: ubuntu-latest
-        environment: production
-        defaults:
-            run:
-                shell: bash
-                working-directory: ./__scripts__
-        permissions:
-            id-token: write
-            contents: read
+# jobs:
+#     docker-build:
+#         runs-on: ubuntu-latest
+#         environment: production
+#         defaults:
+#             run:
+#                 shell: bash
+#                 working-directory: ./__scripts__
+#         permissions:
+#             id-token: write
+#             contents: read
 
-        steps:
-            - uses: actions/checkout@v3
-            - name: Login to Docker Hub
-              uses: docker/login-action@v3
-              with:
-                  username: ${{secrets.DOCKERHUB_USERNAME}}
-                  password: ${{secrets.DOCKERHUB_ACCESSTOKEN}}
+#         steps:
+#             - uses: actions/checkout@v3
+#             - name: Login to Docker Hub
+#               uses: docker/login-action@v3
+#               with:
+#                   username: ${{secrets.DOCKERHUB_USERNAME}}
+#                   password: ${{secrets.DOCKERHUB_ACCESSTOKEN}}
 
-            # https://aws.amazon.com/blogs/security/use-iam-roles-to-connect-github-actions-to-actions-in-aws/
-            - name: Login AWS
-              uses: aws-actions/configure-aws-credentials@v4
-              with:
-                  role-to-assume: arn:aws:iam::623557680318:role/GitHubAction-AssumeRoleWithAction.
-                  aws-region: ${{secrets.AWS_REGION}}
+#             # https://aws.amazon.com/blogs/security/use-iam-roles-to-connect-github-actions-to-actions-in-aws/
+#             - name: Login AWS
+#               uses: aws-actions/configure-aws-credentials@v4
+#               with:
+#                   role-to-assume: arn:aws:iam::623557680318:role/GitHubAction-AssumeRoleWithAction.
+#                   aws-region: ${{secrets.AWS_REGION}}
 
-            - name: Lookup EC2 Instance State
-              id: instance_status
-              run: echo "$(./getEC2InstanceIDbyName.sh ${{secrets.EC2_INSTANCENAME}})" >> $GITHUB_OUTPUT
+#             - name: Lookup EC2 Instance State
+#               id: instance_status
+#               run: echo "$(./getEC2InstanceIDbyName.sh ${{secrets.EC2_INSTANCENAME}})" >> $GITHUB_OUTPUT
 
-            - name: Run EC2 Instance if stopped
-              if: steps.instance_status.outputs.INSTANCE_STATE == 'stopped'
-              run: aws ec2 start-instances --instance-id ${{secrets.EC2_INSTANCE_ID}}
+#             - name: Run EC2 Instance if stopped
+#               if: steps.instance_status.outputs.INSTANCE_STATE == 'stopped'
+#               run: aws ec2 start-instances --instance-id ${{secrets.EC2_INSTANCE_ID}}
 
-              # Wait for the instance to come online
-            - name: Lookup EC2 Instance Public IP
-              id: instance_public_ip
-              run: echo "$(./awaitEC2Start.sh ${{secrets.EC2_INSTANCENAME}})" >> $GITHUB_OUTPUT
+#               # Wait for the instance to come online
+#             - name: Lookup EC2 Instance Public IP
+#               id: instance_public_ip
+#               run: echo "$(./awaitEC2Start.sh ${{secrets.EC2_INSTANCENAME}})" >> $GITHUB_OUTPUT
 
-            - name: Setup production environment
-              env:
-                  NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
-                  DATABASE_URL: ${{ secrets.DATABASE_URL }}
-              run: |
-                  cd ..
-                  cat <<EOF > .env
-                  NODE_ENV=production
-                  NEXTAUTH_SECRET="$NEXTAUTH_SECRET"
-                  DATABASE_URL="$DATABASE_URL"
-                  REDIS_HOST="redis-cache"
-                  REDIS_PORT=6379
-                  EOF
+#             - name: Setup production environment
+#               env:
+#                   NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+#                   DATABASE_URL: ${{ secrets.DATABASE_URL }}
+#               run: |
+#                   cd ..
+#                   cat <<EOF > .env
+#                   NODE_ENV=production
+#                   NEXTAUTH_SECRET="$NEXTAUTH_SECRET"
+#                   DATABASE_URL="$DATABASE_URL"
+#                   REDIS_HOST="redis-cache"
+#                   REDIS_PORT=6379
+#                   EOF
 
-            - name: Copy Resources to Instance
-              uses: appleboy/scp-action@v0.1.4
-              with:
-                  host: ${{ steps.instance_public_ip.outputs.INSTANCE_PUBLIC_IP }}
-                  username: ${{ secrets.EC2_USERNAME }}
-                  port: 22
-                  key: ${{ secrets.GHA_EC2_SSH_ACCESSKEY }}
-                  source: '.env,docker-compose.yaml,proxy,__scripts__/noDowntimeDeployment.sh,redis'
-                  target: 'app'
+#             - name: Copy Resources to Instance
+#               uses: appleboy/scp-action@v0.1.4
+#               with:
+#                   host: ${{ steps.instance_public_ip.outputs.INSTANCE_PUBLIC_IP }}
+#                   username: ${{ secrets.EC2_USERNAME }}
+#                   port: 22
+#                   key: ${{ secrets.GHA_EC2_SSH_ACCESSKEY }}
+#                   source: '.env,docker-compose.yaml,proxy,__scripts__/noDowntimeDeployment.sh,redis'
+#                   target: 'app'
 
-            - name: Pull and Replace latest Image
-              uses: appleboy/ssh-action@v1.0.0
-              with:
-                  host: ${{ steps.instance_public_ip.outputs.INSTANCE_PUBLIC_IP }}
-                  username: ${{ secrets.EC2_USERNAME }}
-                  key: ${{ secrets.GHA_EC2_SSH_ACCESSKEY }}
-                  script: |
-                      ./app/__scripts__/noDowntimeDeployment.sh ${{secrets.DOCKERHUB_USERNAME}}
+#             - name: Pull and Replace latest Image
+#               uses: appleboy/ssh-action@v1.0.0
+#               with:
+#                   host: ${{ steps.instance_public_ip.outputs.INSTANCE_PUBLIC_IP }}
+#                   username: ${{ secrets.EC2_USERNAME }}
+#                   key: ${{ secrets.GHA_EC2_SSH_ACCESSKEY }}
+#                   script: |
+#                       ./app/__scripts__/noDowntimeDeployment.sh ${{secrets.DOCKERHUB_USERNAME}}
