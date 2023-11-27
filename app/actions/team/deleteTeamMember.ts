@@ -1,3 +1,4 @@
+import { TeamMember } from '@/app/(dashboard)/team/queries'
 import prisma from '@/app/libs/prisma/prismadb'
 import redis from '@/app/libs/redis/redis'
 import { HttpStatusCode } from 'axios'
@@ -16,6 +17,18 @@ export async function _delete(teamMemberId: string) {
             'Resource could not be found'
         )
     }
+
+    await redis.get(`teammember:all`, (err, res) => {
+        if (res) {
+            const cached = JSON.parse(res) as TeamMember[]
+            const updated = cached.filter(
+                (teammember) => deletedTeamMember.id !== teamMemberId
+            )
+            redis.set(`teammember:all`, JSON.stringify(updated))
+        } else {
+            console.warn('[REDIS] Error updating Key == teammembers:all')
+        }
+    })
 
     return deletedTeamMember
 }

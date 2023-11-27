@@ -3,7 +3,7 @@ import redis from '@/app/libs/redis/redis'
 import { UserRole } from '@prisma/client'
 
 export async function getAll() {
-    const cachedTeamMembers = await redis.get('team:all')
+    const cachedTeamMembers = await redis.get('teammember:all')
 
     if (cachedTeamMembers) {
         return JSON.parse(cachedTeamMembers)
@@ -24,7 +24,7 @@ export async function getAll() {
             },
         })
 
-        await redis.set('team:all', JSON.stringify(teamMembers))
+        await redis.set('teammember:all', JSON.stringify(teamMembers))
         return teamMembers
     }
 }
