@@ -26,4 +26,6 @@ export async function reject(enrolleeId: string) {
             'User could not be updated'
         )
     }
+
+    return updatedEnrollee
 }
