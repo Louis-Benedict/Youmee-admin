@@ -4,6 +4,8 @@ import { HttpStatusCode } from 'axios'
 import { ApiError } from 'next/dist/server/api-utils'
 
 export async function _delete(teamMemberId: string) {
+    await redis.del(`teammember:${teamMemberId}`)
+
     const deletedTeamMember = await prisma.user.delete({
         where: { id: teamMemberId },
     })

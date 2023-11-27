@@ -9,7 +9,7 @@ async function deleteTeamMember(
 ) {
     const { teamMemberId } = urlParameter.params
 
-    const deletedTeamMember = _delete(teamMemberId)
+    const deletedTeamMember = await _delete(teamMemberId)
 
     return await NextResponse.json(
         { message: 'Success', status: 200, data: [deletedTeamMember] },
@@ -26,7 +26,7 @@ async function editTeamMember(
     const body = await req.json()
     const { name, phoneNumber, role, lineId, commissionPercentage } = body
 
-    const editedTeamMember = update(teamMemberId, {
+    const editedTeamMember = await update(teamMemberId, {
         name,
         phoneNumber,
         role,

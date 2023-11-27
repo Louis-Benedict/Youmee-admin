@@ -1,0 +1,26 @@
+version: '3'
+services:
+    admin-app:
+        image: louisbenedictb/youmee:latest
+        depends_on:
+            - proxy
+            - redis-cache
+        env_file:
+            - .env.local
+
+    redis-cache:
+        build: ./redis
+        environment:
+            - ALLOW_EMPTY_PASSWORD=yes
+
+    proxy:
+        build: ./proxy
+        restart: always
+
+        ports:
+            - 80:80/tcp
+            - 443:443/tcp
+        volumes:
+            - ./proxy/ssl:/etc/nginx/ssl
+        command: |
+            /bin/sh -c "nginx -g 'daemon off;'"
