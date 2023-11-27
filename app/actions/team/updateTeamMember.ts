@@ -33,7 +33,7 @@ export async function update(
         if (res) {
             const cached = JSON.parse(res) as TeamMember[]
             const updated = cached.filter(
-                (teammember) => editedTeamMember.id !== teamMemberId
+                (teammember) => teammember.id !== teamMemberId
             )
             updated.push(editedTeamMember)
             redis.set(`teammember:all`, JSON.stringify(updated))
