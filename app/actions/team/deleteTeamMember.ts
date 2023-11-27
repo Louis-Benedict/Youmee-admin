@@ -18,11 +18,11 @@ export async function _delete(teamMemberId: string) {
         )
     }
 
-    await redis.get(`teammember:all`, (err, res) => {
+    await redis.get(`teammember:all`, (_, res) => {
         if (res) {
             const cached = JSON.parse(res) as TeamMember[]
             const updated = cached.filter(
-                (teammember) => deletedTeamMember.id !== teamMemberId
+                (teammember) => teammember.id !== deletedTeamMember.id
             )
             redis.set(`teammember:all`, JSON.stringify(updated))
         } else {

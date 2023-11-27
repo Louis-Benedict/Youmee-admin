@@ -19,8 +19,6 @@ export async function update(
     })
 
     if (!editedTeamMember) {
-        await redis.del(key`${teamMemberId}`)
-
         throw new ApiError(
             HttpStatusCode.NotFound,
             'Resource could not be found'
@@ -29,7 +27,7 @@ export async function update(
 
     await redis.set(key`${teamMemberId}`, JSON.stringify(editedTeamMember))
 
-    await redis.get(`teammember:all`, (err, res) => {
+    await redis.get(`teammember:all`, (_, res) => {
         if (res) {
             const cached = JSON.parse(res) as TeamMember[]
             const updated = cached.filter(
