@@ -29,5 +29,18 @@ export async function update(
 
     await redis.set(key`${teamMemberId}`, JSON.stringify(editedTeamMember))
 
+    await redis.get(`teammember:all`, (err, res) => {
+        if (res) {
+            const cached = JSON.parse(res) as TeamMember[]
+            const updated = cached.filter(
+                (teammember) => teammember.id !== teamMemberId
+            )
+            updated.push(editedTeamMember)
+            redis.set(`teammember:all`, JSON.stringify(updated))
+        } else {
+            console.warn('[REDIS] Error updating Key == teammembers:all')
+        }
+    })
+
     return editedTeamMember
 }

@@ -1,5 +1,6 @@
 import { TeamMember } from '@/app/(dashboard)/team/queries'
 import prisma from '@/app/libs/prisma/prismadb'
+import redis from '@/app/libs/redis/redis'
 import { Prisma } from '@prisma/client'
 import { HttpStatusCode } from 'axios'
 import bcrypt from 'bcrypt'
@@ -16,6 +17,28 @@ export async function create(
 
         const createdTeamMember = await prisma.user.create({
             data: { ...fields, hashedPassword },
+        })
+
+        if (!createdTeamMember) {
+            throw new ApiError(
+                HttpStatusCode.NotFound,
+                'User could not be created'
+            )
+        }
+
+        await redis.set(
+            `teammember:${createdTeamMember.id}`,
+            JSON.stringify(createdTeamMember)
+        )
+
+        await redis.get(`teammember:all`, (err, res) => {
+            if (res) {
+                let cached = JSON.parse(res) as TeamMember[]
+                cached.push(createdTeamMember)
+                redis.set(`teammember:all`, JSON.stringify(cached))
+            } else {
+                console.warn('[REDIS] Error updating Key == teammembers:all')
+            }
         })
 
         return createdTeamMember
