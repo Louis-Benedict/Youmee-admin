@@ -13,12 +13,7 @@ export async function getByUserId(userId: string) {
             },
         })
 
-        await redis.set(
-            `enrollees:${userId}`,
-            JSON.stringify(enrollees),
-            'EX',
-            60
-        )
+        await redis.set(`enrollees:${userId}`, JSON.stringify(enrollees))
         return enrollees
     }
 }

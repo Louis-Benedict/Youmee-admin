@@ -10,7 +10,7 @@ interface FormInputProps {
     disabled?: boolean
     register: UseFormRegister<any>
     errors: FieldErrors
-    asNumber?: boolean
+    type?: string
     testid?: string
 }
 
@@ -22,7 +22,7 @@ const FormInput: FC<FormInputProps> = ({
     errors,
     required,
     disabled,
-    asNumber,
+    type,
     testid,
 }) => {
     return (
@@ -34,9 +34,9 @@ const FormInput: FC<FormInputProps> = ({
             </label>
             <TextField.Input
                 id={id}
-                type={asNumber ? 'number' : 'text'}
+                type={type}
                 {...register(id, {
-                    valueAsNumber: asNumber!!,
+                    valueAsNumber: type === 'number',
                 })}
                 required={required}
                 disabled={disabled}
