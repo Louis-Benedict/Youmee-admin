@@ -26,7 +26,7 @@ model User {
   phoneNumber     String?
   lineId          String?
   role            UserRole @default(USER)
-  emailSubscribed Boolean @default(true)
+  emailSubscribed Boolean  @default(true)
 
   notifications Notification[]
   accounts      Account[]
@@ -217,7 +217,6 @@ model Enrollee {
   alias                 String
   email                 String
   referralCode          String?
-  socialMediaHandle     String?
   instagramHandle       String?
   instagramFollowers    String?
   facebookHandle        String?

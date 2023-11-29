@@ -4,7 +4,17 @@ import { Enrollee, Prisma } from '@prisma/client'
 import { HttpStatusCode } from 'axios'
 import { ApiError } from 'next/dist/server/api-utils'
 
-export async function create(fields: Omit<Enrollee, 'id'>) {
+export async function create(
+    fields: Omit<
+        Enrollee,
+        | 'id'
+        | 'createdAt'
+        | 'status'
+        | 'isContacted'
+        | 'referralCode'
+        | 'profileLink'
+    >
+) {
     try {
         const createdEnrollee = await prisma.enrollee.create({
             data: { ...fields },
@@ -18,18 +28,13 @@ export async function create(fields: Omit<Enrollee, 'id'>) {
             )
         }
 
-        await redis.set(
-            `enrollee:${createdEnrollee.id}`,
-            JSON.stringify(createdEnrollee)
-        )
-
         await redis.get(`enrollee:all`, (_, res) => {
             if (res) {
                 let cached = JSON.parse(res) as Enrollee[]
                 cached.push(createdEnrollee)
                 redis.set(`enrollee:all`, JSON.stringify(cached))
             } else {
-                console.warn('[REDIS] Error updating Key == teammembers:all')
+                console.warn('[REDIS] Error updating Key == enrollee:all')
             }
         })
 
