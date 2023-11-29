@@ -1,7 +1,7 @@
 import prisma from '@/app/libs/prisma/prismadb'
 import { grantRoleAccess } from '../util/checkRoleAccess'
 
-export default async function getRequests() {
+export default async function getAll() {
     try {
         const { role, id } = await grantRoleAccess([])
 

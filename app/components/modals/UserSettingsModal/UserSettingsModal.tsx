@@ -84,7 +84,7 @@ const EditTeamMemberModal = () => {
                 label="Commission (%)"
                 errors={errors}
                 register={register}
-                asNumber
+                type="number"
             />
 
             <DropdownInput

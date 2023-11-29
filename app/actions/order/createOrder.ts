@@ -11,7 +11,7 @@ type Args = {
     message: string
 }
 
-export async function createOrder({
+export async function create({
     userId,
     creatorId,
     fromName,

@@ -95,7 +95,7 @@ const AddTeamMemberModal = () => {
                     label="Commission (%)"
                     register={register}
                     errors={errors}
-                    asNumber
+                    type="number"
                     testid="commission-input"
                 />
             )}

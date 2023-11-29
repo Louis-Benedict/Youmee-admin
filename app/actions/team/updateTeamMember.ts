@@ -4,11 +4,6 @@ import { HttpStatusCode } from 'axios'
 import { TeamMember } from '@/app/(dashboard)/team/queries'
 import { ApiError } from 'next/dist/server/api-utils'
 
-function key(strings: TemplateStringsArray, ...expr: any[]) {
-    let postfix = strings[0]
-    return `teammember:${postfix}`
-}
-
 export async function update(
     teamMemberId: string,
     fields: Partial<Omit<TeamMember, 'id'>>
@@ -25,7 +20,10 @@ export async function update(
         )
     }
 
-    await redis.set(key`${teamMemberId}`, JSON.stringify(editedTeamMember))
+    await redis.set(
+        `teammember:${teamMemberId}`,
+        JSON.stringify(editedTeamMember)
+    )
 
     await redis.get(`teammember:all`, (_, res) => {
         if (res) {

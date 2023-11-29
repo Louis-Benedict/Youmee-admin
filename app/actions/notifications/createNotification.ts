@@ -1,26 +1,31 @@
-import { NotificationType } from '@prisma/client'
 import prisma from '@/app/libs/prisma/prismadb'
+import redis from '@/app/libs/redis/redis'
+import { Notification } from '@prisma/client'
+import { ApiError } from 'next/dist/server/api-utils'
+import { HttpStatusCode } from 'axios'
 
-type Args = {
-    targetId: string
-    userId: string
-    notificationType: NotificationType
-}
+export async function create(fields: Omit<Notification, 'id' | 'createdAt'>) {
+    const { userId } = fields
 
-export default async function createNotification({
-    targetId,
-    userId,
-    notificationType,
-}: Args) {
-    try {
-        await prisma.notification.create({
-            data: {
-                targetId: targetId,
-                userId: userId,
-                type: notificationType,
-            },
-        })
-    } catch (error) {
-        console.error(error)
+    const cachedNotification = await redis.get(`user:${userId}:notifications`)
+
+    if (cachedNotification) return JSON.parse(cachedNotification)
+
+    const notification = await prisma.notification.create({
+        data: { ...fields },
+    })
+
+    if (!notification) {
+        throw new ApiError(
+            HttpStatusCode.NotFound,
+            'Resource could not be found'
+        )
     }
+
+    await redis.set(
+        `user:${userId}:notifications`,
+        JSON.stringify(notification)
+    )
+
+    return notification
 }

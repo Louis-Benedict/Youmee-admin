@@ -1,7 +1,7 @@
 import prisma from '@/app/libs/prisma/prismadb'
 import { UserRole } from '@prisma/client'
 
-export default async function getCreatorByOrderAmount(rate: number) {
+export default async function getByOrderAmount(rate: number) {
     try {
         const creatorsByRate = await prisma.user.findMany({
             take: 6,

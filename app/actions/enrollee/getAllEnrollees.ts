@@ -2,7 +2,7 @@ import prisma from '@/app/libs/prisma/prismadb'
 import redis from '@/app/libs/redis/redis'
 
 export async function getAll() {
-    const cachedEnrolles = await redis.get('enrollees')
+    const cachedEnrolles = await redis.get('enrollees:all')
 
     if (cachedEnrolles) {
         return JSON.parse(cachedEnrolles)
@@ -18,7 +18,7 @@ export async function getAll() {
                 },
             },
         })
-        await redis.set(`enrollees`, JSON.stringify(enrollees), 'EX', 60)
+        await redis.set(`enrollees:all`, JSON.stringify(enrollees))
 
         return enrollees
     }

@@ -2,7 +2,7 @@ import prisma from '@/app/libs/prisma/prismadb'
 import { UserRole } from '@prisma/client'
 import { TempCreator } from '../../types'
 
-export default async function getCreatorsWithIntroductionClip(
+export default async function getWithIntroductionClip(
     maxPrice?: number,
     take?: number
 ): Promise<TempCreator[] | null> {

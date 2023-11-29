@@ -4,7 +4,7 @@ interface IParams {
     requestId: string
 }
 
-export default async function getUserById(params: IParams) {
+export default async function getOne(params: IParams) {
     try {
         const { requestId } = params
 

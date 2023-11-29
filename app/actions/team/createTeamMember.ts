@@ -26,12 +26,7 @@ export async function create(
             )
         }
 
-        await redis.set(
-            `teammember:${createdTeamMember.id}`,
-            JSON.stringify(createdTeamMember)
-        )
-
-        await redis.get(`teammember:all`, (err, res) => {
+        await redis.get(`teammember:all`, (_, res) => {
             if (res) {
                 let cached = JSON.parse(res) as TeamMember[]
                 cached.push(createdTeamMember)
